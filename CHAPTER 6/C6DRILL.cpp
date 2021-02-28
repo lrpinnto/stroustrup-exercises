@@ -17,7 +17,7 @@
 
 */
 
-#include "/home/pinto/stroustrup/std_lib_facilities.h"
+#include "../stroustrup/std_lib_facilities.h"
 
 //------------------------------------------------------------------------------
 

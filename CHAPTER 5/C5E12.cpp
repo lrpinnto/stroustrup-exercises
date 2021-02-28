@@ -1,4 +1,4 @@
-#include "/home/pinto/stroustrup/std_lib_facilities.h"
+#include "../stroustrup/std_lib_facilities.h"
 
 //CAP 5 EX 13 &12
 
