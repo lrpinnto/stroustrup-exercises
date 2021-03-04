@@ -3,7 +3,7 @@
 //Each grammatical rule, and main, is annotated with attempt to explain what is happening.
 //Note I prefer to use '#' instead of '8' to represent numbers because I'm not a monster (see: Stroop effect).
 
-#include "/home/pinto/stroustrup/std_lib_facilities.h"
+#include "../stroustrup/std_lib_facilities.h"
 
 //------------------------------------------------------------------------------
 
