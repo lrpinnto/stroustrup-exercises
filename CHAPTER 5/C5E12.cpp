@@ -129,6 +129,7 @@ try{
                 cout<<" Your guess: ";
                 for(int h : numbers) cout<<h;
                 cout<<".\n";
+                random_numbers.clear(); //clears the vector to get another set of values
             }
         }
     }
