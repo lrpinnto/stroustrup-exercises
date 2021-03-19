@@ -11,7 +11,7 @@ double sum_of_distances(vector<double>distance)
     return sum;
 }
 
-void teste_codigo_do_homem ()  //a puta do exercicio nao faz sentido nenhum e a resolução ainda menos
+void teste_codigo()  //exercise doesn't make much sense
 {
     vector<double> dist;
 
@@ -55,5 +55,5 @@ int main()
     sort(distance);
     cout<<"\nSoma das distancias:"<<sum_of_distances(distance)<<" Media das distancias:"<<sum_of_distances(distance)/distance.size()<<" distancia minima/max:"<<distance[0]<<" "<<distance[distance.size()-1]<<"\n";
     
-    //teste_codigo_do_homem();  Só o codigo mais nojento alguma vez escrito. O meu faz o mesmo por menos
+    //teste_codigo();  My code does the same thing for less
 }
