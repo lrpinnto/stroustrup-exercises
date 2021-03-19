@@ -1,6 +1,6 @@
 #include "../stroustrup/std_lib_facilities.h"
 
-char unit_conversion(string a) //converte unidades xDDDDDDDDDd
+char unit_conversion(string a) //converte unidades
 {
     if (a=="cm")
     {
