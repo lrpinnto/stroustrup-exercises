@@ -19,14 +19,14 @@ int get_number()  //converte todos os inputs para int. Devolve 0 se nao bater ce
 	}
 	
 	
-	cin.clear(); // Só deus nosso senhor sabe, limpa o cin.
+	cin.clear(); // Clears cin
 
 	string s;
 	cin>>s;
 
 	for (int i = 0; i < numbers.size(); i++)
 		if (numbers[i]==s) val=i;
-	if (val == not_a_symbol) error("unexpected number string: ",s);  //Caso se verifique, o input nao correspondeu a nenhum dos ifs vai se la saber porque. é um fall over 
+	if (val == not_a_symbol) error("unexpected number string: ",s);  //Caso se verifique, o input nao correspondeu a nenhum dos ifs. é um fall over 
 
 	return val;
 }

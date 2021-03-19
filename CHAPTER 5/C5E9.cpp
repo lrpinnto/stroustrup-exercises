@@ -2,7 +2,7 @@
 
 //CAP 5 EX 09
 
-//no idea what he is asking for
+//Not sure what this exercise is about
 
 int main ()
 try {

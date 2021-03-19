@@ -2,9 +2,9 @@
 
 //CAP 4 EX 16
 
-//this code is beyond fucked.
+//this code doesn't work correctly
 
-char unit_conversion(string a) //converte unidades xDDDDDDDDDd
+char unit_conversion(string a) //converte unidades
 {
     if (a=="cm")
     {
