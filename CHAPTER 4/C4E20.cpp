@@ -19,7 +19,7 @@ bool input_type(string input)
     return true;
 }
 
-int myPow(int x, int p) //ter de escrever a minha propria definição de potencia :xxxxx
+int myPow(int x, int p) //power function
 {
   if (p == 0) return 1;
   if (p == 1) return x;
