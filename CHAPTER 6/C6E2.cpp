@@ -8,7 +8,6 @@
 // "Software - Principles and Practice using C++" by Bjarne Stroustrup
 //
 
-#include "../stroustrup/std_lib_facilities.h"
 
 //------------------------------------------------------------------------------
 
