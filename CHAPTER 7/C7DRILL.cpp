@@ -42,7 +42,7 @@ Token Token_stream::get()
 	case '-':
 	case '*':
 	case '/':
-	case '%':
+	case '%':                //ERROR 8: code missing for modulo case
 	case ';':
 	case '=':
 		return Token(ch);
@@ -133,7 +133,8 @@ double primary()
 	case '(':
 	{	double d = expression();
 	t = ts.get();
-	if (t.kind != ')') error("'(' expected");
+	if (t.kind != ')') error("')' expected");  //ERROR 6: ')' expected
+	return d;    //ERROR 7: missing a return
 	}
 	case '-':
 		return -primary();
