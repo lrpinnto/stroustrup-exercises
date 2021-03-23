@@ -2,6 +2,25 @@
 
 //CAP 7 DRILL
 
+/* TESTING DATA
+ *
+ * ran inputs below input from file testing_C7DRILL.txt using --->   "CHAPTER 7/"C7DRILL < "CHAPTER 7/"testing_C7DRILL.txt
+ * 
+ *
+ * 1+2;
+ * 5-4; 3+2; 6-10;
+ * 1 / (3 + 8) * 10;
+ * let x = 5;
+ * let x2 = 16 / 4;
+ * x * x2 * pi;
+ *
+ * 1**2;
+ * 2+8
+ * let f@tnum = 10;
+ * x / y;
+ * xx - 500;
+ */
+
 
 struct Token {  //Defines Data structure Token composed of char kind, double value and string name. Token Can be defined by Token(char), Token(char,double) or Token(char, string)
 	char kind;
