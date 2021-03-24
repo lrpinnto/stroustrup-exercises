@@ -48,6 +48,8 @@ const char quit = 'Q';                //avoids the use of "Magic constants"
 const char print = ';';               //avoids the use of "Magic constants"
 const char number = '8';              //avoids the use of "Magic constants"
 const char name = 'a';                //avoids the use of "Magic constants"
+const char square_root = '|';         //avoids the use of "Magic constants"
+
 
 Token Token_stream::get()
 {
@@ -64,6 +66,7 @@ Token Token_stream::get()
 	case '%':                //ERROR 8: code missing for modulo case
 	case ';':
 	case '=':
+	case square_root:
 		return Token(ch);
 	case '.':
 	case '0':
@@ -168,6 +171,12 @@ double primary()
 		return t.value;
 	case name:
 		return get_value(t.name);
+	case square_root:
+		{
+			double d = primary();
+			if (d < 0) error("Can't sqrt() Imaginary #");
+			return sqrt(d);
+		}
 	default:
 		error("primary expected");
 	}
