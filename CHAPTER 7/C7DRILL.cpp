@@ -141,6 +141,13 @@ bool is_declared(string s)   //check if name is already declared
 	return false;
 }
 
+void define_var()  //list of variables to be defined at the start of the program
+{
+	names.push_back(Variable("pi", 3.14159));
+	names.push_back(Variable("e", 2.718281828));
+	names.push_back(Variable("k", 1000));
+}
+
 Token_stream ts;   
 
 double expression();      //??
@@ -259,6 +266,7 @@ void calculate()
 int main()
 
 try {
+	define_var();
 	calculate();
 	return 0;
 }
