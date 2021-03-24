@@ -49,6 +49,7 @@ const char print = ';';               //avoids the use of "Magic constants"
 const char number = '8';              //avoids the use of "Magic constants"
 const char name = 'a';                //avoids the use of "Magic constants"
 const char square_root = '|';         //avoids the use of "Magic constants"
+const char power = '^';               //avoids the use of "Magic constants"
 
 
 Token Token_stream::get()
@@ -66,6 +67,7 @@ Token Token_stream::get()
 	case '%':                //ERROR 8: code missing for modulo case
 	case ';':
 	case '=':
+	case ',':
 	case square_root:
 		return Token(ch);
 	case '.':
@@ -93,6 +95,7 @@ Token Token_stream::get()
 			cin.unget();  //returns last char to the stream. Could that be because it reads ";"????
 			if (s == "let") return Token(let);
 			if (s == "quit") return Token(quit);     //ERROR 3: was returning const char name instead of const char quit.
+			if (s == "pow") return Token(power);
 			return Token(name, s);    //returns the name to be assigned as a variable in the calculator
 		}
 		error("Bad token");
@@ -155,6 +158,8 @@ Token_stream ts;
 
 double expression();      //??
 
+double powrr();
+
 double primary()
 {
 	Token t = ts.get();
@@ -177,6 +182,11 @@ double primary()
 			if (d < 0) error("Can't sqrt() Imaginary #");
 			return sqrt(d);
 		}
+	case power:
+		{
+			return powrr();
+		}
+
 	default:
 		error("primary expected");
 	}
@@ -234,6 +244,19 @@ double declaration()
 	double d = expression();
 	names.push_back(Variable(name, d));
 	return d;
+}
+
+double powrr()
+{
+	Token t = ts.get();
+	if (t.kind != '(') error("'(' expected in pow");  
+	double d = primary();
+	Token t2 = ts.get();
+	if (t2.kind != ',') error("',' expected in pow");
+	double d2 = primary();
+	Token t3 = ts.get();
+	if (t3.kind != ')') error("')' expected in pow");
+	return pow(d,d2);
 }
 
 double statement()
