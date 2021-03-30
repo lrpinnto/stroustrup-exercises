@@ -94,7 +94,7 @@ Token Token_stream::get()
                                                                             //attempts to extract the leftover characters while these are alfanumeric or digits and there still characters in the stream. At which point cin.get(ch) will fail and throw false
 			cin.unget();  //returns last char to the stream. Could that be because it reads ";"????
 			if (s == "let") return Token(let);
-			if (s == "quit") return Token(quit);     //ERROR 3: was returning const char name instead of const char quit.
+			if (s == "exit") return Token(quit);     //ERROR 3: was returning const char name instead of const char quit.
 			if (s == "pow") return Token(power);
 			return Token(name, s);    //returns the name to be assigned as a variable in the calculator
 		}
