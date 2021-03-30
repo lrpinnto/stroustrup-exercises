@@ -43,7 +43,7 @@ public:
 	void ignore(char);     //Declares ignore() so it can be defined below
 };
 
-const char let = 'L';                 //avoids the use of "Magic constants"
+const char let = '#';                 //avoids the use of "Magic constants"
 const char quit = 'Q';                //avoids the use of "Magic constants"
 const char print = ';';               //avoids the use of "Magic constants"
 const char number = '8';              //avoids the use of "Magic constants"
