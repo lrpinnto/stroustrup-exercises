@@ -55,54 +55,57 @@ const char power = '^';               //avoids the use of "Magic constants"
 Token Token_stream::get()
 {
 	if (full) { full = false; return buffer; }  //if unget() has been run beforehand, get() returns the buffer. That is, the "token" placed back by unget()
-	char ch;
-	cin.get(ch);   //cin.get() does not skip whitespace
-	switch (ch) {
-	case '(':
-	case ')':
-	case '+':
-	case '-':
-	case '*':
-	case '/':
-	case '%':                //ERROR 8: code missing for modulo case
-	case ';':
-	case '=':
-	case ',':
-	case square_root:
-		return Token(ch);
-	case '.':
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
-	case '8':
-	case '9':
-	{	cin.unget();   //Places the number back into the stream and attempts to get the same number but as a double?
-	double val;
-	cin >> val;
-	return Token(number, val);
-	}
-	default:
-		if (isalpha(ch)) {   // if ch is alphanumeric
-			string s;
-			s += ch;  //It's probably a word. Attempt to create the word by adding the chars together
-			while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')) s += ch;  //ERROR 2: Need to add char to string and not string = char
-                                                                            //attempts to extract the leftover characters while these are alfanumeric or digits and there still characters in the stream. At which point cin.get(ch) will fail and throw false
-			cin.unget();  //returns last char to the stream. Could that be because it reads ";"????
-			if (s == "let") return Token(let);
-			if (s == "exit") return Token(quit);     //ERROR 3: was returning const char name instead of const char quit.
-			if (s == "pow") return Token(power);
-			return Token(name, s);    //returns the name to be assigned as a variable in the calculator
+	while(true)   //Needed to avoid space characters reaching end of non-void function without return (due to cin.get()). Will only repeat the loop if it's a space character which falls into a break instead of a return. Essentially ignores space characters besides '\n'
+	{
+		char ch;
+		cin.get(ch);   //cin.get() does not skip whitespace
+		switch (ch) {
+		case '(':
+		case ')':
+		case '+':
+		case '-':
+		case '*':
+		case '/':
+		case '%':                //ERROR 8: code missing for modulo case
+		case ';':
+		case '=':
+		case ',':
+		case square_root:
+			return Token(ch);
+		case '.':
+		case '0':
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+		{	cin.unget();   //Places the number back into the stream and attempts to get the same number but as a double?
+		double val;
+		cin >> val;
+		return Token(number, val);
 		}
-		if (isspace(ch)) {  //checks for "whitespace"
-			if (ch == '\n') return Token(print);
-			break;
+		default:
+			if (isalpha(ch)) {   // if ch is alphanumeric
+				string s;
+				s += ch;  //It's probably a word. Attempt to create the word by adding the chars together
+				while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')) s += ch;  //ERROR 2: Need to add char to string and not string = char
+																				//attempts to extract the leftover characters while these are alfanumeric or digits and there still characters in the stream. At which point cin.get(ch) will fail and throw false
+				cin.unget();  //returns last char to the stream. Could that be because it reads ";"????
+				if (s == "let") return Token(let);
+				if (s == "exit") return Token(quit);     //ERROR 3: was returning const char name instead of const char quit.
+				if (s == "pow") return Token(power);
+				return Token(name, s);    //returns the name to be assigned as a variable in the calculator
+			}
+			if (isspace(ch)) {  //checks for "whitespace"
+				if (ch == '\n') return Token(print);
+				break;
+			}
+			error("Bad token");
 		}
-		error("Bad token");
 	}
 }
 
