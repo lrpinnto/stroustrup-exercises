@@ -20,7 +20,10 @@
  * x / y;
  * xx - 500;
  */
-
+//Q: Suggest 3 improvements, implement 1 of them.
+//R: Change calculator to be able to handle odd input and avoid getting "stuck" under one of the functions awaiting input.  **IMPLEMENTED UNDER Token_stream::ignore()**
+//R: Add other more complex calculations like log()
+//R: Couldn't think of anything else that would be "simple" to implement
 
 struct Token {  //Defines Data structure Token composed of char kind, double value and string name. Token Can be defined by Token(char), Token(char,double) or Token(char, string)
 	char kind;
@@ -40,7 +43,7 @@ public:
 	Token get();                //Declares get() so it can be defined below
 	void unget(Token t) { buffer = t; full = true; }  //Declares unget() and defines it inside public???????
 
-	void ignore(char);     //Declares ignore() so it can be defined below
+	void ignore(char, char);     //Declares ignore() so it can be defined below
 };
 
 const char let = '#';                 //avoids the use of "Magic constants"
@@ -111,7 +114,7 @@ Token Token_stream::get()
 	}
 }
 
-void Token_stream::ignore(char c)
+void Token_stream::ignore(char c, char c2)
 {
 	if (full && c == buffer.kind) {    //????
 		full = false;
@@ -119,9 +122,34 @@ void Token_stream::ignore(char c)
 	}
 	full = false;   //sets buffer to empty?
 
-	char ch;
-	while (cin >> ch)
-		if (ch == c) return;     //"burns" chars from stream until it finds the character c
+	cin.putback('@');            //adds @ as a "placeholder" to the end of the stream
+	char left_over_chars[]={0};  //vector of chars
+
+	if (cin.peek()=='@') {cin.get(); return;}   //if the expression is true, it means that the stream is empty. There is nothing else to read so me read the placeholder char and return
+	/*else 
+	{
+		while(cin.peek())
+		cin.read(left_over_chars, 99);
+	}*/
+	else
+	{
+		string s;
+		char ch;
+		while (cin.get(ch))   //reads cin until it finds '@' and deletes it
+		{
+			if(ch=='@') 
+			{
+				for (char c: s)
+				{
+					cin.putback(c);
+				} 
+				break;
+			}
+			else s += ch;
+		}
+		while (cin >> ch)
+			if (ch == c || ch == c2) return;     //"burns" chars from stream until it finds the character c
+	}
 }
 
 struct Variable {  //Data structure for variable declaration in the calculator
@@ -316,7 +344,7 @@ double statement()
 
 void clean_up_mess()
 {
-	ts.ignore(print);
+	ts.ignore(print, '\n');
 }
 
 void help_text()
