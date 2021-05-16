@@ -160,7 +160,7 @@ int main()
 }
 -----------------------------------------------------------------------------------------------------------Version $9.4.3*/
 
-//-----------------------------------------------------------------------------------------------------------Version $9.7.1
+/*-----------------------------------------------------------------------------------------------------------Version $9.7.1
 enum class Month{
     jan=1, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
 };
@@ -227,4 +227,67 @@ int main()
     //Date invalid_test {Year{2004},Month::abc,-5};
     //cout<<invalid_test;
 }
-//-----------------------------------------------------------------------------------------------------------Version $9.7.1
+-----------------------------------------------------------------------------------------------------------Version $9.7.1*/
+
+//-----------------------------------------------------------------------------------------------------------Version $9.7.4
+enum class Month{
+    jan=1, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
+};
+
+
+class Date
+{
+    int d;
+    Month m;
+    int y;
+    public:
+        Date(int y, Month m, int d);
+
+        void add_day(int n);
+        void add_month(int n);
+        void add_year(int n);
+
+        Month month() const {return m;}
+        int day() const {return d;}
+        int year() const {return y;}
+};
+
+
+ostream& operator<<(ostream& os, const Date& d)
+{
+    return os << '(' << d.year()
+            << ',' << int(d.month())
+            << ',' << d.day() << ')';
+}
+
+void Date::add_day(int n)
+{
+    if ((int(m)==2 || int(m)==4 || int(m)==6 || int(m)==9 || int(m)==11) && d+n<=30 && d+n>0)  //Did not implement for different months/years or leap years. Pointless work.
+    {
+        d+=n;
+    }
+    else if (d+n<=31 && d+n>0) d+=n;
+    else return;
+}
+
+Date::Date(int yy, Month mm, int dd)          
+    :y{yy}, m{mm}, d{dd}
+{
+    if (yy>0 && int(mm)>0 && int(mm)<=12 && dd>0 && dd<=31)
+    {
+        if (!(((yy % 4 == 0) && (yy % 100 != 0)) || (yy % 400 == 0)) && dd==29) error("leap year"); //check if it's a leap year
+    }
+    else error("out of bounds date");
+}
+
+int main()
+{
+    Date today {1978,Month::jun,25};
+    cout<<today;
+    Date tomorrow = today;
+    tomorrow.add_day(1);
+    cout<<tomorrow;
+    //Date invalid_test {Year{2004},Month::abc,-5};
+    //cout<<invalid_test;
+}
+//-----------------------------------------------------------------------------------------------------------Version $9.7.4
