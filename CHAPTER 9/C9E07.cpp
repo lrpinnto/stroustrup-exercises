@@ -1,5 +1,7 @@
 #include "../stroustrup/std_lib_facilities.h"
 
+//CHAPTER 9 EXERCISE 7 ONWARDS
+
 enum class Month{
     jan=1, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
 };
@@ -52,6 +54,23 @@ vector<string>tokenize(string s, string deli)
     result.push_back(s.substr(start, end - start));
     return result;
 }
+
+class Patron
+{
+private:
+    string name;
+    int id;
+    double fees=0;   //all patrons start with no fees
+public:
+    Patron(string namee, int idd)
+        :name{namee},id{idd} {};
+    string get_name() const {return name;}
+    int get_id() const {return id;}
+    double get_fees() const {return fees;}
+    void set_fee(double d) {fees=d;}
+    bool check_fee() {if(fees>0){return true;} else return false;}
+};
+
 
 class ISBN
 {
@@ -158,9 +177,9 @@ bool operator!=(const ISBN& a,const ISBN& b)
 
 int main()
 {
-    Book harry_potter_ps {{"9781-4088-5565-2"},"Harry Potter and the Philosopher's Stone","J.K.Rowling",{Year{2014},Month::sep,1},Genre::fiction};
-    ISBN teste {123,456,789,'l'};
-    ISBN test2 {harry_potter_ps.get_ISBN()};
-    cout<<(test2==teste)<<(test2!=teste);
-    cout<<harry_potter_ps;
+    Patron teste {"maria",1};
+    cout<<teste.get_name();
+    cout<<teste.check_fee();
+    teste.set_fee(2.99);
+    cout<<teste.check_fee()<<teste.get_fees();
 }
