@@ -17,6 +17,12 @@ class Year {
         int y;
 };
 
+bool leapyear(Year y)
+{
+    if(!(((y.year() % 4 == 0) && (y.year() % 100 != 0)) || (y.year() % 400 == 0))) return false;
+    else return true;
+}
+
 struct Date
 {
     private:
@@ -36,7 +42,7 @@ Date::Date(Year yy, Month mm, int dd)
 {
     if (yy.year()>0 && int(mm)>0 && int(mm)<=12 && dd>0 && dd<=31)
     {
-        if (!(((yy.year() % 4 == 0) && (yy.year() % 100 != 0)) || (yy.year() % 400 == 0)) && dd==29) error("leap year"); //check if it's a leap year
+        if (!leapyear(yy) && dd==29) error("not a leap year"); //check if it's a leap year
     }
     else error("out of bounds date");
 }
@@ -281,8 +287,8 @@ int main()
         {{2009},Month::nov,3},
         Genre::biography}
     );
-    
-    teste.check_out(somebook,joaquina,{{2000},Month::apr,3});
+
+    teste.check_out(somebook,joaquina,{{2021},Month::feb,29});  //leap year test. Should throw an error
     for(string s : teste.get_debtlist()) cout<<s<<'\n';
     for(string s : teste.get_transactions()) cout<<s<<'\n';
 }
