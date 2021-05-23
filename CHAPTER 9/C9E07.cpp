@@ -62,13 +62,14 @@ private:
     int id;
     double fees=0;   //all patrons start with no fees
 public:
-    Patron(string namee, int idd)
-        :name{namee},id{idd} {};
+    Patron(string namee)
+        :name{namee} {}
     string get_name() const {return name;}
     int get_id() const {return id;}
     double get_fees() const {return fees;}
     void set_fee(double d) {fees=d;}
-    bool check_fee() {if(fees>0){return true;} else return false;}
+    void set_id(int n) {id = n;}   //to be initialized by Library class
+    bool check_fee() const {if(fees>0){return true;} else return false;}
 };
 
 
@@ -82,6 +83,7 @@ class ISBN
         ISBN(int n1, int n2, int n3, char x);
         ISBN(string s);
         string get_string() const {return to_string(n1)+"-"+to_string(n2)+"-"+to_string(n3)+"-"+x;}
+        ISBN get_rawid() const {return ISBN{n1,n2,n3,x};}
 
 };
 
@@ -146,6 +148,7 @@ public:
     void check_in(){if(checked_out==false)error("Book already checked in");else checked_out=false;}
 
     string get_ISBN() const {return id.get_string();}
+    ISBN get_rawISBN() const {return id.get_rawid();}
     string get_title() const {return title;}
     string get_author() const {return author;}
     string get_date() const {return to_string(cright_date.year().year())+"/"+to_string(int(cright_date.month()))+"/"+to_string(cright_date.day());}
@@ -174,12 +177,112 @@ bool operator!=(const ISBN& a,const ISBN& b)
     return !(a==b);
 }
 
+bool operator==(const Book& a, const Book& b)  //only need to check ISBN since these should be unique per book
+{
+    return (a.get_rawISBN()==b.get_rawISBN());
+}
+
+
+bool operator!=(const Book& a,const Book& b)
+{
+    return !(a==b);
+}
+
+bool operator==(const Patron& a, const Patron& b)  //only need to check ISBN since these should be unique per book
+{
+    return (a.get_id()==b.get_id());
+}
+
+
+bool operator!=(const Patron& a,const Patron& b)
+{
+    return !(a==b);
+}
+
+struct Transaction
+{
+    Book book;
+    Patron patron;
+    Date date;
+    Transaction(Book bookk,Patron patronn,Date datee)
+        :book{bookk},patron{patronn},date{datee}{}
+};
+
+class Library
+{
+private:
+    int id = 0;   //guarantees unique id for patrons
+    vector<Book>books;
+    vector<Patron>patrons;
+    vector<Transaction>transactions;
+public:
+    Library(/* args */);
+    //int get_newid() {id++; return id;}
+    void add_book(const Book book){books.push_back(book);}
+    void add_patron(Patron& patron){id++; patron.set_id(id);patrons.push_back(patron);}  //generates unique id
+    void check_out(const Book book, const Patron patron, const Date date)
+    {
+        if((find(books.begin(),books.end(),book)!=books.end()) && (find(patrons.begin(),patrons.end(),patron)!=patrons.end())) //checks if the book or patron already exist in the "database"
+        {
+            if(patron.check_fee()) error("Books cannot be checked out for patrons with pending fees");
+            transactions.push_back({book,patron,date});
+        }
+        else error("Both book and patron need to already exist in the library. ");
+
+    }
+    vector<string>get_debtlist()
+    {
+        vector<string>debts;
+        for (Patron p : patrons)
+        {
+            if(p.check_fee()) debts.push_back(p.get_name());
+        }
+        return debts;
+    }
+
+    vector<string>get_transactions()
+    {
+        vector<string>trans;
+        for (Transaction t : transactions)
+        {
+            trans.push_back(t.book.get_title()+" "+to_string(t.date.day())+"/"+to_string(int(t.date.month()))+"/"+to_string(t.date.year().year())+" "+t.patron.get_name());
+        }
+        return trans;
+    }
+};
+
+Library::Library(/* args */)
+{
+}
+
+
 
 int main()
 {
-    Patron teste {"maria",1};
-    cout<<teste.get_name();
-    cout<<teste.check_fee();
-    teste.set_fee(2.99);
-    cout<<teste.check_fee()<<teste.get_fees();
+    Library teste;
+    Patron maria {"Maria"};
+    maria.set_fee(1.99);
+    Patron marta {"Marta"};
+    marta.set_fee(0.99);
+    Patron joaquina {"Joaquina"};
+    teste.add_patron(maria);
+    teste.add_patron(marta);
+    teste.add_patron(joaquina);
+
+    Book somebook {{"111-232-444-m"},"Book about something cool","John H.",{Year(2016),Month::jul,3},Genre::nonfiction};
+    Book somebook2 {{"113-232-444-m"},"Book about something cool 2","John H.",{Year(2016),Month::aug,3},Genre::children};
+
+    teste.add_book(somebook);
+    teste.add_book(somebook2);
+    teste.add_book({
+        {"321-32131-221231-i"},
+        "hello book",
+        "some guy",
+        {{2009},Month::nov,3},
+        Genre::biography}
+    );
+    
+    teste.check_out(somebook,joaquina,{{2000},Month::apr,3});
+    for(string s : teste.get_debtlist()) cout<<s<<'\n';
+    for(string s : teste.get_transactions()) cout<<s<<'\n';
 }
