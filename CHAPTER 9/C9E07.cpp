@@ -12,7 +12,7 @@ class Year {
     public:
         class Invalid {};
         Year(int x) : y{x} {if (x<min || max <= x) throw Invalid{};}
-        int year() {return y;}
+        int year() const {return y;}
     private:
         int y;
 };
@@ -22,6 +22,16 @@ bool leapyear(Year y)
     if(!(((y.year() % 4 == 0) && (y.year() % 100 != 0)) || (y.year() % 400 == 0))) return false;
     else return true;
 }
+
+int dayofweek(const int d, const Month m, const Year y)  //returns 0 - sunday, 1 - monday, 2 - tuesday (...)
+{
+    int year=y.year();  
+    static int t[] = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };  
+    year -= int(m) < 3;  
+    return ( year + year / 4 - year / 100 + year / 400 + t[int(m) - 1] + d) % 7;  
+}
+
+
 
 struct Date
 {
@@ -35,7 +45,42 @@ struct Date
         Month month() const {return m;}
         int day() const {return d;}
         Year year() const {return y;}
+        int week_of_year();
+        Date next_workday() const          //unable to handle month and year switches. Will throw error.
+        {
+            int weekday = dayofweek(d,m,y);
+            switch (weekday)
+            {
+            case 5:
+                return {y,m,d+3};
+                break;
+            case 6:
+                return {y,m,d+2};
+                break;
+            case 0:
+                return {y,m,d+1};
+                break;
+            default:
+                return {y,m,d+1};
+                break;
+            }
+        }
 };
+
+int Date::week_of_year()  //assuming sunday is the first day of the week. really crude implementation
+{
+    int jan1 {dayofweek(1,Month::jan,y)};
+
+    int nextmonday {8-jan1};  //week 2
+
+    int days {30*(int(m)-1)+d};
+    int count {1};
+    for (int i = nextmonday; i <= days; i+=7)
+    {
+        count++;
+    }
+    return count;
+}
 
 Date::Date(Year yy, Month mm, int dd)          
     :y{yy}, m{mm}, d{dd}
@@ -164,6 +209,11 @@ public:
 Book::Book(ISBN idd, string titlee, string authorr, Date cright_datee, Genre genree)
     :id{idd}, title{titlee}, author{authorr}, cright_date{cright_datee}, genre{genree} {}
 
+ostream& operator<<(ostream& os, const Date& d)
+{
+    return os << d.day() << '/' << int(d.month()) << '/' <<d.year().year() << '\n';
+}
+
 ostream& operator<<(ostream& os, const Book& d)
 {
     return os << d.get_title() << '\n' << d.get_author() << '\n' <<d.get_ISBN() << '\n';
@@ -288,7 +338,8 @@ int main()
         Genre::biography}
     );
 
-    teste.check_out(somebook,joaquina,{{2021},Month::feb,29});  //leap year test. Should throw an error
-    for(string s : teste.get_debtlist()) cout<<s<<'\n';
-    for(string s : teste.get_transactions()) cout<<s<<'\n';
+    Date teste1 {{2021},Month::jun,5};
+    cout<<teste1<<teste1.next_workday();
+
+    cout<<teste1.week_of_year();
 }
