@@ -1,5 +1,7 @@
 #include "../stroustrup/std_lib_facilities.h"
 
+//needs to be rearranged with namespaces and header files, but couldn't afford to spend more time on it
+
 //CHAPTER 9 EXERCISE 7 ONWARDS
 
 enum class Month{
@@ -33,14 +35,17 @@ int dayofweek(const int d, const Month m, const Year y)  //returns 0 - sunday, 1
 
 
 
+
 struct Date
 {
     private:
+        long int days;            //days since 01/01/1970 (day 0)
         int d;
         Month m;
         Year y;
     public:
         Date(Year y, Month m, int d);
+        Date(long int days);
         void add_day(int n);
         Month month() const {return m;}
         int day() const {return d;}
@@ -66,6 +71,122 @@ struct Date
             }
         }
 };
+
+long int date2epoch(Date d)
+{
+    long int result = 0;
+
+    int year = d.year().year();
+    int month = int(d.month());
+    int day = d.day();
+    Year x {1800};
+    for (int i = 1970; i < year; i++)
+    {
+        Year x =i;
+        if(leapyear(x)) //366 days
+        {
+            result+=366;
+        }
+        else result+=365;
+    }
+    
+    for (int i = 1; i < month; i++)
+    {
+        switch (i)
+        {
+        case 1:
+            result+=31;
+            break;
+        case 2:
+            if(leapyear(year))result+=29;
+            else result+=28;
+            break;
+        case 3:
+            result+=31;
+            break;
+        case 4:
+            result+=30;
+            break;
+        case 5:
+            result+=31;
+            break;
+        case 6:
+            result+=30;
+            break;
+        case 7:
+            result+=31;
+            break;
+        case 8:
+            result+=31;
+            break;
+        case 9:
+            result+=30;
+            break;
+        case 10:
+            result+=31;
+            break;
+        case 11:
+            result+=30;
+            break;
+        case 12:
+            result+=31;
+            break;
+        default:
+            error("Impossible month on date2epoch");
+            break;
+        }
+    }
+
+    result+=day-1;
+
+    return result;
+}
+
+Date epoch2date(long int i)
+{
+    int ntp_month;
+    vector<int>month_days  {31,28,31,30,31,30,31,31,30,31,30,31};
+    vector<int>week_days  {4,5,6,0,1,2,3};
+    int leap_days {};
+    int days_since_epoch = i;      //number of days since epoch
+    int ntp_week_day = week_days[days_since_epoch%7];  //Calculating WeekDay
+      
+    int ntp_year = 1970+(days_since_epoch/365); // ball parking year, may not be accurate!
+ 
+    for (int h=1972; h<ntp_year; h+=4)      // Calculating number of leap days since epoch/1970
+    {
+        if(((h%4==0) && (h%100!=0)) || (h%400==0)) leap_days++;
+    }
+            
+    ntp_year = 1970+((days_since_epoch - leap_days)/365); // Calculating accurate current year by (days_since_epoch - extra leap days)
+    int day_of_year = ((days_since_epoch - leap_days)%365)+1;
+  
+   
+    if(((ntp_year%4==0) && (ntp_year%100!=0)) || (ntp_year%400==0))  
+    {
+        month_days[1]=29;     //February = 29 days for leap years
+        bool leap_year_ind = 1;    //if current year is leap, set indicator to 1 
+    }
+    else month_days[1]=28; //February = 28 days for non-leap years 
+
+    int temp_days=0;
+   
+    for (ntp_month=0 ; ntp_month <= 11 ; ntp_month++) //calculating current Month
+    {
+        if (day_of_year <= temp_days) break; 
+        temp_days = temp_days + month_days[ntp_month];
+    }
+    
+    temp_days = temp_days - month_days[ntp_month-1]; //calculating current Date
+    string ntp_date = to_string(day_of_year - temp_days);
+
+    string inbetween = to_string(ntp_date[0])+to_string(ntp_date[1]);
+
+    ntp_date=inbetween;
+
+
+    return Date{Year(ntp_year),Month(ntp_month),stoi(ntp_date)};
+}
 
 int Date::week_of_year()  //assuming sunday is the first day of the week. really crude implementation
 {
@@ -338,8 +459,9 @@ int main()
         Genre::biography}
     );
 
-    Date teste1 {{2021},Month::jun,5};
-    cout<<teste1<<teste1.next_workday();
+    Date teste1 {{2018},Month::feb,28};
 
-    cout<<teste1.week_of_year();
+    
+
+    cout<<epoch2date(date2epoch(teste1));
 }
