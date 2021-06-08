@@ -81,10 +81,12 @@ class Money
 {
 private:
     long int cents;
+    int currency;
 public:
-    Money(double dollars);
+    Money(double dollars, int currency);
     long int raw_money() const {return cents;}
     long int get_dollars() const {return cents*0.01;}
+    char get_currency() const {return currency;}    //converts int to char to avoid narrow cast error with multi-character chars like €
     string get_cents() const {
         //return cents%100;
         int scents {cents%100};
@@ -97,8 +99,9 @@ public:
 };
 
 
-Money::Money(double dollarss)
-{
+Money::Money(double dollarss, int currencyy)
+    :currency{currencyy}
+{    
     long int dollar = dollarss; //41,556
     double cent = (dollarss-dollar)*100; //55,6
     int centz = cent; //55
@@ -116,11 +119,12 @@ Money::Money(double dollarss)
 
 ostream& operator<<(ostream& os, const Money& d)
 {
-    return os << '$' << d.get_dollars() << '.' << d.get_cents();
+    return os << d.get_currency() << d.get_dollars() << '.' << d.get_cents();
 }
 
 Money operator+(const Money& a, const Money& b)
 {
+    if (a.get_currency()!=b.get_currency()) error("Money needs to have same currency");
     double result {};
     int carryover {0};
     int cents {stoi(a.get_cents())+stoi(b.get_cents())};
@@ -130,14 +134,15 @@ Money operator+(const Money& a, const Money& b)
         carryover=1;
     }
     result = a.get_dollars()+b.get_dollars()+carryover+cents*0.01;
-    return {result};
+    return {result,a.get_currency()};
 }
 Money operator-(const Money& a, const Money& b)
 {
+    if (a.get_currency()!=b.get_currency()) error("Money needs to have same currency");
     long int dolares {(a.raw_money()-b.raw_money())*0.01}; //easier to work with raw values
     int centz  {(a.raw_money()-b.raw_money())%100};
 
-    return {dolares+centz*0.01};
+    return {dolares+centz*0.01,a.get_currency()};
 
 }
 
@@ -145,6 +150,7 @@ Money operator-(const Money& a, const Money& b)
 
 int main()
 {
-    Money teste {1.99};
-    cout<<(teste-teste+teste+teste-teste);
+    Money teste {1.99,'€'};
+    Money teste2 {2,'€'};
+    cout<<(teste-teste+teste2+teste-teste);
 }
