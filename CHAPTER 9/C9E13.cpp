@@ -122,6 +122,22 @@ ostream& operator<<(ostream& os, const Money& d)
     return os << d.get_currency() << d.get_dollars() << '.' << d.get_cents();
 }
 
+istream& operator>>(istream& is, Money& d)  //cannot handle multi-character chars
+{
+    int dollar, cents;
+    char ch, currency;
+    
+    is>>currency>>dollar>>ch>>cents;
+    if(!is) return is;
+    if(ch!='.') is.clear(ios_base::failbit);
+    int size_of_cents {to_string(cents).length()};
+
+    double result {dollar+cents*(1/(pow(10,size_of_cents)))};
+    
+    d = Money(result,currency);
+    return is;
+}
+
 Money operator+(const Money& a, const Money& b)
 {
     if (a.get_currency()!=b.get_currency()) error("Money needs to have same currency");
@@ -152,5 +168,7 @@ int main()
 {
     Money teste {1.99,'€'};
     Money teste2 {2,'€'};
-    cout<<(teste-teste+teste2+teste-teste);
+    cout<<"Please enter a value:\n";
+    cin>>teste;
+    cout<<teste;
 }
