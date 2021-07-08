@@ -5,7 +5,8 @@
 struct Reading
 {
     int hour;
-    double temperature; //in kelvin
+    double temperature; 
+    char scale;
 };
 
 vector<Reading> generate_randm_temps(int N, int seed)
@@ -18,6 +19,11 @@ vector<Reading> generate_randm_temps(int N, int seed)
     {
         value.temperature=(randint(1000)+randint(99)*0.01);  //arbitrary number
         value.hour = counter;
+        if (counter%2==0)
+        {
+            value.scale='c';
+        }
+        else value.scale='f';
         counter++;
         if(counter>23) counter=0;
         values.push_back(value);
@@ -39,7 +45,7 @@ int main()
 
     for (Reading r : temps)
     {
-        ost<<r.hour<<" "<<r.temperature<<'\n';
+        ost<<r.hour<<" "<<r.temperature<<" "<<r.scale<<'\n';
     }
     
 }
