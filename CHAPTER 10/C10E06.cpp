@@ -98,12 +98,29 @@ Roman_int::Roman_int(int valuee)
     roman=int_to_roman(valuee);
 }
 
+ostream& operator<<(ostream& os, const Roman_int& r)
+{
+    return os << r.as_string();
+}
+
+istream& operator>>(istream& is, Roman_int& r)
+{
+    string s;
+    is>>s;
+    if(!is) return is;
+    //if(isdigit(s)) { int h {stoi(s)}; int s {h}; };  attempt at auto converting int to roman
+    r = Roman_int {s};
+    return is;
+}
+
 int main()
 try{
     Roman_int h {"IV"};
     cout<<h.as_int()<<" = "<<h.as_string()<<'\n';
     Roman_int c {22021};
-    cout<<c.as_int()<<" = "<<c.as_string()<<'\n';
+    cout<<"Roman "<<c<<" equals "<<c.as_int()<<'\n';
+    cin>>c;
+    cout<<c.as_int();
 }
 catch (exception& e) {
     cerr << "Error: " << e.what() << '\n';
