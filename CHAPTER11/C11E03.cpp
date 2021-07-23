@@ -72,23 +72,23 @@ Punct_stream::operator bool()
 
 int main()
 {
-    cout<<"Please enter input filename: ";
+    cout<<"Please filepath for input text: ";
     string iname;
     cin>>iname;
     ifstream ifs {iname};
     if (!ifs) error("can't open input file",iname);
     ifs.exceptions(ifs.exceptions()|ios_base::badbit);
-
-    Punct_stream ps {ifs};
-    ps.case_sensitive(false);
-    ps.whitespace(" ");
-    ps.with_vowel(false);
-
-
-
-    while(true){
-        string word;
-        if(!(ps>>word)) {cout<<word;break;} ///on eof, input stream will break without first running ost effectively cutting the output stream one word short. This "fixes" that
-        cout<<word<<' ';
+    while(ifs){
+        getline(ifs,iname);
+        istringstream iss {iname};
+        Punct_stream ps {iss};
+        ps.case_sensitive(false);
+        ps.whitespace(" ");
+        ps.with_vowel(false);
+        while(true){
+            string word;
+            if(!(ps>>word)) {cout<<word<<'\n';break;} ///on eof, input stream will break without first running ost effectively cutting the output stream one word short. This "fixes" that
+            cout<<word<<' ';
+        }
     }
 }
