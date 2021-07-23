@@ -1,6 +1,7 @@
 #include "../stroustrup/std_lib_facilities.h"
 
 //CHAPTER 11 EX 01
+//BUG: Repeats last line twice
 
 class Punct_stream
 {
@@ -59,16 +60,12 @@ Punct_stream::operator bool()
 
 int main()
 {
-    cout<<"Please enter input filename: ";
+    cout<<"Please filepath for input text: ";
     string iname;
     cin>>iname;
     ifstream ifs {iname};
     if (!ifs) error("can't open input file",iname);
     ifs.exceptions(ifs.exceptions()|ios_base::badbit);
-
-    Punct_stream ps {ifs};
-    ps.case_sensitive(false);
-
 
     cout<<"Please enter output filename: ";
     string oname;
@@ -76,9 +73,16 @@ int main()
     ofstream ost {oname};
     if(!ost) error("can't open input file ",oname);
 
-    while(true){
-        string word;
-        if(!(ps>>word)) {ost<<word;break;} ///on eof, input stream will break without first running ost effectively cutting the output stream one word short. This "fixes" that
-        ost<<word<<' ';
+    while(ifs){
+        getline(ifs,iname);
+        istringstream iss {iname};
+        Punct_stream ps {iss};
+        ps.case_sensitive(false);
+        ps.whitespace(" ");
+        while(true){
+            string word;
+            if(!(ps>>word)) {ost<<word<<'\n';break;} ///on eof, input stream will break without first running ost effectively cutting the output stream one word short. This "fixes" that
+            ost<<word<<' ';
+        }
     }
 }
