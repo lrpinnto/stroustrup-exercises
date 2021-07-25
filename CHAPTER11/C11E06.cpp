@@ -1,6 +1,17 @@
 #include "../stroustrup/std_lib_facilities.h"
 
-//CHAPTER 11 EX 06
+//CHAPTER 11 EX 06, 07
+//TO DO: EX 08
+//BUG: Sometimes returns same line twice, using the authors "suggested" for loop results in missing words.
+
+/*
+vector<string> vs;
+for (string word; ps>>word;)
+    vs.push_back(word);
+
+for(int i=0;i<vs.size();++i)
+    if(i==0 || vs[i]!=vs[i-1]) cout<<vs[i]<<'\n';
+*/
 
 class Punct_stream
 {
@@ -26,7 +37,16 @@ private:
     bool sensitive;
     bool vowel;
 };
-
+void nots(string& word, istringstream& buffer)  //I'm not sure how the author intends for me to handle examples like don't -> do not. Maybe with a list of all exceptions?
+{                        //using a generic solution. Won't work with words like "won't" which is a contraction of "will not" and other such examples
+    int index {word.find("n't")};
+    word.erase(word.begin()+index,word.end());
+    string rest_of_stream {"not "};
+    for(string s ; buffer>>s;)
+        rest_of_stream+=s+" ";
+    buffer.clear();
+    buffer.str(rest_of_stream);
+}
 Punct_stream& Punct_stream::operator>>(string& s)
 {
     while(!(buffer>>s)) {
@@ -51,7 +71,8 @@ Punct_stream& Punct_stream::operator>>(string& s)
         }
         buffer.str(line);
     }
-    return *this;
+    if (s.find("n't") != string::npos) nots(s,buffer);
+    return *this;  //points towards string s
 }
 
 bool Punct_stream::is_whitespace(char c)
@@ -86,9 +107,7 @@ int main()
         getline(ifs,iname);
         istringstream iss {iname};
         Punct_stream ps {iss};
-        ps.case_sensitive(false);
-        ps.whitespace(" ");
-        ps.with_vowel(false);
+        ps.whitespace(".;,?");  //don't use the as-if rule
         while(true){
             string word;
             if(!(ps>>word)) {cout<<word<<'\n';break;} ///on eof, input stream will break without first running ost effectively cutting the output stream one word short. This "fixes" that
