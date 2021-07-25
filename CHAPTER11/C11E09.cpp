@@ -1,6 +1,24 @@
 #include "../stroustrup/std_lib_facilities.h"
 
 //CHAPTER 11 EX 09
+//BUG: files don't match
+
+bool test_binary(string& oname, string& iname)
+{
+    ifstream ifs {oname,ios_base::binary}; //reverse roles
+    if(!ifs) error("can't open input file ",iname);
+    ifstream ofs {iname, ios_base::binary};
+    if(!ofs) error("can't open output file ",oname);
+
+    vector<int> v;
+    for(int x; ifs.read( as_bytes(x), sizeof(int) ); )
+        v.push_back(x);
+
+    vector<int> b;
+    for(int x; ofs.read( as_bytes(x), sizeof(int) ); )
+        b.push_back(x);
+    return b==v;
+}
 
 int main()
 {
@@ -28,5 +46,8 @@ int main()
 
     for(int x : v)
         ofs.write(as_bytes(x),sizeof(int));
+
+    cout<<test_binary(oname, iname);
+
     return 0;
 }
