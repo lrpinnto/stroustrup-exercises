@@ -2,9 +2,9 @@
 
 #include "../sourcesgui/Graph.h"
 #include "../sourcesgui/Simple_window.h"
-#include <stdexcept>>
+#include <stdexcept>
 
-using namespace Graph_lib;
+//using namespace Graph_lib;
 
 int main()
 try
@@ -60,7 +60,7 @@ try
     //Fill
     r.set_fill_color(Color::yellow);
     poly.set_style(Line_style(Line_style::dash,4));
-    poly_rect.set_style(Line_style(Line_style::dash,2))
+    poly_rect.set_style(Line_style(Line_style::dash,2));
     poly_rect.set_fill_color(Color::green);
     win.set_label("Canvas #7");
 
@@ -68,16 +68,18 @@ try
     Text t {Point{150,150}, "Hello, graphical world!"};
     win.attach(t);
     win.set_label("Canvas #8");
-    t.set_font(Font::times_bold);
+    t.set_font(Graph_lib::Font::times_bold);
     t.set_font_size(20);
     win.set_label("Canvas #9");
 
     //Images
-    Image ii {Point(100,50),"image.jpg"};
+    Image ii {Point{100,50},"image.jpg"};
     win.attach(ii);
     win.set_label("Canvas #10");
-    ii.move(100,200);
-    win.set_label("Canvas #11");
+
+    
+    /*ii.move(100,200);
+    win.set_label("Canvas #11");*/
 
     //More code
     Circle c {Point{100,200},50};

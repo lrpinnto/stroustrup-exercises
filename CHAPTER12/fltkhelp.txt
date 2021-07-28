@@ -1,0 +1,12 @@
+download latest stable release from fltk
+unzip contents
+follow your OS readme instructions for compilation (should could with the zip contents)
+If everything went smoothly, you should be able to run demo/test
+If you are using g++ on unix (ubuntu) like me, you'll need to run "g++ `fltk-config --cxxflags` filename.cpp `fltk-config --ldflags` -o filename" to compile your code.
+If you are compiling with the GUI header files from the book (GUI.h, Simple_window.h ...) you'll need to use "g++ -w -Wall -std=c++11 Graph.cpp Window.cpp GUI.cpp Simple_window.cpp MY_CPP_FILE.cpp `fltk-config --ldflags --use-images` -o MY_EXECUTABLE"
+If you are using my code directly "g++ -w -Wall -std=c++11 ../sourcesgui/Graph.cpp ../sourcesgui/Window.cpp ../sourcesgui/GUI.cpp '../sourcesgui/Simple_window.cpp' C12DRILL.cpp `fltk-config --ldflags --use-images` -o C12DRILL"
+I also took some of the header files from the FLTK folder that were needed to compile my code. This might be different for you though. I've placed these files on sourcesgui/Fl/
+All files uploaded here have been debugged and work on my current dist Ubuntu 20.04.2 LTS.
+You should be able to just run this code without any debugging assuming you are running a similar setup to mine (Visual Code + g++)
+(Reference: https://groups.google.com/g/ppp-public/c/BtlzdWGuQpQ/m/KuDN4u-SPKgJ)
+(https://stackoverflow.com/questions/7134049/stroustrups-simple-window-h might also help)

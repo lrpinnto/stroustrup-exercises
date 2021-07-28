@@ -4,7 +4,7 @@
 #include "../sourcesgui/Simple_window.h"
 #include <stdexcept>
 
-using namespace Graph_lib;
+//using namespace Graph_lib;
 
 int main()
 try
@@ -34,7 +34,7 @@ try
     win.attach(r2);
     win.set_label("Canvas #7");
 
-    Text t {Point{650,415}, "Howdy!"};
+    Text t {Point{625,415}, "Howdy!"};
     win.attach(t);
     win.set_label("Canvas #8");
     
