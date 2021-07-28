@@ -1,4 +1,4 @@
-//CHAPTER 12 EX 01
+//CHAPTER 12 EX 01 / 02
 
 #include "../sourcesgui/Graph.h"
 #include "../sourcesgui/Simple_window.h"
@@ -12,7 +12,7 @@ try
     //An almost blank window
     Point tl {100,100};
 
-    Simple_window win {tl,600,400,"Canvas"};
+    Simple_window win {tl,1600,980,"Canvas"};
 
     //Polygons
     Polygon poly;
@@ -29,6 +29,14 @@ try
     r.set_color(Color::blue);
     win.attach(r);
     win.set_label("Canvas #6");
+
+    Rectangle r2 {Point{600,400},100,30};
+    win.attach(r2);
+    win.set_label("Canvas #7");
+
+    Text t {Point{650,415}, "Howdy!"};
+    win.attach(t);
+    win.set_label("Canvas #8");
     
     win.wait_for_button();
 }
