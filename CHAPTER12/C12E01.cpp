@@ -40,13 +40,13 @@ try
     
     win.wait_for_button();
 
-    Text initial1 {Point{50, 350}, "L"};
-    initial1.set_color(color::purple)
+    Text initial1 {Point{550, 350}, "L"};
+    initial1.set_color(Color::dark_magenta);
     initial1.set_font_size(150);
-    initial2.set_font(Graph_lib::Font::times_bold);
+    initial1.set_font(Graph_lib::Font::times_bold);
 
-    Text initial2 {Point{150, 350}, "P"};
-    initial2.set_color(color::yellow)
+    Text initial2 {Point{650, 350}, "P"};
+    initial2.set_color(Color::yellow);
     initial2.set_font_size(150);
     initial2.set_font(Graph_lib::Font::times_bold);
     

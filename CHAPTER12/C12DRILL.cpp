@@ -77,9 +77,10 @@ try
     win.attach(ii);
     win.set_label("Canvas #10");
 
+    win.wait_for_button();
     
-    /*ii.move(100,200);
-    win.set_label("Canvas #11");*/
+    ii.move(100,200);
+    win.set_label("Canvas #11");
 
     //More code
     Circle c {Point{100,200},50};
@@ -92,7 +93,7 @@ try
         <<"; window size: "<<win.x_max()<<"*"<<win.y_max();
     Text sizes {Point{100,20},oss.str()};
 
-    Image cal {Point{255,255},"snow_cpp.gif"};
+    Image cal {Point{225,225},"snow_cpp.gif"};
     cal.set_mask(Point{40,40},200,150);
 
     win.attach(c);

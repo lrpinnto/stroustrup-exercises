@@ -12,19 +12,19 @@ try
     Point tl {100,100};
 
     Simple_window small_win {tl,400,400,"Small Window Big Shape"}; 
-    win.wait_for_button();
-    Rectangle r {Point{200,200},600,600};
-    win.attach(r);
-
-    win.wait_for_button();
-    //R:
+    small_win.wait_for_button();
+    Rectangle r {Point{0,0},600,600};
+    r.set_fill_color(Color::black);
+    small_win.attach(r);
+    small_win.set_label("Big Rectangle");
+    small_win.wait_for_button();
+    //R: Shape Takes over the display overlaying any other elements. In this case, the "Next" button. However, it's still interactive
     //--------------
-    Point tl {100,100};
 
     Simple_window big_win {tl,2000,1100,"Big Window"}; //Assuming 1080p display
-    //R:
+    //R:Window takes over the whole display while the with the window controls "growing" out of the display's range
     
-    win.wait_for_button();
+    big_win.wait_for_button();
 }
 catch(const std::exception& e)
 {
