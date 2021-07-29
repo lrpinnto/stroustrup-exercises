@@ -99,6 +99,17 @@ try
     win.set_label("Exercise 4");
 
     win.wait_for_button();
+
+    //assuming a 127 PPI (pixels per inch) so (1/4)127 = 31.75 aprox 32 pixels for 1/4 inch on my screen
+    int fourth_inch {32};
+    int line_style_offset {int(fourth_inch/2)}; //offset linestyle since it's drawn from the middle
+    Rectangle inch {Point{50, 50}, line_style_offset + x_max() * 2 / 3 , line_style_offset +y_max() * 3 / 4};
+    inch.set_style(Line_style(Line_style::solid, 32));
+    inch.set_color(Color::red);
+    win.attach(inch);
+    win.set_label("Exercise 5");
+
+    win.wait_for_button();
 }
 catch(const std::exception& e)
 {
