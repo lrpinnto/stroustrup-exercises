@@ -1,4 +1,4 @@
-//CHAPTER 12 EX 01 / 02
+//CHAPTER 12 EX 01 / 02 /03
 
 #include "../sourcesgui/Graph.h"
 #include "../sourcesgui/Simple_window.h"
@@ -12,7 +12,7 @@ try
     //An almost blank window
     Point tl {100,100};
 
-    Simple_window win {tl,1600,980,"Canvas"};
+    Simple_window win {tl,1600,900,"Canvas"};
 
     //Polygons
     Polygon poly;
@@ -22,22 +22,38 @@ try
 
     poly.set_color(Color::red);
     win.attach(poly);
-    win.set_label("Canvas #5");
 
     //Rectangles
     Rectangle r {Point{200,200},100,50};
     r.set_color(Color::blue);
     win.attach(r);
-    win.set_label("Canvas #6");
+    win.set_label("Exercise 1");
+
+    win.wait_for_button();
 
     Rectangle r2 {Point{600,400},100,30};
     win.attach(r2);
-    win.set_label("Canvas #7");
 
     Text t {Point{625,415}, "Howdy!"};
     win.attach(t);
-    win.set_label("Canvas #8");
+    win.set_label("Exercise 2");
     
+    win.wait_for_button();
+
+    Text initial1 {Point{50, 350}, "L"};
+    initial1.set_color(color::purple)
+    initial1.set_font_size(150);
+    initial2.set_font(Graph_lib::Font::times_bold);
+
+    Text initial2 {Point{150, 350}, "P"};
+    initial2.set_color(color::yellow)
+    initial2.set_font_size(150);
+    initial2.set_font(Graph_lib::Font::times_bold);
+    
+    win.attach(initial1);
+    win.attach(initial2);
+    win.set_label("Exercise 3");
+
     win.wait_for_button();
 }
 catch(const std::exception& e)
