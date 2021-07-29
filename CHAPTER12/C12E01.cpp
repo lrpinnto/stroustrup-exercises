@@ -1,4 +1,4 @@
-//CHAPTER 12 EX 01 / 02 /03
+//CHAPTER 12 EX 01 / 02 / 03 / 04
 
 #include "../sourcesgui/Graph.h"
 #include "../sourcesgui/Simple_window.h"
@@ -53,6 +53,50 @@ try
     win.attach(initial1);
     win.attach(initial2);
     win.set_label("Exercise 3");
+
+    win.wait_for_button();
+
+    Rectangle tic1 {Point{1180,280},10,620};
+    Rectangle tic2 {Point{1390,280},10,620};
+    Rectangle tic3 {Point{980,480},620,10};
+    Rectangle tic4 {Point{980,690},620,10};
+    tic1.set_fill_color(Color::black);
+    tic2.set_fill_color(Color::black);
+    tic3.set_fill_color(Color::black);
+    tic4.set_fill_color(Color::black);
+    win.attach(tic1);
+    win.attach(tic2);
+    win.attach(tic3);
+    win.attach(tic4);
+    win.set_label("Exercise 4");
+    win.wait_for_button();
+
+    Rectangle square1 {Point{990,290},180,180};
+    square1.set_fill_color(Color::red);
+    Rectangle square2 {Point{1200,290},180,180};
+    Rectangle square3 {Point{990,500},180,180};
+    Rectangle square4 {Point{1200,500},180,180};
+    square4.set_fill_color(Color::red);
+    Rectangle square5 {Point{990,710},180,180};
+    square5.set_fill_color(Color::red);
+    Rectangle square6 {Point{1200,710},180,180};
+    Rectangle square7 {Point{1410,290},180,180};
+    square7.set_fill_color(Color::red);
+    Rectangle square8 {Point{1410,500},180,180};
+    Rectangle square9 {Point{1410,710},180,180};
+    square9.set_fill_color(Color::red);
+    
+    win.attach(square1);
+    win.attach(square2);
+    win.attach(square3);
+    win.attach(square4);
+    win.attach(square5);
+    win.attach(square6);
+    win.attach(square7);
+    win.attach(square8);
+    win.attach(square9);
+    
+    win.set_label("Exercise 4");
 
     win.wait_for_button();
 }
