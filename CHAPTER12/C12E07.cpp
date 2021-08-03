@@ -11,37 +11,33 @@ try
 {
     Point tl {0,0};
 
-    Simple_window small_win {tl,1600,900,"Window"}; 
-    Rectangle Walls {Point{800,600},400,500};
+    Simple_window win {tl,1600,900,"Window"}; 
+    Rectangle Walls {Point{600,350},400,500};
     Polygon Roof;
     Roof.add(Point{600,350});
     Roof.add(Point{1000,350});
     Roof.add(Point{800,100});
     Roof.set_fill_color(Color::red);
 
-    Rectangle win1 {Point{700,500},50,50};
-    Rectangle win2 {Point{900,500},50,50};
+    Rectangle win1 {Point{650,400},100,100};
+    Rectangle win2 {Point{850,400},100,100};
     win1.set_fill_color(Color::blue);
     win2.set_fill_color(Color::blue);
 
-    Function denominator {1/x,0,100,Point{700,550},1000,50,50};
-    Function denominator2 {1/x,0,100,Point{900,550},1000,50,50};
 
-    Rectangle door {Point{750,700},200,150};
-    door.set_fill_color(Color::brown);
+    Rectangle door {Point{750,650},100,200};
+    door.set_fill_color(Color::dark_red);
 
-    Circle Handle {Point{850,700},10};
+    Circle handle {Point{815,750},10};
     handle.set_fill_color(Color::yellow);
 
-    Rectangle floor {Point{0,850},1600,100};
+    Rectangle floor {Point{0,850},1700,100};
     floor.set_fill_color(Color::green);
 
     win.attach(win1);
     win.attach(win2);
-    win.attach(denominator);
-    win.attach(denominator2);
     win.attach(door);
-    win.attach(Handle);
+    win.attach(handle);
     win.attach(floor);
     win.attach(Roof);
     win.attach(Walls);
