@@ -1,5 +1,5 @@
 //CHAPTER 12 EX 11
-//Need to add a way to align the figures properly
+//Need to add a way to align the figures properly and have an increased radius between figures
 #include "../sourcesgui/Graph.h"
 #include "../sourcesgui/Simple_window.h"
 #include <stdexcept>
@@ -8,6 +8,18 @@
 //using namespace Graph_lib;
 
 constexpr double PI {3.14159265};
+
+struct special_poly : Polygon { //Explained later in chapter 13. Found no alternative to using this
+    using Polygon::Polygon;     // Essentially means, special_poly is a type of Polygon
+    special_poly(vector<Point>&points) //Created so I can initialize with a list on vr.push_back(new special_poly{points});
+    {
+        for (Point p : points)
+        {
+            Polygon::add(p);
+        }
+        
+    }
+};
 
 vector<Point> get_points(int N)
 {
@@ -29,8 +41,7 @@ try
     Simple_window win {tl,1600,900,"Window"}; 
     int center_x {1600/2};
     int center_y {900/2};
-    //cout<<"Enter a,b (more means a larger radius),m,n (more increases \"squariness\"),N where N is the superellipse resolution for |x/a|^m+|y/b|^n = 1. All ints separated by space: ";
-    //cin>>a>>b>>m>>n>>N;
+
     //Axis
     Axis xa {Axis::x, Point{center_x,center_y},280,10,"x axis"}; //for some reason, the x axis label is set to move according to 
     xa.label.move(970,0); //fixes said issue
@@ -42,15 +53,16 @@ try
     ya.label.set_color(Color::dark_red);
     win.attach(ya);
     win.set_label("Canvas #3");
-
-    for(int N = 3; N<10;N++)
+    Vector_ref<Polygon> vr; //This is taught later on in the book (chapter 13 page 467) but I found no alternatives besides doing
+    for(int N = 3; N<10;N++)  //everything manually (which I think defeats the purpose)
     {
-        Polygon poly; //no overlapping lines
+        vector<Point>points;
         for(Point p : get_points(N))
         {
-            poly.add({p.x+center_x,p.y+center_y});
+            points.push_back({p.x+center_x,p.y+center_y});
         }
-        win.attach(poly);
+        vr.push_back(new special_poly{points});
+        win.attach(vr[vr.size()-1]);
         win.set_label(to_string(N)+" angles");
         win.wait_for_button();
     }

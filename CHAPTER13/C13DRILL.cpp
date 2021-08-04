@@ -4,18 +4,14 @@
 #include "../sourcesgui/Simple_window.h"
 #include <stdexcept>
 
-Point get_randsquare(int grid, int x_size, int y_size, int seed)
+Point get_randsquare(int grid, int x_size, int y_size)
 {
-    srand(seed);
-    return Point{grid*get_rand(0,x_size()/grid),grid*get_rand(0,y_size/grid)};
+    return Point{grid*(rand()%(x_size/grid)),grid*(rand()%(y_size/grid))};
 }
 
 int main()
 try
 {
-    int seed;
-    cout<<"Input a seed number: ";
-    cin>>seed;
     Point tl {0,0};
     Simple_window win {tl,800,1000,"Window"}; 
     int x_size {800};
@@ -30,7 +26,7 @@ try
     for (int y = y_grid; y < y_size; y+=y_grid)
         grid.add(Point{0,y},Point{x_size,y});
     
-    Vector_ref<Rectangle> rect;
+    Vector_ref<Rectangle> vr;
 
     for (int i = 0; i < x_size/x_grid; i++)
     {
@@ -41,17 +37,18 @@ try
     
     Image img {Point{0,200},"image.jpg"};
     Image img2 {Point{200,0},"image.jpg"};
-    Image img3 {Point{400.0},"image.jpg"};
+    Image img3 {Point{400,0},"image.jpg"};
     win.attach(img);
     win.attach(img2);
     win.attach(img3);
     win.wait_for_button();
 
-    Image mov_img {get_randsquare(x_grid,x_size,y_size,seed),"image2.jpg"};
+    
     while(true)
     {
+        Image mov_img {get_randsquare(x_grid,x_size,y_size),"image2.jpg"};
         win.attach(mov_img);
-        mov_img.move(get_randsquare(x_grid,x_size,y_size,seed));
+        win.set_label("Moving object");
         win.wait_for_button();
     }
 }
