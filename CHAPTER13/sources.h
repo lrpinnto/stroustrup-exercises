@@ -5,14 +5,17 @@
 
 //EX 1
 
-struct Arc : Circle { //apparently, only inherits from public. Also, declaring objects with the same name as circle seems to overload them
+struct Arc : Ellipse { //apparently, only inherits from public. Also, declaring objects with the same name as circle seems to overload them
     Arc(Point p, int rr, double anglee); //angle in degrees because of fl_arc
+    Arc(Point p, int ww, int hh, double anglee);
     
     void draw_lines() const;
     void set_angle(int anglee) { angle=anglee; }
 private:
     int r;
     double angle;
+    int w; //width
+    int h; //height
 };
 //EX 1-------
 
