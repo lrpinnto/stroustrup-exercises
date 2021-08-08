@@ -1,60 +1,28 @@
 //CHAPTER 13 EX 02
 
-#include "../sourcesgui/Graph.h"
-#include "../sourcesgui/Simple_window.h"
+#include "./sources.h"
 #include <stdexcept>
-#include "./C13E01.cpp" //get Arc from last exercise
-
-struct Box : Shape {
-    Box(Point p, int lengthh, int widthh, int rr);
-
-    void draw_lines() const;
-private:
-    int length; //y
-    int width; //x //both widths and lengths need to match to make a box
-    int r;
-};
-
-Box::Box(Point p, int lengthh, int widthh, int rr)
-    : length{lengthh}, width{widthh}, r{rr}
-{
-    add(Point{p.x,p.y})
-}
-
-Box::draw_lines()
-{
-    vector<Point> points_length {
-        {point(0).x,point(0).y+r},
-        {point(0).x,point(0).y-r+length},
-        {point(0).x+width,point(0).y+r},
-        {point(0).x+width,point(0).y-r+length}
-    };
-    
-    vector<Point> points_width {
-        {point(0).x+r,point(0).y},
-        {point(0).x-r+width,point(0).y+r},
-        {point(0).x+r,point(0).y+length},
-        {point(0).x-r+width,point(0).y+length},
-    };
-
-    //Arc for pi/2.  r is how rounded the box is
-
-    if (fill_color().visibility()) {	// fill
-		fl_color(fill_color().as_int());
-		fl_pie(point(0).x,point(0).y,r+r-1,r+r-1,0,angle);
-		fl_color(color().as_int());	// reset color
-	}
-
-	if (color().visibility()) {
-		fl_color(color().as_int());
-		fl_arc(point(0).x,point(0).y,r+r,r+r,0,angle);
-	}
-}
 
 int main()
 try
 {
-
+    Point tl {100,100};
+    Simple_window win {tl,1600,900,"Window"}; 
+    Mark center {Point(100,100),'X'};
+    Box h {Point(100,100),400,200,50};   //r is how rounded the box is
+    win.attach(center);
+    win.attach(h);
+    win.wait_for_button();
+    h.set_fill_color(Color::dark_yellow);
+    win.wait_for_button();
+    h.set_style(Line_style{Line_style::dash,4});
+    win.wait_for_button();
+    h.set_color(Color::blue);
+    win.wait_for_button();
+    h.move(100,100);
+    win.wait_for_button();
+    h.set_color(Color::invisible);
+    win.wait_for_button();
 }
 catch(const std::exception& e)
 {
