@@ -16,6 +16,14 @@ try
     win.attach(something2);
     win.label("Ellipse Arc");
     win.wait_for_button();
+    something2.set_style(Line_style(Line_style::dot,1));
+    win.wait_for_button();
+    something2.set_color(Color::green);
+    win.wait_for_button();
+    something2.set_fill_color(Color::red);
+    win.wait_for_button();
+    something2.move(30,30);
+    win.wait_for_button();
 }
 catch(const std::exception& e)
 {

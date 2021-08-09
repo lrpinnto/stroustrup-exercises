@@ -3,6 +3,8 @@
 #include "../sourcesgui/Graph.h"
 #include "../sourcesgui/Simple_window.h"
 
+constexpr double PI = 3.14159265;
+
 //EX 1
 
 struct Arc : Ellipse { //apparently, only inherits from public. Also, declaring objects with the same name as circle seems to overload them
@@ -34,4 +36,19 @@ private:
 };
 //EX 2------
 
+//EX 3
+struct Arrow : Line
+{
+    Arrow(Point p1, Point p2);  //standard arrow, no frills
+    Arrow(Point p1, Point p2, int lengthh, double anglee); //custom arrow
 
+    void set_arrow_angle(double new_angle) {adjustment_angle=new_angle;}
+    void set_arrow_length(int new_length) {length=new_length;}
+
+    void draw_lines() const;
+private:
+    double angle;
+    int length;
+    double adjustment_angle;
+};
+//EX 3---------

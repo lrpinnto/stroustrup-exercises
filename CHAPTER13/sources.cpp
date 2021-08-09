@@ -95,3 +95,53 @@ void Box::draw_lines() const
     }
 }
 //EX 2 ------
+
+//EX 3
+Arrow::Arrow(Point p1, Point p2)
+    : Line(p1,p2), length{12}, adjustment_angle{20}
+{
+    //y = v * sin(α)
+    //x = v * cos(α)
+    //dividing both expressions:
+    //y/x = v/v * sin(α)/cos(α) <=> y/x = tan(α)
+    //atan(y/x) is held back some information and can only assume that the input came from quadrants I or IV. In contrast, atan2(y,x) gets all the data and thus can resolve the correct angle.
+    angle = atan2(point(1).y - point(0).y, point(1).x - point(0).x)*180/PI; //difference between points gives the vector coordinates or slope
+}
+
+Arrow::Arrow(Point p1, Point p2, int lengthh, double anglee)
+    : Line(p1,p2), length{lengthh}, adjustment_angle{anglee}
+{
+    angle = atan2(point(1).y - point(0).y, point(1).x - point(0).x)*180/PI;
+}
+
+void Arrow::draw_lines() const
+{
+    double x1 = point(1).x - cos((angle-adjustment_angle)*PI/180) * length;
+    double y1 = point(1).y - sin((angle-adjustment_angle)*PI/180) * length;
+
+    double x2 = point(1).x - cos((angle+adjustment_angle)*PI/180) * length;
+    double y2 = point(1).y - sin((angle+adjustment_angle)*PI/180) * length;
+    if (fill_color().visibility()) {
+        fl_color(fill_color().as_int()); //fill
+        fl_begin_complex_polygon();
+			for(int i=0; i<3; ++i){ //fill arrowhead ONLY
+				fl_vertex(point(1).x, point(1).y);
+                fl_vertex(int(x1), int(y1));
+                fl_vertex(int(x2), int(y2));
+			}
+		fl_end_complex_polygon();
+        fl_color(color().as_int());	// reset color
+
+    }
+    if (color().visibility()) //if outlines are set as visible, draw outlines
+    {
+        fl_color(color().as_int());
+        Lines arrow_lines;
+        arrow_lines.add(point(1),Point{int(x1), int(y1)});
+        arrow_lines.add(point(1),Point{int(x2), int(y2)});
+        arrow_lines.draw_lines(); 
+        Line::draw_lines();   
+    }
+
+}
+//EX 3-----
