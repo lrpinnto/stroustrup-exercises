@@ -145,3 +145,43 @@ void Arrow::draw_lines() const
 
 }
 //EX 3-----
+
+//EX 4
+Point nw(Rectangle& rect)
+{
+    return rect.point(0);
+}
+Point n(Rectangle& rect)
+{
+    //Rectangles are drawn from the nw and since rectangles dont take negative values. we can assume point(0) to be nw
+    return {nw(rect).x + (rect.width()/2),nw(rect).y};
+}
+Point s(Rectangle& rect)
+{
+    return {nw(rect).x + (rect.width()/2), nw(rect).y + (rect.height())};
+}
+Point e(Rectangle& rect)
+{
+    return {nw(rect).x + rect.width(), nw(rect).y + (rect.height()/2)};
+}
+Point w(Rectangle& rect)
+{
+    return {nw(rect).x, nw(rect).y + (rect.height()/2)};
+}
+Point center(Rectangle& rect)
+{
+    return {nw(rect).x + (rect.width()/2), nw(rect).y + (rect.height()/2)};
+}
+Point ne(Rectangle& rect)
+{
+    return {nw(rect).x + rect.width(), nw(rect).y};
+}
+Point se(Rectangle& rect)
+{
+    return {nw(rect).x + rect.width(), nw(rect).y + rect.height()};
+}
+Point sw(Rectangle& rect)
+{
+    return {nw(rect).x , nw(rect).y + rect.height()};
+}
+//EX 4----
