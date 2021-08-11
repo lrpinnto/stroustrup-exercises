@@ -27,7 +27,10 @@ private:
 //EX 2
 struct Box : Shape {
     Box(Point p, int lengthh, int widthh, int rr);
-
+    int get_width() const;
+    int get_height() const;
+    void set_height(int h);
+    void set_width(int w);
     void draw_lines() const;
 private:
     int length; //y
@@ -64,3 +67,11 @@ Point ne(Rectangle& rect);
 Point se(Rectangle& rect);
 Point sw(Rectangle& rect);
 //EX 4---------
+
+//EX 5
+//SKIPPED
+//EX 5---
+
+//EX 6
+
+//EX 6---

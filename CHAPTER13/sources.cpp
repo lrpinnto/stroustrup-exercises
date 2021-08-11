@@ -39,7 +39,10 @@ Box::Box(Point p, int lengthh, int widthh, int rr)
 {
     add(Point{p.x,p.y});
 }
-
+int Box::get_width() const {return width;}
+int Box::get_height() const {return length;}
+void Box::set_height(int h) {length=h;}
+void Box::set_width(int w) {width=w;}
 void Box::draw_lines() const
 {
     vector<Point> points_length ;
@@ -185,3 +188,11 @@ Point sw(Rectangle& rect)
     return {nw(rect).x , nw(rect).y + rect.height()};
 }
 //EX 4----
+
+//EX 5
+//SKIPPED
+//EX 5---
+
+//EX 6
+
+//EX 6---
