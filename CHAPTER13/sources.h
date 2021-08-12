@@ -96,3 +96,11 @@ private:
 Point n(Box_text& smth);
 Point s(Box_text& smth);
 //EX 6---
+
+//EX 8
+struct Regular_hexagon : Polygon
+{
+    Regular_hexagon(Point p, int r);
+    void draw_lines() const;
+};
+//EX 8----
