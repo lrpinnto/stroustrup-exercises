@@ -3,69 +3,6 @@
 #include "./sources.h"
 #include <stdexcept>
 
-struct Box_text : Box
-{
-    Box_text(Point p, int lengthh, int widthh, int rr, const string& s); //user sets parameters manually
-    Box_text(Point p, int rr, const string& s);  //adjusts box to input text
-
-    void draw_lines() const;
-
-    void set_label(const string& s, bool adjust_box) 
-    { 
-        t.set_label(s); 
-        if(adjust_box)
-        {
-            Box::set_height(t.font_size()+4);
-            Box::set_width((t.font_size()/1.7)*t.label().size()); 
-        }
-    }
-	string label() const { return t.label(); }
-
-	void set_font(Graph_lib::Font f) { t.set_font(f); }
-	Graph_lib::Font font() const { return t.font(); }
-
-	void set_font_size(int s, bool adjust_box) { //if font size is set and adjust_box, change box accordingly
-        t.set_font_size(s);
-        if(adjust_box)
-        {
-            t.move(0,t.font_size()/2);
-            Box::set_height(t.font_size()+4);
-            Box::set_width((t.font_size()/1.7)*t.label().size()); 
-        }
-    }
-	int font_size() const { return t.font_size(); }
-    void move(int dx, int dy) {Box::move(dx,dy);t.move(dx,dy);}
-    void move_text(int dx, int dy) {t.move(dx,dy);}
-private:
-    Text t;
-};
-
-Box_text::Box_text(Point p, int lengthh, int widthh, int rr, const string& s)
-    : Box{p,lengthh,widthh,rr}, t{p,s} {t.move(0,(lengthh/2)+t.font_size()/2);} //only attempts to center the text vertically
-
-Box_text::Box_text(Point p, int rr, const string& s)
-    : Box{p,10,10,rr}, t{p,s} //placeholder values
-{
-    t.move(5,t.font_size());            //any magic constants are trial and error in an attempt to fit the Text snuggly within the boxes walls
-    Box::set_height(t.font_size()+4);
-    Box::set_width((t.font_size()/1.7)*s.size());
-}
-
-void Box_text::draw_lines() const
-{
-    Box::draw_lines();
-    t.draw_lines();
-}
-
-Point n(Box_text& smth)
-{
-    return {smth.point(0).x+ smth.get_width()/2,smth.point(0).y};
-}
-Point s(Box_text& smth)
-{
-    return {smth.point(0).x+ smth.get_width()/2,smth.point(0).y+smth.get_height()};
-}
-
 int main()
 try
 {

@@ -73,5 +73,26 @@ Point sw(Rectangle& rect);
 //EX 5---
 
 //EX 6
+struct Box_text : Box
+{
+    Box_text(Point p, int lengthh, int widthh, int rr, const string& s); //user sets parameters manually
+    Box_text(Point p, int rr, const string& s);  //adjusts box to input text
 
+    void draw_lines() const;
+
+    void set_label(const string& s, bool adjust_box); 
+	string label() const { return t.label(); }
+
+	void set_font(Graph_lib::Font f) { t.set_font(f); }
+	Graph_lib::Font font() const { return t.font(); }
+
+	void set_font_size(int s, bool adjust_box);
+	int font_size() const { return t.font_size(); }
+    void move(int dx, int dy) {Box::move(dx,dy);t.move(dx,dy);}
+    void move_text(int dx, int dy) {t.move(dx,dy);}
+private:
+    Text t;
+};
+Point n(Box_text& smth);
+Point s(Box_text& smth);
 //EX 6---
