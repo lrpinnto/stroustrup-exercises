@@ -104,3 +104,11 @@ struct Regular_hexagon : Polygon
     void draw_lines() const;
 };
 //EX 8----
+
+//EX 10
+struct Regular_polygon : Polygon
+{
+    Regular_polygon(Point p, int r, int N);
+    void draw_lines() const;
+};
+//EX 10-----
