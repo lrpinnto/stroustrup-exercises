@@ -1,4 +1,4 @@
-//CHAPTER 12 EX 08
+//CHAPTER 12 EX 09
 
 #include "../sourcesgui/Graph.h"
 #include "../sourcesgui/Simple_window.h"
