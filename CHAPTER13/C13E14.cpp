@@ -3,30 +3,6 @@
 #include "./sources.h"
 #include <stdexcept>
 
-struct Right_triangle : Polygon  
-{
-    Right_triangle(Point p, int Horizontal_leg, int Vertical_leg, int anglee); //anglee defines the rotation relative to the center. anticlockwise
-    void draw_lines() const;
-private:
-    int Hleg;
-    int Vleg;
-    double angle; //rads
-};
-
-Right_triangle::Right_triangle(Point p, int Horizontal_leg, int Vertical_leg, int anglee)
-    : Hleg{Horizontal_leg}, Vleg{Vertical_leg}, angle{(PI/180)*anglee}
-{
-    Polygon::add(Point{cos(angle)*Hleg+p.x,sin(-angle)*Hleg+p.y});
-    Polygon::add(Point{sin(angle)*Vleg+p.x,cos(angle)*Vleg+p.y});
-    Polygon::add(p);
-}
-
-void Right_triangle::draw_lines() const
-{
-    Polygon::draw_lines();
-}
-
-
 int main()
 try
 {

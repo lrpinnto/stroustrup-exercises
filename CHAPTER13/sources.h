@@ -112,3 +112,32 @@ struct Regular_polygon : Polygon
     void draw_lines() const;
 };
 //EX 10-----
+
+//EX 14
+struct Right_triangle : Polygon  
+{
+    Right_triangle(Point p, int Horizontal_leg, int Vertical_leg, int anglee); //anglee defines the rotation relative to the center. anticlockwise
+    void draw_lines() const;
+private:
+    int Hleg;
+    int Vleg;
+    double angle; //rads
+};
+//EX 14----
+
+//EX 18
+struct Poly : Polygon
+{
+    Poly(initializer_list<Point> lst);
+};
+//EX 18----
+
+//EX 19
+struct Star : Polygon
+{
+    Star(Point p, int R, int r, int N); //R is radius or distance from center of the star to outside spikes. r is radius or distance from center of the start to inside spikes
+    void add(Point pp);
+private:
+    bool block_add {false};
+};
+//EX 19----

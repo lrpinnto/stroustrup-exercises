@@ -21,7 +21,7 @@ try
     int radius;
     cin>>radius;
 
-    cout<<"Please enter amount of Points to be drawn";
+    cout<<"Please enter amount of Points to be drawn:";
     int N;
     cin>>N;
 

@@ -5,36 +5,6 @@
 #include "./sources.h"
 #include <stdexcept>
 
-struct Star : Polygon
-{
-    Star(Point p, int R, int r, int N); //R is radius or distance from center of the star to outside spikes. r is radius or distance from center of the start to inside spikes
-    void add(Point pp);
-private:
-    bool block_add {false};
-};
-
-Star::Star(Point p, int R, int r, int N)
-{
-    if(N<4) error("not enough points to make a star");
-    if(r<=0 || R<=0) error("negative radius on star");
-    if(r>R) error("r cannot be bigger than R");
-    else if(r==R) error("R and r need to be different");
-    double smallest_rad_division = 2*PI/N; //dividing full circle into N amount of points
-    for (int i = 0; i < N; i++) //go through all rad angles of the full circle
-    {
-        double radangle = smallest_rad_division * i + smallest_rad_division/2; //set phase "forward"
-        add(Point{sin(radangle-smallest_rad_division/2)*r+p.x,cos(radangle-smallest_rad_division/2)*r+p.y});
-        add(Point{sin(radangle)*R+p.x,cos(radangle)*R+p.y});   
-    }
-    block_add =true;  //terrible hack to avoid unwanted use of the add function
-}
-
-void Star::add(Point pp)
-{
-    if(block_add) error("add() cannot be used outside constructor on Star");
-    Polygon::add(pp);
-}
-
 int main()
 try
 {
