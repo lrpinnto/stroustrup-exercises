@@ -28,7 +28,7 @@ try
             {
                 rh.push_back(new Regular_hexagon{Point{horizontal_distance_2_center*2*i+horizontal_distance_2_center,j*(r+half_length_vertical_side)},r});
             }
-            rh[rh.size()-1].set_fill_color(rand(0,255));
+            rh[rh.size()-1].set_fill_color(rand()%255);
             win.attach(rh[rh.size()-1]);
         }
     }
