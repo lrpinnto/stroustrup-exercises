@@ -1,18 +1,16 @@
 //CHAPTER 14 EX 03
 
-#include "./sources.h"
-#include <stdexcept>
+#include <iostream>
+using namespace std;
 
 class Fruit
 {
 private:
     /* data */
 public:
-    virtual string color()=0 //Example of abstract class, pure virtual functions
-protected: //Example of abstract class
-    Fruit(){};
-    int mass();
-    int volume();
+    virtual string color()=0; //Example of abstract class, pure virtual functions
+protected: 
+    Fruit(){}; //Example of abstract class. Constructor is protected.
 };
 
 class Strawberry : public Fruit
@@ -21,15 +19,7 @@ private:
     /* data */
 public:
     using Fruit::Fruit;
-    int mass() override
-    {
-        return 1;
-    }
-    int volume() override
-    {
-        return 1;
-    }
-    string color() override
+    string color() override  //Explicit virtual function override. Ideal for large applications with complex hierarchies
     {
         return "test";
     }
@@ -38,14 +28,9 @@ public:
 int main()
 try
 {
-    int win_x {1600};
-    int win_y {900};
-    Point tl {100,100};
-    Simple_window win {tl,win_x,win_y,"Window"}; 
     Strawberry st;
-    win.wait_for_button();
-    Fruit fr; //should throw error
-    win.wait_for_button();
+    cout<<st.color();
+    //Fruit fr;                error: ‘Fruit::Fruit()’ is protected within this context
 }
 catch(const std::exception& e)
 {
