@@ -11,9 +11,12 @@ try
     Point tl {100,100};
     Simple_window win {tl,win_x,win_y,"Window"}; 
 
-    Shape& ref_shape;
-    Circle c {{100,100},100};
-    ref_shape=c;
+    Circle c {{100,100},100}; //Circle, a shape
+    Circle c2 {c}; //error: use of deleted function ‘Graph_lib::Circle::Circle(const Graph_lib::Circle&)’
+
+    Polygon p;  //Polygon, a shape with a default constructor;
+    Polygon p2;
+    p=p2; //error: use of deleted function ‘Graph_lib::Polygon& Graph_lib::Polygon::operator=(const Graph_lib::Polygon&)’
 
     win.wait_for_button();
 }
