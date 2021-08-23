@@ -1,0 +1,22 @@
+1. What is a computation?
+Computation is any type of calculation that includes both arithmetical and non-arithmetical steps and which follows a well-defined model (e.g. an algorithm)
+2. What do we mean by inputs and outputs to a computation? Give examples.
+Input is what we provide to a computation, output is the result.
+Example: Input 25 to sqrt() produces the output 5 which represents the square root of 25. Here the computation is pow().
+3. What are the three requirements a programmer should keep in mind when expressing computations?
+-
+-
+-
+4. What does an expression do?
+
+5. What is the difference between a statement and an expression, as described in this chapter?
+
+6. What is an lvalue? List the operators that require an lvalue. Why do these operators, and not the others, require an lvalue?
+
+7. What is a constant expression?
+
+8. What is a literal?
+
+9. What is a symbolic constant and why do we use them?
+
+(...)
