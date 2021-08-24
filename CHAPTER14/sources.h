@@ -9,3 +9,13 @@ struct Striped_rectangle : Rectangle
     void draw_lines() const;
 };
 //EX 05----
+
+//EX 06
+struct Striped_circle : Circle
+{
+    using Circle::Circle;
+    void draw_lines() const;
+};
+
+int mod(int x);
+//EX 06---

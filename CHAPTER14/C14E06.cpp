@@ -3,33 +3,6 @@
 #include "./sources.h"
 #include <stdexcept>
 
-struct Striped_circle : Circle
-{
-    using Circle::Circle;
-    void draw_lines const;
-};
-
-void draw_lines() const
-{
-    if (fill_color().visibility()) {	// fill
-		fl_color(fill_color().as_int());
-        double to_rad {PI/180};
-        int previous_y {Circle::radius()*sin(90*to_rad)};
-		for (int i = 0; i < 180; i++)
-        {
-            if(Circle::radius()*sin((90+i)*to_rad)-previous_y<=1) continue;  //checks for atleast 2 pixel difference
-            previous_y = Circle::radius()*sin((90+i)*to_rad);
-            fl_line(Circle::radius()*cos(90+i),previous_y,Circle::radius()*cos(90-i),previous_y);
-        }
-		fl_color(color().as_int());	// reset color
-	}
-
-	if (color().visibility()) {
-		fl_color(color().as_int());
-		fl_arc(point(0).x,point(0).y,r+r,r+r,0,360);
-	}
-}
-
 int main()
 try
 {
@@ -38,6 +11,16 @@ try
     Point tl {100,100};
     Simple_window win {tl,win_x,win_y,"Window"}; 
 
+    Striped_circle stre {{500,500},300};
+    
+    win.attach(stre);
+    win.wait_for_button();
+    stre.set_fill_color(Color::blue);
+    win.wait_for_button();
+    stre.set_color(Color::red);
+    stre.set_style(Line_style(Line_style::dash,4));
+    win.wait_for_button();
+    stre.move(100,100);
     win.wait_for_button();
 }
 catch(const std::exception& e)
