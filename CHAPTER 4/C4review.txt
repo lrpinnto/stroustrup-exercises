@@ -4,19 +4,57 @@ Computation is any type of calculation that includes both arithmetical and non-a
 Input is what we provide to a computation, output is the result.
 Example: Input 25 to sqrt() produces the output 5 which represents the square root of 25. Here the computation is pow().
 3. What are the three requirements a programmer should keep in mind when expressing computations?
--
--
--
+Computations should be expressed correctly, simply and efficiently.
 4. What does an expression do?
-
+An expression computes a value from a number of operands.
 5. What is the difference between a statement and an expression, as described in this chapter?
-
+A statement allows us to compute several values, choose from alternatives, and perform an operation several times.
 6. What is an lvalue? List the operators that require an lvalue. Why do these operators, and not the others, require an lvalue?
-
+An lval is a value that can appear on the left-hand side of an assignment. The increment and assignment operators. Both kinds of operations change the value of the lval.
 7. What is a constant expression?
-
+Does not change overtime.
 8. What is a literal?
-
+Constants refer to fixed values that the program may not alter and they are called literals. Constants can be of any of the basic data types and can be divided into Integer Numerals, Floating-Point Numerals, Characters, Strings and Boolean Values.
 9. What is a symbolic constant and why do we use them?
-
-(...)
+To avoid confusion and keep the code organized to those reading it.
+10. What is a magic constant? Give examples.
+Refers to a numeric value or expression that could otherwise be declared as a variable to avoid confusion and keep the code organized to those reading it.
+10 + 273.15 for example where 273.15 should be declared as the amount needed to add to convert 10 celcius to Kelvin.
+11. What are some operators that we can use for integers and floating point values?
++ - / * %
+12. What operators can be used on integers but not on floating point numbers?
+%
+13. What are some operators that can be used for strings?
++
+14. When would a programmer prefer a switch-statement to an if-statement?
+Ideally, when more than 3 or 4 comparisons need to be done. 
+15. What are some common problems with switch-statements?
+Limited to simple comparisons to chars and ints. the case values must be constant expressions.
+16. What is the function of each part of the header line in a for-loop and in what sequence are they executed?
+First definition/declaration, then comparison, finally iteration.
+17. When should the for-loop be used and when should the while-loop be used?
+The while loop should be used when the timing of the termination condition is not known.
+18. How do you print the numeric value of a char?
+One way would be to cout<<int(char_type); where char_type is a char type object.
+19. Describe what the line char foo(int x) means in a function definition.
+Input argument type int declared as x into foo(), return output type char.
+20. When should you define a separate function for part of a program? List reasons.
+Anything involving repetition that is a single, well defined operation. Ideally, a function should only do one thing and do it well.
+21. What can you do to an int that you cannot do to a string?
+Math logic. Adding, subtracting (...) numeric values.
+22. What can you do to a string that you cannot do to an int?
+Concatenate without symbolic value. Example "12"+"10" = "1210" unlike the int counterpart 22. Handle text.
+23. What is the index of the third element of a vector?
+v[2];
+24. How do you write a for-loop that prints every element of a vector?
+for(type i : vector) cout<<i;
+25. What does vector<char>alphabet(26); do?
+Creates a vector with 26 cells. That is, size() 26.
+26. Describe what push_back() does to a vector.
+Places argument on v[v.size()]. That is, appends a cell to vector with the argument.
+27. What does vector's member size() do?
+Returns the vector's size. That is, the amount of single objects within it.
+28. What makes vector so popular/useful?
+Provides a very useful toolkit to handle arrays of similar type values. Like a list.
+29. How do yu sort the elements of a vector?
+sort(vector); which stands for std::sort(c.begin(), c.end()); which sorts values in an ascending order
