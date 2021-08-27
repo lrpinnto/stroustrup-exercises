@@ -68,8 +68,16 @@ Point se(Rectangle& rect);
 Point sw(Rectangle& rect);
 //EX 4---------
 
-//EX 5
-//SKIPPED
+//EX 5 //Partially skipped for ellipse
+Point center(Circle& circ);
+Point n(Circle& circ);
+Point s(Circle& circ);
+Point e(Circle& circ);
+Point w(Circle& circ);
+Point nw(Circle& circ);
+Point ne(Circle& circ);
+Point sw(Circle& circ);
+Point se(Circle& circ);
 //EX 5---
 
 //EX 6

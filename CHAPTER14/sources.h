@@ -37,3 +37,15 @@ struct Striped_circle : Circle
 
 int mod(int x);
 //EX 06---
+
+//EX 11
+struct Binary_tree : Shape
+{
+    Binary_tree(int levelss);
+    void draw_lines() const;
+private:
+    int levels;
+    Vector_ref<Circle>nodes;
+    Vector_ref<Arrow>connectors;
+};
+//EX 11---

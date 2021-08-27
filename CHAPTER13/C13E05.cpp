@@ -21,17 +21,18 @@ try
 {
     Point tl {100,100};
     Simple_window win {tl,1600,900,"Window"}; 
-    Ellipse c {Point{500,300},800,200};
+    Ellipse el {Point{500,300},800,200};
+    Circle c {Point{500,500},300};
     Vector_ref<Text> marking;
     marking.push_back(new Text{nw(c),"nw"});
-    marking.push_back(new Text{n(c),"n"});/*
+    marking.push_back(new Text{n(c),"n"});
     marking.push_back(new Text{s(c),"s"});
     marking.push_back(new Text{e(c),"e"});
     marking.push_back(new Text{w(c),"w"});
     marking.push_back(new Text{center(c),"center"});
     marking.push_back(new Text{ne(c),"ne"});
     marking.push_back(new Text{se(c),"se"});
-    marking.push_back(new Text{sw(c),"sw"});*/
+    marking.push_back(new Text{sw(c),"sw"});
     for (int i = 1; i<=marking.size(); i++)
     {
         win.attach(marking[marking.size()-i]);

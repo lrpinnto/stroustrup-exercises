@@ -189,8 +189,43 @@ Point sw(Rectangle& rect)
 }
 //EX 4----
 
-//EX 5
-//SKIPPED
+//EX 5 //Partially skipped for ellipse
+Point center(Circle& circ)
+{
+    return circ.center();
+}
+Point s(Circle& circ)
+{
+    return {circ.center().x + circ.radius() * cos(PI / 2), circ.center().y + circ.radius() * sin(PI / 2)};
+}
+Point n(Circle& circ)
+{
+    return {circ.center().x + circ.radius() * cos(3* PI / 2), circ.center().y + circ.radius() * sin(3 * PI / 2)};
+}
+Point e(Circle& circ)
+{
+    return {circ.center().x + circ.radius() * cos(0), circ.center().y + circ.radius() * sin(0)};
+}
+Point w(Circle& circ)
+{
+    return {circ.center().x + circ.radius() * cos(PI), circ.center().y + circ.radius() * sin(PI)};
+}
+Point sw(Circle& circ)
+{
+    return {circ.center().x + circ.radius() * cos(3 * PI / 4), circ.center().y + circ.radius() * sin(3 * PI / 4)};
+}
+Point se(Circle& circ)
+{
+    return {circ.center().x + circ.radius() * cos(PI / 4), circ.center().y + circ.radius() * sin(PI / 4)};
+}
+Point nw(Circle& circ)
+{
+    return {circ.center().x + circ.radius() * cos(5 * PI / 4), circ.center().y + circ.radius() * sin(5 * PI / 4)};
+}
+Point ne(Circle& circ)
+{
+    return {circ.center().x + circ.radius() * cos(7 * PI / 4), circ.center().y + circ.radius() * sin(7 * PI / 4)};
+}
 //EX 5---
 
 //EX 6
