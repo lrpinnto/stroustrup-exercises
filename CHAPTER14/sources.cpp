@@ -59,6 +59,58 @@ void Striped_circle::draw_lines() const
 }
 //EX 06----
 
+//EX 09
+Group::Group(Vector_ref<Shape>&sp)
+{
+    for (int i = 0; i < sp.size(); i++)
+    {
+        add(sp[i]);
+    }
+}
+
+void Group::draw_lines() const
+{
+    for (int i = 0; i < vr.size(); i++)
+    {
+        vr[i].draw();
+    }
+}
+
+void Group::set_color(Color col)
+{
+    for (int i = 0; i < vr.size(); i++)
+    {
+        vr[i].set_color(col);
+    }
+}
+
+void Group::set_fill_color(Color col)
+{
+    for (int i = 0; i < vr.size(); i++)
+    {
+        vr[i].set_fill_color(col);
+    }
+}
+
+void Group::set_style(Line_style sty)
+{
+    for (int i = 0; i < vr.size() ; i++)
+    {
+        vr[i].set_style(sty);
+    }
+}
+
+void Group::move(int dx, int dy)
+{
+    for (int i = 0; i < vr.size(); i++)
+    {
+        vr[i].move(dx,dy);
+    }
+}
+
+void Group::move(int dx, int dy, int index) {vr[index].move(dx,dy);}
+//EX 09----
+
 //EX 11
 Binary_tree::Binary_tree(int levelss) //levels==0 means no nodes, levels==1 means one node, levels==2 means one top node with two sub-nodes, level==3 follows same logic
     : levels{levelss}

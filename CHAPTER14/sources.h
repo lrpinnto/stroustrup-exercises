@@ -38,6 +38,23 @@ struct Striped_circle : Circle
 int mod(int x);
 //EX 06---
 
+//EX 09
+struct Group : Shape{
+    Group(){}
+    Group(Vector_ref<Shape>&sp);
+    void add(Shape& s) { vr.push_back(s); }
+
+    void move(int dx, int dy) override;
+    void move(int dx, int dy, int index);
+    void set_color(Color col);
+    void set_fill_color(Color col);
+    void set_style(Line_style sty);
+    void draw_lines() const override;
+private:
+    Vector_ref<Shape> vr;
+};
+//EX 09----
+
 //EX 11
 struct Binary_tree : Shape
 {
