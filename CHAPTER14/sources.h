@@ -55,6 +55,53 @@ private:
 };
 //EX 09----
 
+//EX 10
+struct Resizeable_rectangle : Shape //work around because rectangle doesn't support size changes "on the fly"
+{
+    Resizeable_rectangle(Point xy, int ww, int hh) :w{ ww }, h{ hh }
+	{
+		if (h<=0 || w<=0) error("Bad rectangle: non-positive side");
+		add(xy);
+	}
+	Resizeable_rectangle(Point x, Point y) :w{ y.x - x.x }, h{ y.y - x.y }
+	{
+		if (h<=0 || w<=0) error("Bad rectangle: first point is not top left");
+		add(x);
+	}
+    void set_height(int hh) {h=hh;}
+    void set_width(int ww) {w=ww;}
+    int height() const { return h; }
+	int width() const { return w; }
+    void draw_lines() const;
+private:
+    int h;
+    int w;
+};
+
+struct Pseudo_window : Box
+{
+    Pseudo_window(Point p,int widthh,int heigthh,string labell);
+    void set_label(string s ) {label_text = s; text_top.set_label(label_text);}
+    string label() const {return label_text;}
+
+    using Box::set_height;
+    void set_width(int w);
+
+    void draw_lines() const;
+
+    void attach(Shape& pseudo_shape) {vr.push_back(pseudo_shape);} 
+private:
+    string label_text;
+    Box top_bar;
+    Resizeable_rectangle top_bar2;
+    Text exit_sym;
+    Text text_top;
+    Text square_sym;
+    Text minimize_sym;
+    Vector_ref<Shape> vr;
+};
+//EX 10---
+
 //EX 11
 struct Binary_tree : Shape
 {

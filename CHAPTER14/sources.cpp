@@ -111,6 +111,66 @@ void Group::move(int dx, int dy)
 void Group::move(int dx, int dy, int index) {vr[index].move(dx,dy);}
 //EX 09----
 
+//EX 10
+void Resizeable_rectangle::draw_lines() const
+{
+	if (fill_color().visibility()) {	// fill
+		fl_color(fill_color().as_int());
+		fl_rectf(point(0).x,point(0).y,w,h);
+		fl_color(color().as_int());	// reset color
+	}
+
+	if (color().visibility()) {	// edge on top of fill
+		fl_color(color().as_int());
+		fl_rect(point(0).x,point(0).y,w,h);
+	}
+}
+
+Pseudo_window::Pseudo_window(Point p, int widthh, int heigthh, string labell)
+    : Box(p,heigthh,widthh,10), label_text{labell}, top_bar{p,30,widthh,10}, top_bar2{{p.x,p.y+15},widthh,20}, 
+    exit_sym{{p.x+widthh-18,p.y+23},"X"}, text_top{{p.x+widthh/2,p.y+19},label_text}, square_sym{{p.x+widthh-32,p.y+23},"#"},
+    minimize_sym{{p.x+widthh-47,p.y+23},"-"}
+{
+    top_bar.set_fill_color(Color::blue);
+    top_bar2.set_fill_color(Color::blue);
+    top_bar2.set_color(Color::invisible);
+    exit_sym.set_font(Graph_lib::Font::courier_bold);
+    exit_sym.set_font_size(20);
+    square_sym.set_font(Graph_lib::Font::courier_bold);
+    square_sym.set_font_size(20);
+    minimize_sym.set_font(Graph_lib::Font::courier_bold);
+    minimize_sym.set_font_size(20);
+}
+
+
+void Pseudo_window::set_width(int w)
+{
+    exit_sym.move(-Box::get_width()+w,0);
+    square_sym.move(-Box::get_width()+w,0);
+    minimize_sym.move(-Box::get_width()+w,0);
+    text_top.move(-Box::get_width()+w,0);  //Bug causes move() to create a negative position. Couldn't afford to spend more time on it
+    Box::set_width(w);
+    top_bar.set_width(w);
+    top_bar2.set_width(w);
+}
+
+void Pseudo_window::draw_lines() const
+{
+    for (int i = 0; i < vr.size(); i++) //draws attachments to pseudo_window
+    {
+        vr[i].draw();
+    }
+    
+    Box::draw_lines();
+    top_bar.draw_lines();
+    top_bar2.draw_lines();
+    exit_sym.draw_lines();
+    square_sym.draw_lines();
+    minimize_sym.draw_lines();
+    text_top.draw_lines();
+}
+//EX 10---
+
 //EX 11
 Binary_tree::Binary_tree(int levelss) //levels==0 means no nodes, levels==1 means one node, levels==2 means one top node with two sub-nodes, level==3 follows same logic
     : levels{levelss}
