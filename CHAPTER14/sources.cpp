@@ -59,6 +59,26 @@ void Striped_circle::draw_lines() const
 }
 //EX 06----
 
+//EX 08
+Octagon::Octagon(Point p, int rr, int anglee)  //anglee in degrees
+    : r{rr}, ref_angle{anglee*PI/180.0}, center_point(p)
+{
+    if(r<2) error("small radius on Octagon()"); //find minimum radius that forms a Octagon
+    const int N {8};
+    double smallest_rad_division = 2*PI/N; //dividing full circle into N amount of points
+    for (int i = 0; i < N; i++) //go through all rad angles of the full circle
+    {
+        double radangle = smallest_rad_division * i + ref_angle;
+        Polygon::add(Point{sin(radangle)*r+p.x,cos(radangle)*r+p.y});
+    }
+}
+
+void Octagon::draw_lines() const
+{
+    Polygon::draw_lines();
+}
+//EX 08----
+
 //EX 09
 Group::Group(Vector_ref<Shape>&sp)
 {

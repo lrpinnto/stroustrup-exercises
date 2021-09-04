@@ -38,6 +38,27 @@ struct Striped_circle : Circle
 int mod(int x);
 //EX 06---
 
+//EX 08
+struct Octagon : Polygon
+{
+    Octagon(Point p, int rr, int anglee=0); //trick from C15. Sets 0 as the default value for anglee and makes it optional
+    void draw_lines() const;
+    Point center() const { return center_point; } 
+
+	//void set_radius(int rr) { r=rr; }
+	int radius() const { return r; }
+
+    //void set_angle(int aa) {ref_angle=aa*PI/180.0;} //in degrees
+    double angle() const { return ref_angle * 180 / PI; }
+protected:
+    void add(Point p);
+private:
+    int r;
+    double ref_angle; //stored in rads
+    Point center_point;
+};
+//EX 08---
+
 //EX 09
 struct Group : Shape{
     Group(){}
