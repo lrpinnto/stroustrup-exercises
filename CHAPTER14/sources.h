@@ -38,6 +38,14 @@ struct Striped_circle : Circle
 int mod(int x);
 //EX 06---
 
+//EX 07
+struct Striped_closed_polyline : Closed_polyline
+{
+    using Closed_polyline::Closed_polyline;
+    void draw_lines() const;
+};
+//EX 07----
+
 //EX 08
 struct Octagon : Polygon
 {
