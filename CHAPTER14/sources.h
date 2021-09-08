@@ -136,7 +136,18 @@ struct Binary_tree : Shape
 {
     Binary_tree(int levelss);
     void draw_lines() const;
+    void move(int dx, int dy);
+    void set_fill_color(Color col);
+    Color fill_color() const {return fillcolor;}
+    void set_color(Color col);
+	Color color() const { return llcolor; }
+
+	void set_style(Line_style sty); //doesn't work
+	Line_style style() const { return lls; }
 private:
+    Color fillcolor {Color::invisible};
+    Color llcolor {fl_color()};
+    Line_style lls {0};
     int levels;
     Vector_ref<Circle>nodes;
     Vector_ref<Arrow>connectors;

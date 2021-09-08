@@ -336,6 +336,45 @@ Binary_tree::Binary_tree(int levelss) //levels==0 means no nodes, levels==1 mean
     }
 }
 
+void Binary_tree::move(int dx, int dy)
+{
+    for (int i = 0; i < nodes.size(); i++)
+    {
+        nodes[i].move(dx,dy);
+    }
+    for (int i = 0; i < connectors.size(); i++)
+    {
+        connectors[i].move(dx,dy);
+    }
+}
+
+void Binary_tree::set_fill_color(Color col) 
+{ 
+    fillcolor = col; 
+    for (int i = 0; i < nodes.size(); i++)
+    {
+        nodes[i].set_fill_color(fillcolor);
+    }
+}
+
+void Binary_tree::set_color(Color col) 
+{ 
+    llcolor = col;
+    for (int i = 0; i < connectors.size(); i++)
+    {
+        connectors[i].set_color(llcolor);
+    } 
+}
+
+void Binary_tree::set_style(Line_style sty) 
+{ 
+    lls = sty; 
+    for (int i = 0; i < connectors.size(); i++)
+    {
+        connectors[i].set_style(lls);
+    } 
+}
+
 void Binary_tree::draw_lines() const
 {
     for(int i = 0 ; i < nodes.size() ; i++)

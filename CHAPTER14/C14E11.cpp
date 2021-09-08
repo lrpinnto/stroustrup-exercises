@@ -1,5 +1,5 @@
 //CHAPTER 14 EX 11
-//Need to finish behaviour from shape's functions (move(),set_color()...)
+
 #include "./sources.h"
 #include <stdexcept>
 
@@ -19,6 +19,16 @@ try
         win.wait_for_button();
         win.detach(bt[bt.size()-1]);
     }
+
+    win.attach(bt[3]);
+    win.wait_for_button();
+    bt[3].move(100,100);
+    win.wait_for_button();
+    bt[3].set_fill_color(Color::dark_yellow);
+    win.wait_for_button();
+    bt[3].set_style(Line_style(Line_style::dashdot, 30)); //doesn't work
+    bt[3].set_color(Color::dark_red);
+    win.wait_for_button();
 }
 catch(const std::exception& e)
 {
