@@ -111,8 +111,7 @@ public:
 	int size() const { return v.size(); }
 };
 
-//typedef double Fct(double);
-typedef std::function<double (double)> Fct; //Fix for C15E05.cpp see https://groups.google.com/g/ppp-public/c/WBHYlwS6m3g
+typedef double Fct(double);
 
 class Shape  {	// deals with color and style, and holds sequence of lines
 protected:
