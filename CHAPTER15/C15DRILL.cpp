@@ -6,12 +6,28 @@
 int main()
 try
 {
-    int win_x {600};
-    int win_y {600};
+    constexpr int xmax {600};
+    constexpr int ymax {600};
+
+    constexpr int x_orig {xmax/2};
+    constexpr int y_orig {ymax/2};
+    const Point orig {x_orig,y_orig};
+
+    constexpr int r_min {-10};
+    constexpr int r_max {11};
+
+    constexpr int n_points {400};
+
+    constexpr int x_scale {20};
+    constexpr int y_scale {20};
+
+    constexpr int xlength {xmax-200};
+    constexpr int ylength {ymax-200};
+
     Point tl {100,100};
-    Graph_lib::Window win {tl,win_x,win_y,"Function graphs"}; 
-    Axis x {Axis::Orientation::x,{100,300},400,20,"1==20 pixels"};
-    Axis y {Axis::Orientation::y,{300,500},400,20,"1==20 pixels"};
+    Graph_lib::Window win {tl,xmax,ymax,"Function graphs"}; 
+    Axis x {Axis::Orientation::x,{orig.x-(xlength/2),orig.y},xlength,xlength/x_scale,"1==20 pixels"};
+    Axis y {Axis::Orientation::y,{orig.x,orig.y+(ylength/2)},ylength,ylength/y_scale,"1==20 pixels"};
     x.set_color(Color::red);
     y.set_color(Color::red);
     x.label.set_color(Color::black);
@@ -23,22 +39,22 @@ try
     Function one { [](double x)->double {return 1;},-10,11,{300,300},400}; 
     win.attach(one);
     */
-    Function one { [](double x)->double {return 1;},-10,11,{300,300},400,20,20};
+    Function one { [](double x)->double {return 1;},r_min,r_max,orig,n_points,x_scale,y_scale};
     win.attach(one);
 
-    Function slope { [](double x)->double {return x/2;}, -10, 11, {300,300},400,20,20};
+    Function slope { [](double x)->double {return x/2;}, r_min, r_max, orig,n_points,x_scale,y_scale};
     win.attach(slope);
-    Text slope_text {{300-(10*20),(300-(10*20))/2},"x/2"};
+    Text slope_text {{orig.x+(r_min*x_scale) ,orig.y-(r_min/2)*y_scale-1},"x/2"}; //"at a point just above its bottom left end point." Therefore I used -1
     win.attach(slope_text);
 
-    Function square { [](double x)->double {return x*x;}, -10, 11, {300,300},400,20,20 };
+    Function square { [](double x)->double {return x*x;}, r_min, r_max, orig,n_points,x_scale,y_scale };
     win.attach(square);
 
-    Function cosine { cos, -10, 11, {300,300},400,20,20 };
+    Function cosine { cos, r_min, r_max, orig,n_points,x_scale,y_scale };
     cosine.set_color(Color::blue);
     win.attach(cosine);
 
-    Function sloping_cos { [](double x)->double {x/2 + cos(x);}, -10, 11, {300,300},400,20,20 };
+    Function sloping_cos { [](double x)->double {return x/2 + cos(x);}, r_min, r_max, orig,n_points,x_scale,y_scale };
     win.attach(sloping_cos);
 
     gui_main();
