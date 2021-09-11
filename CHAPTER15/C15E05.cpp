@@ -66,7 +66,7 @@ try
 
     for (int n = 0; n < 50; ++n)
     {
-        Function leibnizf {[n](double x){return leibniz(x,n);}, r_min, r_max, {orig.x-(xlength/2),orig.y},n_points,x_scale,y_scale };
+        FunctionLambda leibnizf {[n](double x){return leibniz(x,n);}, r_min, r_max, {orig.x-(xlength/2),orig.y},n_points,x_scale,y_scale };
         leibnizf.set_color(Color::blue);
         win.attach(leibnizf);
         win.set_label("terms:"+to_string(n));
