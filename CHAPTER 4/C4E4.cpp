@@ -30,7 +30,7 @@ int divi (int h, int ansvalue, char w)
         ansvalue=ansvalue-number;
     }
     
-    else  //primeiro valor : será sempre 100/2=50 (é a verdadeira initialização da variavel)
+    else  //First value : will always be 100/2=50 (it's the "true" definition of the var)
     {
         ansvalue=number;
     }
@@ -42,14 +42,14 @@ int main()
 {
     int guess=0;
     char rep=0;
-    int num=0;  //efectivamente não serve para nada e so inicializa a variavel
+    int num=0;  //Doesn't do anything besides declaring the var
     cout<<"Enter a number between 0 and 100:";
     cin>>guess;
     cout<<"\nGuessing game (answer y or n)\n";
     for (int i = 1; i < 8; i++)
     {
         num=divi(i,num,rep);
-        cout<<"Is you number higher than "<<num;
+        cout<<"Is you number higher than "<<num<<"?\t";
         cin>>rep;
     }
 

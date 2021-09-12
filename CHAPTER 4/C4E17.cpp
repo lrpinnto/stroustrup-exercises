@@ -2,9 +2,6 @@
 
 //CAP 4 EX 17
 
-
-
-
 string mode (vector<string>words)
 {
     vector<string>mode_words;
@@ -37,14 +34,8 @@ string mode (vector<string>words)
         {
             mode_index=i+1;
         }
-        
-        
     }
-
     return mode_words[mode_index];
-    
-    
-    
 }
 
 string min_word(vector<string>words)
@@ -66,9 +57,5 @@ int main ()
     {
         words.push_back(word);
     }
-
     cout<<"The word "<<mode(words)<<" is the mode. The word "<<min_word(words)<<" Is the min. The word "<<max_words(words)<<" is the max.";
-
-
-    
 }

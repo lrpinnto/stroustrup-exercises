@@ -22,13 +22,13 @@ bool check_if_prime(int number)
         
     }
 
-    if (get_primes.size()==primes.size())  // compara vector gerado com a referencia e verifica se input é primo
+    if (get_primes.size()==primes.size())  // compares the generated vector with the references to verify if the input is prime
     {
         for (int i = 0; i < get_primes.size(); i++)
         {
             if (get_primes[i]!=primes[i])
             {
-                cout<<"vectores não batem certo";
+                cout<<"vectors don't match";
                 break;
             }
             if (number==get_primes[i])
@@ -39,7 +39,7 @@ bool check_if_prime(int number)
         }
     }
 
-    else cout<<"vectores não batem certo.";
+    else cout<<"vectors don't match";
     
     if (is_prime==true) return true;
     else return false;

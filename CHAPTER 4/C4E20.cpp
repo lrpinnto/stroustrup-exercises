@@ -1,6 +1,6 @@
 #include "../stroustrup/std_lib_facilities.h"
 
-//CAP 4 EX 20
+//CAP 4 EX 20 & 21
 
 /*True for int, false for string */
 bool input_type(string input)
@@ -31,7 +31,6 @@ int myPow(int x, int p) //power function
 
 int str_to_int(string input)
 {
-
     int counter = 0;
     int final_number = 0;
     vector<int>zero_index;
@@ -105,7 +104,6 @@ bool check_repeating(vector<string>names, string name)
         
     }
     return false;
-    
 }
 
 int main()
@@ -114,6 +112,7 @@ int main()
     int age = 0;
     vector<int>ages;
     vector<string>names;
+    cout<<"Enter \"NoName 0\" to finish the program.\n";
     while (true)
     {
         cout<<"Please enter a name followed by age:\n\t";
@@ -137,7 +136,6 @@ int main()
     {
         cout<<names[i]<<" aged "<<ages[i]<<".\n";
     }
-
 
     string query;
     bool age_exists; //acts as a switch to check if the "if" was run at lease once. for int
@@ -165,8 +163,6 @@ int main()
                 
             }
             if (age_exists==true) cout<<" are all aged "<<str_to_int(query);
-            
-            
         }
         else //string
         {
@@ -182,10 +178,6 @@ int main()
                     cout<<"That name does not exist!\n";
                 }
             }
-            
         }
     }
-    
-    
-
 }

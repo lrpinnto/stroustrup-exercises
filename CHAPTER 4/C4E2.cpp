@@ -1,6 +1,6 @@
 #include "../stroustrup/std_lib_facilities.h"
 
-//Exercicio 2 capitulo 4
+//CHAPTER 4 EX 2
 
 int main()
 {
@@ -15,13 +15,13 @@ int main()
     
     if (temps.size()%2==0)
     {
-        cout<<"par";
+        cout<<"even\t";
         cout<<"Median temperature: "<<(temps[temps.size()/2]+temps[(temps.size()/2)-1])/2.0<<"\n";
         cout<<temps[temps.size()/2]<<temps[(temps.size()/2)-1];
     }
     else
     {
-        cout<<"impar";
+        cout<<"odd\t";
         cout<<"Median temperature: "<<temps[temps.size()/2]<<"\n";
     }
     

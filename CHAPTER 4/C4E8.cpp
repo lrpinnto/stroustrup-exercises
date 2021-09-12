@@ -1,6 +1,6 @@
 #include "../stroustrup/std_lib_facilities.h"
 
-//CAP 4 EX 8
+//CAP 4 EX 8 & 9
 
  //1 2 4 8 16 32 64 128 254 512 1024 2048 4096 8192
  //2^x
@@ -30,8 +30,5 @@ int main()
         cout<<"Please enter the amount of rice you want to get: ";
         cin>>rice_amount;
         cout<<"You need at least "<<rice(rice_amount)<<" squares to get "<<rice_amount<<" amount of rice.\n";
-
-
     }
-    
 }

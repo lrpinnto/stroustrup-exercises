@@ -22,6 +22,7 @@ int main()
     int age = 0;
     vector<int>ages;
     vector<string>names;
+    cout<<"Enter \"NoName 0\" to finish the program.\n";
     while (true)
     {
         cout<<"Please enter a name followed by age:\n\t";
@@ -45,6 +46,4 @@ int main()
     {
         cout<<names[i]<<" aged "<<ages[i]<<".\n";
     }
-    
-    
 }

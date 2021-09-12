@@ -53,7 +53,7 @@ int main()
         distance.push_back(dist);
     }
     sort(distance);
-    cout<<"\nSoma das distancias:"<<sum_of_distances(distance)<<" Media das distancias:"<<sum_of_distances(distance)/distance.size()<<" distancia minima/max:"<<distance[0]<<" "<<distance[distance.size()-1]<<"\n";
+    cout<<"\nSum of distances:"<<sum_of_distances(distance)<<" Mean of distances:"<<sum_of_distances(distance)/distance.size()<<" distance min/max:"<<distance[0]<<" "<<distance[distance.size()-1]<<"\n";
     
     //teste_codigo();  My code does the same thing for less
 }

@@ -4,7 +4,7 @@
 
 //this code doesn't work correctly
 
-char unit_conversion(string a) //converte unidades
+char unit_conversion(string a) //converts units
 {
     if (a=="cm")
     {

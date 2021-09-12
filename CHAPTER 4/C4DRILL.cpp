@@ -1,6 +1,8 @@
 #include "../stroustrup/std_lib_facilities.h"
 
-char unit_conversion(string a) //converte unidades
+//CHAPTER 4 DRILL
+
+char unit_conversion(string a) //unit converter
 {
     if (a=="cm")
     {
@@ -25,8 +27,6 @@ char unit_conversion(string a) //converte unidades
     {
         return ' ';
     }
-    
-    
 }
 
 int main()
@@ -95,7 +95,5 @@ int main()
     for (double i : all_numbers)
     {
         cout<<i<<"m ; \n";
-    }
-    
-    
+    } 
 }

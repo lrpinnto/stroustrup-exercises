@@ -1,12 +1,12 @@
 #include "../stroustrup/std_lib_facilities.h"
 
-//CAP 4 EX 13
+//CAP 4 EX 13 & 14
 
 //reference: https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 
 int main()
 {
-    int p=2; //Numero primo mais Baixo
+    int p=2; //lowest prime
     int n_max=0;
     vector<int>primes;
     vector<int>sieves;
@@ -25,16 +25,16 @@ int main()
     }
 
 
-    for (int i = 0; i < sieves.size(); i++)  //corre os numeros de 0 a n_max. So declara i como pivot se o acontecimento abaixo se verificar.
+    for (int i = 0; i < sieves.size(); i++)  //runs through 0 to n_max. Only declares i as pivot if the condition below verifies
     {
         if (sieves[i]!=0)
         {
-            cout<<"//"<<sieves[i]<<" "<<i<<"//";  //mostra os pivots. Demonstra tambem que o index do pivot é igual ao valor no vector.
-            primes.push_back(i);  //se nao for 0, é primo.
+            cout<<"//"<<sieves[i]<<" "<<i<<"//";  //shows the pivots. Also shows that the pivot's index is equal to the value within the vector. 
+            primes.push_back(i);  //if it's not 0, it's prime
 
-            if (i * i < sieves.size() )    //Não sei porque isto acontece, mas já nao existem numeros para verificar quando o numero escolhido como "pivot" ao quadrado ultrapassa o n_max. Ou seja, o algoritmo está completo.
+            if (i * i < sieves.size() )    //Not sure why this happens, but there aren't any numbers to be verified when the number chosen as "pivot" square is bigger than n_max. which means, the algorithm is complete.
             {
-                for (int j = i; j < sieves.size(); j = j + i) //vai do valor do pivot ate ao n_max (que é igual ao sieves.size()) de pivot(j))
+                for (int j = i; j < sieves.size(); j = j + i) // goes from the pivot's value to n_max (which is equal to sieves.size() of pivot(j)).
                 {
                     cout<<j<<" ";
                     sieves[j]=0;

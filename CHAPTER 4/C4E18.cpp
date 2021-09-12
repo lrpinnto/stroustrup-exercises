@@ -33,6 +33,4 @@ int main()
         solve(a,b,c,&x1,&x2);
         cout<<"The solution is "<<x1<<" and "<<x2<<".\n";
     }
-    
-
 }
