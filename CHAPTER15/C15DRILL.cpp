@@ -3,6 +3,67 @@
 #include "./sources.h"
 #include <stdexcept>
 
+struct Person
+{
+    Person(string firstnamee, string lastnamee , int agee)
+        : firstname{firstnamee},lastname{lastnamee},age{agee} 
+        {
+            if(age>150 || age < 0) error("Age out of bounds on Person()");
+            for(const char& ch : firstname) if(ispunct(ch)) error("Invalid name of Person()");   
+            for(const char& ch : lastname) if(ispunct(ch)) error("Invalid name of Person()");   
+        }
+    Person(){}
+    string print() const {return firstname+' '+lastname+' '+to_string(age);}
+    void set_age(int i) {age=i;}
+    void set_firstname(string s) {firstname=s;}
+    void set_lastname(string s) {lastname=s;}
+    string get_name() const {return firstname+' '+lastname;}
+    int get_age() const {return age;}
+private:
+    string firstname;
+    string lastname;
+    int age;
+};
+
+ostream& operator<<(ostream& os, const Person& p)
+{
+    return os << p.print();
+}
+
+istream& operator>>(istream& is, Person& p)
+{
+	string first;
+    string last;
+    string i;
+    string s;
+    getline(is,s);
+    if(!is) return is;
+    istringstream iss {s};
+    iss>>first>>last>>i;
+    if(!iss) error("istringstream error");
+    iss.clear();
+    for (const char& c : i)
+    {
+        if(!isdigit(c))
+        {
+            is.clear(ios_base::failbit);
+            return is;
+        }
+    }
+    for(const char& c : first+last)
+    {
+        if(!isalpha(c))
+        {
+            is.clear(ios_base::failbit);
+            return is;
+        }
+    }
+    p.set_age(stoi(i));
+    p.set_firstname(first);
+    p.set_lastname(last);
+    return is;
+}
+
 int main()
 try
 {
@@ -58,6 +119,31 @@ try
     win.attach(sloping_cos);
 
     gui_main();
+
+    //SECOND PART
+/*
+    Person gof {"Goofy",63};
+    cout<<gof.print()<<'\n';
+*/
+    Person abc;
+    
+    cin>>abc;
+    cout<<abc<<'\n';
+
+    vector<Person> persons;
+
+    while (cin)
+    {
+        Person temp;
+        cin>>temp;
+        if(!cin) break;  //Avoid push random stuff into the vector
+        persons.push_back(temp);
+    }
+    cout<<"Print:\n";
+    for (int i = 0; i < persons.size(); i++)
+    {
+        cout<<persons[i]<<'\n';
+    }
 }
 catch(const std::exception& e)
 {
