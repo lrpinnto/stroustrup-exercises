@@ -13,10 +13,22 @@ int char2int(char c)
     return c - '0';
 }
 
+// Function to reverse a string
+void reverseStr(string& str) //reference, to be introduced
+{
+    int n = str.length();
+ 
+    // Swap character starting from two
+    // corners
+    for (int i = 0; i < n / 2; i++)
+        swap(str[i], str[n - i - 1]);
+}
+
 vector<char> get_rand_vector(int i) //Get a pseudo random vector from int seed
 {
     constexpr int vector_max_size {20};
     string s {to_string(i)};
+    if(s.size()<5) error("Please type a bigger input number");
     double number {vector_max_size*1.0/(s.size()*1.0)};
     number = ceil(number);
     while(s.size()*number>20) s.pop_back(); //takes out last char
@@ -26,7 +38,7 @@ vector<char> get_rand_vector(int i) //Get a pseudo random vector from int seed
         if(s2.size()>=20) break;
         if (char2int(s2[i]) % 2 == 0  )
         {
-            reverse(s.begin(),s.end());  //reverse the vector
+            reverseStr(s);  //reverse the string
         }
         s2+=s;
     }
@@ -70,7 +82,7 @@ int main()
     while(true)
     {
         int seed;
-        cout<<"Please enter any number:";
+        cout<<"Please enter any number of atleast 5 digits:";
         cin>>seed;
         cout<<"Play 10 games\n";
         for(char c : get_rand_vector(seed))
@@ -141,14 +153,14 @@ int main()
                 }
                 break;
             default:
-                cout<<"wrong input. use r p or s";
+                cout<<"wrong input. use r p or s\n";
                 break;
             }
         }
         cout<<"Try again?(y/n):";
         string choice;
         cin>>choice;
-        if(choice=="n") break;
+        if(choice!="y") break;
     }
     cout<<"Won "<<wins<<" games\n"
         <<"Lost "<<losses<<" games\n"
