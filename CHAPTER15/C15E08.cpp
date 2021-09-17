@@ -3,6 +3,12 @@
 #include "./sources.h"
 #include <stdexcept>
 
+constexpr int base_height = 170;
+constexpr int end_height = 195;
+
+constexpr double xscale = double(xlength)/(end_height-base_height);
+constexpr double yscale = double(ylength)/100;
+
 class Scale
 {
 private:
@@ -11,12 +17,12 @@ private:
     double scale;
 public:
     Scale(int b, int vb, double s) :cbase{b}, vbase{vb}, scale{s} {}
-    int operator(int v) const {return cbase + (v-vbase)*scale; }
+    int operator()(int v) const {return cbase + (v-vbase)*scale; }
 };
 
 struct Distribution
 {
-    int year, young, middle, old;
+    int height, people;
 };
 
 istream& operator>>(istream& is, Distribution& d)
@@ -26,8 +32,8 @@ istream& operator>>(istream& is, Distribution& d)
     char ch3 = 0;
     Distribution dd;
 
-    if(is >> ch1 >> dd.year
-            >>ch2>>dd.young>>dd.middle>>dd.old
+    if(is >> ch1 >> dd.height
+            >>ch2>>dd.people
             >>ch3)
     {
         if (ch1!='(' || ch2!=':' || ch3!=')')
@@ -55,15 +61,15 @@ try
 
     for (Distribution d; ifs>>d;)
     {
-        if (d.year<base_year || end_year < d.year)
+        if (d.height<base_height || end_height < d.height)
         {
-            error("Year out of range");
+            error("Height out of range");
         }
         if (d.young+d.middle+d.old!=100)
         {
             error("Percentages don't add up");
         }
-        const int x = xs(d.year);
+        const int x = xs(d.height);
         children.add(Point{x,ys(d.young)});
         adults.add(Point{x,ys(d.middle)});
         aged.add(Point{x,ys(d.old)});
