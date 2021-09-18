@@ -1,5 +1,7 @@
 //CHAPTER 14 EX 12
-
+//Unable to find a Structure that fits well with my code and already spent way too much time on this exercise
+//Code below works. But Binary_tree_rectangle constructor doesn't call Binary_tree_rectangle::draw_nodes() like I hoped it would
+//skipping for now
 #include "./sources.h"
 #include <stdexcept>
 
@@ -22,6 +24,7 @@ private:
     Color llcolor {fl_color()};
     Line_style lls {0};
     int levels;
+protected:
     Vector_ref<Shape>nodes;
     Vector_ref<Arrow>connectors;
 };
@@ -30,6 +33,14 @@ void Binary_tree::draw_node(Point center_node, int r)
 {
     nodes.push_back(new Circle{center_node,r});
     nodes[nodes.size()-1].set_fill_color(Color::green);
+    if(nodes.size()>1)
+    {
+        //Needed to research and use dynamic_cast. See https://stackoverflow.com/questions/5313322/c-cast-to-derived-class
+        connectors.push_back(new Arrow{
+            s(dynamic_cast<Circle&>(nodes[(nodes.size()-2)/2])),
+            n(dynamic_cast<Circle&>(nodes[nodes.size()-1]))
+        });
+    }
 }
 
 Binary_tree::Binary_tree(int levelss) //levels==0 means no nodes, levels==1 means one node, levels==2 means one top node with two sub-nodes, level==3 follows same logic
@@ -63,28 +74,7 @@ Binary_tree::Binary_tree(int levelss) //levels==0 means no nodes, levels==1 mean
                     x_division*j,
                     y_division*(i-1)+r
                 };
-                draw_node(center_node,r});
-            }
-        }
-        try  //coordinates need to be defined beforehand so we can connect the connectors. If not, use Shape's point.
-        {
-            for (int i = 1; i < nodes.size(); i++)
-            {
-                connectors.push_back(new Arrow{
-                    s(nodes[(i-1)/2]),
-                    n(nodes[i])
-                });
-            }
-        }
-        catch(const std::exception& e)
-        {
-            std::cerr << e.what() << '\n';
-            for (int i = 1; i < nodes.size(); i++)
-            {
-                connectors.push_back(new Arrow{
-                    nodes[(i-1)/2].point(0),
-                    nodes[i].point(0)
-                });
+                draw_node(center_node,r);
             }
         }
     }
@@ -132,9 +122,29 @@ void Binary_tree::set_style(Line_style sty)
 void Binary_tree::draw_lines() const
 {
     for(int i = 0 ; i < nodes.size() ; i++)
-        nodes[i].draw_lines();
+        nodes[i].draw();
     for(int i = 0 ; i < connectors.size() ; i++)
         connectors[i].draw_lines();
+}
+
+struct Binary_tree_rectangle : Binary_tree
+{
+    using Binary_tree::Binary_tree;
+    void draw_node(Point center, int) override;
+};
+
+void Binary_tree_rectangle::draw_node(Point center_node, int distance)
+{
+    nodes.push_back(new Rectangle{center_node,distance,distance});
+    nodes[nodes.size()-1].set_fill_color(Color::green);
+    if(nodes.size()>1)
+    {
+        //Needed to research and use dynamic_cast. See https://stackoverflow.com/questions/5313322/c-cast-to-derived-class
+        connectors.push_back(new Arrow{
+            s(dynamic_cast<Rectangle&>(nodes[(nodes.size()-2)/2])),
+            n(dynamic_cast<Rectangle&>(nodes[nodes.size()-1]))
+        });
+    }
 }
 
 int main()
@@ -144,6 +154,25 @@ try
     int win_y {900};
     Point tl {100,100};
     Simple_window win {tl,win_x,win_y,"Window"}; 
+    Vector_ref<Binary_tree_rectangle> bt;
+    for (int i = 0; i < 10; i++)
+    {
+        win.set_label("level "+to_string(i));
+        bt.push_back(new Binary_tree_rectangle{i});
+        win.attach(bt[bt.size()-1]);
+        win.wait_for_button();
+        win.detach(bt[bt.size()-1]);
+    }
+
+    win.attach(bt[3]);
+    win.wait_for_button();
+    bt[3].move(100,100);
+    win.wait_for_button();
+    bt[3].set_fill_color(Color::dark_yellow);
+    win.wait_for_button();
+    bt[3].set_style(Line_style(Line_style::dashdot, 30)); //doesn't work
+    bt[3].set_color(Color::dark_red);
+    win.wait_for_button();
 
 }
 catch(const std::exception& e)
