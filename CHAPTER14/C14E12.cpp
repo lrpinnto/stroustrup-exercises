@@ -27,6 +27,8 @@ private:
 protected:
     Vector_ref<Shape>nodes;
     Vector_ref<Arrow>connectors;
+    vector<Point>nodes_points;
+    vector<int>distances;
 };
 
 void Binary_tree::draw_node(Point center_node, int r)
@@ -74,6 +76,8 @@ Binary_tree::Binary_tree(int levelss) //levels==0 means no nodes, levels==1 mean
                     x_division*j,
                     y_division*(i-1)+r
                 };
+                nodes_points.push_back(center_node);
+                distances.push_back(r);
                 draw_node(center_node,r);
             }
         }
@@ -129,9 +133,21 @@ void Binary_tree::draw_lines() const
 
 struct Binary_tree_rectangle : Binary_tree
 {
-    using Binary_tree::Binary_tree;
+    Binary_tree_rectangle(int levelss);
     void draw_node(Point center, int) override;
+    void draw_lines() const;
+private:
+    Vector_ref<Shape>nodes;
+    Vector_ref<Arrow>connectors;
 };
+
+Binary_tree_rectangle::Binary_tree_rectangle(int levelss)
+    :Binary_tree{levelss}{
+        for (int i = 0; i < nodes_points.size(); i++)
+        {
+            draw_node(nodes_points[i],distances[i]);
+        }
+    }
 
 void Binary_tree_rectangle::draw_node(Point center_node, int distance)
 {
@@ -145,6 +161,14 @@ void Binary_tree_rectangle::draw_node(Point center_node, int distance)
             n(dynamic_cast<Rectangle&>(nodes[nodes.size()-1]))
         });
     }
+}
+
+void Binary_tree_rectangle::draw_lines() const
+{
+    for(int i = 0 ; i < nodes.size() ; i++)
+        nodes[i].draw();
+    for(int i = 0 ; i < connectors.size() ; i++)
+        connectors[i].draw_lines();
 }
 
 int main()
