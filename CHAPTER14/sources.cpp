@@ -383,3 +383,40 @@ void Binary_tree::draw_lines() const
         connectors[i].draw_lines();
 }
 //EX 11---
+
+//EX 16
+void Control_shape::on() {status=true; shape1.set_color(level);}
+void Control_shape::off() {status=false; shape1.set_color(Color::invisible);}
+
+void Control_shape::set_level_style(int l)
+{
+    level_style=l;
+    if(level_style<0 || level_style>4) error("set_level_style() need to be between 0 and 4");
+    shape1.set_style(level_style); 
+}
+
+void Control_shape::set_level(int l)
+{
+    level=l;
+    if(level<0 || level>255) error("set_level() need to be between 0 and 255");
+    shape1.set_color(level); 
+}
+
+void Control_shape::set_level(Color c)
+{
+    level=c.as_int();
+    shape1.set_color(c);
+}
+
+Control_shape::Control_shape(Shape& shapee)
+    : shape1{shapee} 
+{
+    if(shape1.color().visibility() == 0) //check if invisible
+    {
+        status=false;
+    }
+    else status=true;
+    level=shape1.color().as_int(); 
+    level_style=shape1.style().style();
+}
+//EX 16--

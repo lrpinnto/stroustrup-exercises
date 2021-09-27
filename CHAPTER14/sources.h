@@ -153,3 +153,39 @@ private:
     Vector_ref<Arrow>connectors;
 };
 //EX 11---
+
+//EX 16
+class Controller
+{
+protected:
+    Controller(){}
+    bool status{false};
+    int level{0};
+public:
+    virtual void on() {status=true;}
+    virtual void off() {status=false;}
+    virtual void set_level(int l) {level=l;}
+    virtual void show() const {cout<<status;}
+};
+
+class Controller_test : public Controller
+{
+public:
+    void get_level() {cout<<level;}
+    using Controller::show;
+};
+
+class Control_shape : public Controller 
+{
+private:
+    Shape& shape1;
+    int level_style{0};
+public:
+    void on() override;
+    void off() override;
+    Control_shape(Shape& shapee);
+    void set_level(int l) override;
+    void set_level(Color c);
+    void set_level_style(int l);
+};
+//EX 16--
