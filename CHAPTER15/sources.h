@@ -39,7 +39,7 @@ private:
 };
 //EX 02----
 
-//EX 06
+//EX 06 && 07
 class Scale 
 {
 private:
@@ -51,11 +51,16 @@ public:
     int operator()(int v) const {return cbase + (v-vbase)*scale; }
 };
 
-struct Bar_graph : Shape
+struct Bar_graph : Shape //Leave user to draw Axis independently
 {
-    Bar_graph(Point p, const vector<double>& data, int xlength, int ylength); //Leave user to draw Axis independently
+    Bar_graph(Point p, const vector<double>& data, int xlength, int ylength); //EX 06
+    Bar_graph(Point p, const vector<double>& data, int xlength, int ylength, string label ,const vector<string>& labels, const vector<Color>& colors); //EX 07
     void draw_lines() const;
+    void move(int dx, int dy) override;
 private:
     Vector_ref<Rectangle> bars;
+    Vector_ref<Text> bars_label;
+    Vector_ref<Text> title;
+    bool option_constr; //false if using basic constructor, true if using constructor with labels and colors
 };
-//EX 06--
+//EX 06 && 07 --

@@ -63,8 +63,9 @@ void Fnct::draw_lines() const
 }
 //EX 02---
 
-//EX 06
-Bar_graph::Bar_graph(Point p, const vector<double>& data, int xlength, int ylength) 
+//EX 06 && 07
+Bar_graph::Bar_graph(Point p, const vector<double>& data, int xlength, int ylength) //EX 06 
+    :option_constr{false}
 {
     double ceil_value {data[0]};
     //double floor_value {data[0]};
@@ -86,11 +87,62 @@ Bar_graph::Bar_graph(Point p, const vector<double>& data, int xlength, int yleng
     }
 }
 
+Bar_graph::Bar_graph(Point p, const vector<double>& data, int xlength, int ylength, string label ,const vector<string>& labels, const vector<Color>& colors) //EX 07 
+    :option_constr{true}
+{
+    if (labels.size()!=data.size() || colors.size()!= data.size()) error("Bar_graph: Vectors need to match in size");
+    double ceil_value {data[0]};
+    //double floor_value {data[0]};
+    for(double h : data)
+    {
+        if(h>ceil_value) ceil_value=h;
+        //if(h<floor_value) floor_value=h;
+    }
+    double xscale = double(xlength)/(data.size()); 
+    double yscale = double(ylength)/ceil_value;
+    Scale xs {p.x,0,xscale};
+    Scale ys {p.y,0,-yscale};
+
+    int spacing {(xs(1)-p.x)/2}; //"radius" between bars
+    int ignore_count {0}; //weird hack to account for "skipped indexes"
+    for (int i = 0; i < data.size(); i++)
+    {
+        bars_label.push_back(new Text{Point{xs(i+1)-spacing,p.y+20},labels[i]});
+        if(data[i]==0) {ignore_count++;continue;} //no such thing as a 0 length rectangle
+        bars.push_back(new Rectangle{Point{xs(i+1)-spacing,ys(data[i])},Point{xs(i+1)+spacing,p.y}});
+        bars[i-ignore_count].set_fill_color(colors[i]);
+    }
+    title.push_back(new Text{Point{xs(bars.size()/2),ys(ceil_value)-20},label});
+}
+
 void Bar_graph::draw_lines() const
 {
+    if(option_constr)
+    {
+        title[0].draw_lines();
+        for (int i = 0; i < bars_label.size(); i++)
+        {
+            bars_label[i].draw_lines();
+        }
+    }
     for (int i = 0; i < bars.size(); i++)
     {
         bars[i].draw_lines();
     }
 }
-//EX 06--
+void Bar_graph::move(int dx, int dy)
+{
+    if(option_constr)
+    {
+        title[0].move(dx,dy);
+        for (int i = 0; i < bars_label.size(); i++)
+        {
+            bars_label[i].move(dx,dy);
+        }
+    }
+    for (int i = 0; i < bars.size(); i++)
+    {
+        bars[i].move(dx,dy);
+    }
+}
+//EX 06 && 07--
