@@ -23,17 +23,6 @@ constexpr int end_height = 195;
 constexpr double xscale = double(xlength)/(end_height-base_height); //length of axes
 constexpr double yscale = double(ylength)/100;
 
-class Scale
-{
-private:
-    int cbase;
-    int vbase;
-    double scale;
-public:
-    Scale(int b, int vb, double s) :cbase{b}, vbase{vb}, scale{s} {}
-    int operator()(int v) const {return cbase + (v-vbase)*scale; }
-};
-
 Scale xs {xoffset,base_height,xscale};
 Scale ys {ymax-yoffset,0,-yscale};
 
