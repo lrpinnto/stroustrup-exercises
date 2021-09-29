@@ -38,3 +38,24 @@ private:
     void construct_Fnct(Fct* ff, double r11, double r22, Point xyy, int countt = 100, double xscalee = 25, double yscalee = 25);
 };
 //EX 02----
+
+//EX 06
+class Scale 
+{
+private:
+    int cbase;
+    int vbase;
+    double scale;
+public:
+    Scale(int b, int vb, double s) :cbase{b}, vbase{vb}, scale{s} {}
+    int operator()(int v) const {return cbase + (v-vbase)*scale; }
+};
+
+struct Bar_graph : Shape
+{
+    Bar_graph(Point p, const vector<double>& data, int xlength, int ylength); //Leave user to draw Axis independently
+    void draw_lines() const;
+private:
+    Vector_ref<Rectangle> bars;
+};
+//EX 06--

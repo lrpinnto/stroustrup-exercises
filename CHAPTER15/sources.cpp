@@ -62,3 +62,35 @@ void Fnct::draw_lines() const
 			fl_line(opv[i-1].x,opv[i-1].y,opv[i].x,opv[i].y);
 }
 //EX 02---
+
+//EX 06
+Bar_graph::Bar_graph(Point p, const vector<double>& data, int xlength, int ylength) 
+{
+    double ceil_value {data[0]};
+    //double floor_value {data[0]};
+    for(double h : data)
+    {
+        if(h>ceil_value) ceil_value=h;
+        //if(h<floor_value) floor_value=h;
+    }
+    double xscale = double(xlength)/(data.size()); 
+    double yscale = double(ylength)/ceil_value;
+    Scale xs {p.x,0,xscale};
+    Scale ys {p.y,0,-yscale};
+
+    int spacing {(xs(1)-p.x)/2}; //"radius" between bars
+    for (int i = 0; i < data.size(); i++)
+    {
+        if(data[i]==0) continue; //no such thing as a 0 length rectangle
+        bars.push_back(new Rectangle{Point{xs(i+1)-spacing,ys(data[i])},Point{xs(i+1)+spacing,p.y}});
+    }
+}
+
+void Bar_graph::draw_lines() const
+{
+    for (int i = 0; i < bars.size(); i++)
+    {
+        bars[i].draw_lines();
+    }
+}
+//EX 06--
