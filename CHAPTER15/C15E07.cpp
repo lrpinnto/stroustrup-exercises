@@ -1,4 +1,4 @@
-//CHAPTER 15 EX 06
+//CHAPTER 15 EX 07
 
 #include "./sources.h"
 #include <stdexcept>
