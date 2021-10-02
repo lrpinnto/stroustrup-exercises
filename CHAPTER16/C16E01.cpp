@@ -1,6 +1,6 @@
 //CHAPTER 16 EX 01
 
-#include "../sourcesgui/GUI.h"
+#include "./sources.h"
 
 //Based on the book example and not on Simple_window.h for better understanding
 
