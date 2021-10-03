@@ -26,23 +26,18 @@ void Image_window::cb_click(Address, Address pw)
     reference_to<Image_window>(pw).click();    
 }
 
-//------------------------------------------------------------------------------
-
 void Image_window::click() //hide two
 {
-    pair<double> coords (rand()%x_max(),rand%y_max());
+    pair<double,double> coords (rand()%(x_max()-button.width)-button.loc.x,rand()%(y_max()-button.height)-button.loc.y); 
     button.move(coords.first,coords.second);
     img.move(coords.first,coords.second);
 }
-
-
-//------------------------------------------------------------------------------
 
 int main()
 try
 {
     Image_window win {Point{100,100},600,400,"EX 03"};
-    return gui_main();
+    win.wait_for_button();
 }
 catch(exception& e)
 {
