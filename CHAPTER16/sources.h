@@ -75,3 +75,15 @@ private:
     void sixteen();
 };
 //EX 02--
+
+//EX 03
+struct Image_window : My_window {
+	Image_window(Point xy, int w, int h, const string& title ); 
+private:
+	Button button;
+    Image img;
+	
+	static void cb_click(Address, Address);
+	void click();
+};
+//EX 03--

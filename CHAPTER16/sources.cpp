@@ -237,3 +237,26 @@ void Checkerboard_window::sixteen() //reset hide
 }
 //------------------------------------------------------------------------------
 //EX 02--
+
+//EX 03
+Image_window::Image_window(Point xy, int w, int h, const string& title) :
+    My_window(xy,w,h,title),
+    button(Point(x_max()/2,y_max()/2), 50, 50, "Click", cb_click),
+    img{Point(x_max()/2,y_max()/2),"someimage.jpg"}
+{
+    attach(button);
+    attach(img);
+}
+
+void Image_window::cb_click(Address, Address pw)
+{  
+    reference_to<Image_window>(pw).click();    
+}
+
+void Image_window::click() //hide two
+{
+    pair<double,double> coords (rand()%(x_max()-button.width)-button.loc.x,rand()%(y_max()-button.height)-button.loc.y); 
+    button.move(coords.first,coords.second);
+    img.move(coords.first,coords.second);
+}
+//EX 03--

@@ -2,37 +2,6 @@
 
 #include "./sources.h" //need to create header files for this chapter
 
-struct Image_window : My_window {
-	Image_window(Point xy, int w, int h, const string& title ); 
-private:
-	Button button;
-    Image img;
-	
-	static void cb_click(Address, Address);
-	void click();
-};
-
-Image_window::Image_window(Point xy, int w, int h, const string& title) :
-    My_window(xy,w,h,title),
-    button(Point(x_max()/2,y_max()/2), 50, 50, "Click", cb_click),
-    img{Point(x_max()/2,y_max()/2),"someimage.jpg"}
-{
-    attach(button);
-    attach(img);
-}
-
-void Image_window::cb_click(Address, Address pw)
-{  
-    reference_to<Image_window>(pw).click();    
-}
-
-void Image_window::click() //hide two
-{
-    pair<double,double> coords (rand()%(x_max()-button.width)-button.loc.x,rand()%(y_max()-button.height)-button.loc.y); 
-    button.move(coords.first,coords.second);
-    img.move(coords.first,coords.second);
-}
-
 int main()
 try
 {
