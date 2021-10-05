@@ -260,3 +260,138 @@ void Image_window::click() //hide two
     img.move(coords.first,coords.second);
 }
 //EX 03--
+
+//EX 04
+Shapes_window::Shapes_window(Point xy, int w, int h, const string& title) :
+    My_window(xy,w,h,title),
+    next_x{{20,0},50,20,"X"},
+    next_y{{20,20},50,20,"Y"},
+    width_box{{125,0},50,20,"Width"},
+    height_box{{125,20},50,20,"Height"},
+    menu{{x_max()-70,40},70,20,Menu::vertical,"Shapes"},
+    menu_button{{x_max()-70,40},70,20,"Shapes",cb_menu},
+    clear_button{{x_max()-140,40},70,20,"Clear",cb_clear}
+{
+    attach(next_x);
+    attach(next_y);
+    attach(width_box);
+    attach(height_box);
+
+    menu.attach(new Button{{0,0},0,0,"Circle",cb_circle});
+    menu.attach(new Button{{0,0},0,0,"Square",cb_square});
+    menu.attach(new Button{{0,0},0,0,"Triangle",cb_triangle});
+    menu.attach(new Button{{0,0},0,0,"Hexagon",cb_hexagon});
+    attach(menu);
+
+    menu.hide();
+    attach(menu_button);
+    attach(clear_button);
+}
+
+void Shapes_window::cb_circle(Address, Address pw)
+{  
+    reference_to<Shapes_window>(pw).circle_pressed();    
+}
+void Shapes_window::cb_square(Address, Address pw)
+{  
+    reference_to<Shapes_window>(pw).square_pressed();    
+}
+void Shapes_window::cb_triangle(Address, Address pw)
+{  
+    reference_to<Shapes_window>(pw).triangle_pressed();    
+}
+void Shapes_window::cb_hexagon(Address, Address pw)
+{  
+    reference_to<Shapes_window>(pw).hexagon_pressed();    
+}
+void Shapes_window::cb_clear(Address, Address pw)
+{  
+    reference_to<Shapes_window>(pw).clear_pressed();    
+}
+void Shapes_window::cb_menu(Address, Address pw)
+{  
+    reference_to<Shapes_window>(pw).menu_pressed();    
+}
+
+//------------------------------------------------------------------------------
+
+void Shapes_window::draw_circle() 
+{
+    int x = next_x.get_int();
+    int y = next_y.get_int();
+
+    int width {width_box.get_int()};
+    int height {height_box.get_int()};
+
+    if(width!=height) //make ellipse instead
+    {
+        shapes.push_back(new Ellipse{Point{x,y},width/2,height/2});
+    }
+    else{ 
+        shapes.push_back(new Circle{Point{x,y},width/2});
+    }
+    shapes_redraw();
+}
+void Shapes_window::draw_square() 
+{
+    int x = next_x.get_int();
+    int y = next_y.get_int();
+
+    int width {width_box.get_int()};
+    int height {height_box.get_int()};
+
+    shapes.push_back(new Rectangle{Point{x,y},width,height});
+
+    shapes_redraw();
+}
+
+void Shapes_window::draw_triangle() 
+{
+    int x = next_x.get_int();
+    int y = next_y.get_int();
+
+    int width {width_box.get_int()}; //not the real width. Couldn't afford to waste time with details
+    int height {height_box.get_int()};
+
+
+    shapes.push_back(new Regular_polygon{Point{x,y},width/2,3});
+
+    shapes_redraw();
+}
+
+void Shapes_window::draw_hexagon() 
+{
+    int x = next_x.get_int();
+    int y = next_y.get_int();
+
+    int width {width_box.get_int()}; //not the real width. Couldn't afford to waste time with details
+    int height {height_box.get_int()};
+
+    shapes.push_back(new Regular_hexagon{Point{x,y},width/2});
+
+    shapes_redraw();
+}
+
+void Shapes_window::clear_shapes() 
+{
+    for (Shape* sh : shapes)
+    {
+        detach(*sh);
+        delete sh;  //Pointer clean up (see Chapter 17)
+    }
+
+    shapes.clear();
+
+    shapes_redraw();
+}
+
+void Shapes_window::shapes_redraw()
+{
+    for (Shape* sh : shapes)
+    {
+        attach(*sh);
+    }
+
+    redraw();
+}
+//EX 04--

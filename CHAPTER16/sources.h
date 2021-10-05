@@ -87,3 +87,42 @@ private:
 	void click();
 };
 //EX 03--
+
+//EX 04
+struct Shapes_window : My_window {
+	Shapes_window(Point xy, int w, int h, const string& title ); 
+private:
+    vector<Shape*>shapes; //Pointer stuff introduced in chapter 17. Only used because I really wanted to have a clear_shapes()
+	In_box next_x;        // Should've probably used Vector_ref instead but this didn't allow me to clear the vector
+    In_box next_y;
+    In_box width_box;
+    In_box height_box;
+    Menu menu;
+    Button menu_button;
+    Button clear_button;
+
+    void hide_menu() {menu.hide(); menu_button.show();}
+
+    void circle_pressed() {draw_circle();hide_menu();}
+    void square_pressed() {draw_square();hide_menu();}
+    void triangle_pressed() {draw_triangle();hide_menu();}
+    void hexagon_pressed() {draw_hexagon();hide_menu();}
+    void clear_pressed() {clear_shapes();}
+    void menu_pressed() {menu_button.hide(); menu.show();}
+	
+	static void cb_circle(Address, Address);
+    static void cb_square(Address, Address);
+    static void cb_triangle(Address, Address);
+    static void cb_hexagon(Address, Address);
+    static void cb_clear(Address, Address);
+    static void cb_menu(Address, Address);
+
+    void draw_circle();
+    void draw_square();
+    void draw_triangle();
+    void draw_hexagon();
+    void clear_shapes();
+
+    void shapes_redraw(); //to call instead of Fl::redraw()
+};
+//EX 04--
