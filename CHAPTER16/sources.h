@@ -126,3 +126,25 @@ private:
     void shapes_redraw(); //to call instead of Fl::redraw()
 };
 //EX 04--
+
+//EX 06
+struct Clock : Circle //static clock. No move() or size changes for now
+{
+    Clock(Point p, int r);
+    void draw_lines() const;
+    void set_time(int seconds);
+    void increment_time(int seconds);
+private:
+    vector<Arrow*> arms; //first arm is hours, second arm is minutes, third arm is seconds. this moves dynamically with time
+    Vector_ref<Text>numbers; //Pointer stuff introduced in chapter 17. Vector_ref sadly doesn't support clear() so I had to use pointers
+    Lines lines;
+    int current_seconds;
+};
+struct Clock_window : My_window {
+	Clock_window(Point xy, int w, int h, const string& title ); 
+    void update_clock(int seconds);
+private:
+	Clock clock;
+    void run_clock();
+};
+//EX 06--
