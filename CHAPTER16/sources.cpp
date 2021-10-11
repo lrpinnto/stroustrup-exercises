@@ -488,3 +488,56 @@ void Clock_window::run_clock () {
 }
 //------------
 //EX 06--
+
+//EX 07
+Airplane_window::Airplane_window(Point xy, int w, int h, const string& title) :
+    My_window(xy,w,h,title),
+    start_button(Point(0,0), 50, 50, "Start", cb_start),
+    stop_button(Point(0,50), 50, 50, "Stop", cb_stop),
+    img{Point(x_max()/2,y_max()/2),"airplane.jpg"},
+    direction {randint(0,360)*PI/180.0}
+{
+    attach(start_button);
+    attach(stop_button);
+    attach(img);
+}
+
+void Airplane_window::cb_start(Address, Address pw)
+{  
+    reference_to<Airplane_window>(pw).start();    
+}
+void Airplane_window::cb_stop(Address, Address pw)
+{  
+    reference_to<Airplane_window>(pw).stop();    
+}
+
+void Airplane_window::move_plane()
+{
+    const int airplane_x_size {49};//hardcoded img size
+    const int airplane_y_size {43};
+    pair<double,double> coords (cos(direction)*randint(3,8),sin(direction)*randint(3,8)); 
+    while(coords.first+img.point(0).x>x_max()-airplane_x_size || coords.second+img.point(0).y>y_max()-airplane_y_size || 
+    coords.first+img.point(0).x<0 || coords.second+img.point(0).y<0)
+    {
+        //get new direction
+        direction = randint(0,360)*PI/180.0;
+        coords.first=cos(direction)*randint(3,8);
+        coords.second=sin(direction)*randint(3,8);
+    }
+    img.move(coords.first,coords.second);
+    redraw();
+}
+
+void timer_plane_callback(void* window){
+    reinterpret_cast<Airplane_window*>(window)->move_plane();
+    Fl::repeat_timeout(0.1, timer_plane_callback, window);
+}
+void Airplane_window::stop()
+{
+    Fl::remove_timeout(timer_plane_callback, this);
+}
+void Airplane_window::start() 
+{
+    Fl::add_timeout(0.1, timer_plane_callback, this);
+}
+//EX 07--

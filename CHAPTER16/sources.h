@@ -148,3 +148,20 @@ private:
     void run_clock();
 };
 //EX 06--
+
+//EX 07
+struct Airplane_window : My_window {
+	Airplane_window(Point xy, int w, int h, const string& title ); 
+    void move_plane();
+private:
+	Button start_button;
+    Button stop_button;
+    Image img;
+
+	static void cb_start(Address, Address);
+    static void cb_stop(Address, Address);
+	void start();
+    void stop();
+    double direction;
+};
+//EX 07--
