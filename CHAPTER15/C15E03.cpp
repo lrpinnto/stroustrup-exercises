@@ -3,11 +3,6 @@
 #include "./sources.h"
 #include <stdexcept>
 
-template <class myType>
-myType GetMax (myType a, myType b) {
- return (a>b?a:b);
-}
-
 int main()
 try
 {
@@ -41,7 +36,7 @@ try
     win.attach(x);
     win.attach(y);
 
-    Fnct one { [](double x)->double {return 1;},r_min,r_max,orig,n_points,x_scale,y_scale};
+    Fnct_template<n_points> one { [](double x)->double {return 1;},r_min,r_max,orig,x_scale,y_scale};
     one.set_color(Color::green);
     win.attach(one);
     win.set_label("Fnct constructor test");
