@@ -541,3 +541,151 @@ void Airplane_window::start()
     Fl::add_timeout(0.1, timer_plane_callback, this);
 }
 //EX 07--
+
+//EX 10
+Function_window::Function_window(Point xy, int w, int h, const string& title) :
+    My_window(xy,w,h,title),
+    range{{50,0},50,20,"Range"},
+    origin_point{{175,0},50,20,"Origin"},
+    origin_point_2{{225,0},50,20,""},
+    menu{{x_max()-70,40},70,20,Menu::vertical,"Functions"},
+    menu_button{{x_max()-70,40},70,20,"Functions",cb_menu},
+    clear_button{{x_max()-140,40},70,20,"Clear",cb_clear},
+    x_axis {Axis::Orientation::x,{0,h/2},w,w/10,"x"},
+    y_axis {Axis::Orientation::y,{w/2,h},h,h/10,"y"}
+{
+    attach(range);
+    attach(origin_point);
+    attach(origin_point_2);
+
+    menu.attach(new Button{{0,0},0,0,"sin",cb_sin});
+    menu.attach(new Button{{0,0},0,0,"cos",cb_cos});
+    menu.attach(new Button{{0,0},0,0,"tan",cb_tan});
+    menu.attach(new Button{{0,0},0,0,"log",cb_log});
+    attach(menu);
+
+    menu.hide();
+    attach(menu_button);
+    attach(clear_button);
+    x_axis.label.move(-100,0);
+    y_axis.label.move(0,20);
+    attach(x_axis);
+    attach(y_axis);
+}
+
+void Function_window::cb_sin(Address, Address pw)
+{  
+    reference_to<Function_window>(pw).sin_pressed();    
+}
+void Function_window::cb_cos(Address, Address pw)
+{  
+    reference_to<Function_window>(pw).cos_pressed();    
+}
+void Function_window::cb_tan(Address, Address pw)
+{  
+    reference_to<Function_window>(pw).tan_pressed();    
+}
+void Function_window::cb_log(Address, Address pw)
+{  
+    reference_to<Function_window>(pw).log_pressed();    
+}
+void Function_window::cb_clear(Address, Address pw)
+{  
+    reference_to<Function_window>(pw).clear_pressed();    
+}
+void Function_window::cb_menu(Address, Address pw)
+{  
+    reference_to<Function_window>(pw).menu_pressed();    
+}
+
+//------------------------------------------------------------------------------
+
+void Function_window::draw_sin() 
+{
+    const int xscale {10};
+    const int yscale {10};
+
+    int x_point = stoi(origin_point.get_string());
+    int x = x_point*xscale+x_max()/2;
+    int y_point = stoi(origin_point_2.get_string()); //get_int() can't handle negative amounts
+    int y = -yscale*y_point+y_max()/2;
+
+    int r1 {0};
+    int r2 {range.get_int()};
+    shapes.push_back(new Function{sin,r1,r2,Point{x,y},100,xscale,yscale});
+    shapes_redraw();
+}
+void Function_window::draw_cos() 
+{
+    const int xscale {10};
+    const int yscale {10};
+
+    int x_point = stoi(origin_point.get_string());
+    int x = x_point*xscale+x_max()/2;
+    int y_point = stoi(origin_point_2.get_string()); //get_int() can't handle negative amounts
+    int y = -yscale*y_point+y_max()/2;
+
+    int r1 {0};
+    int r2 {range.get_int()};
+    shapes.push_back(new Function{cos,r1,r2,Point{x,y},100,xscale,yscale});
+
+    shapes_redraw();
+}
+
+void Function_window::draw_tan() 
+{
+    const int xscale {10};
+    const int yscale {10};
+
+    int x_point = stoi(origin_point.get_string());
+    int x = x_point*xscale+x_max()/2;
+    int y_point = stoi(origin_point_2.get_string()); //get_int() can't handle negative amounts
+    int y = -yscale*y_point+y_max()/2;
+
+    int r1 {0};
+    int r2 {range.get_int()};
+    shapes.push_back(new Function{tan,r1,r2,Point{x,y},100,xscale,yscale});
+
+    shapes_redraw();
+}
+
+void Function_window::draw_log() 
+{
+    const int xscale {10};
+    const int yscale {10};
+
+    int x_point = stoi(origin_point.get_string());
+    int x = x_point*xscale+x_max()/2;
+    int y_point = stoi(origin_point_2.get_string()); //get_int() can't handle negative amounts
+    int y = -yscale*y_point+y_max()/2;
+
+    int r1 {0};
+    int r2 {range.get_int()};
+    shapes.push_back(new Function{log10,r1,r2,Point{x,y},100,xscale,yscale});
+
+    shapes_redraw();
+}
+
+void Function_window::clear_shapes() 
+{
+    for (Function* sh : shapes)
+    {
+        detach(*sh);
+        delete sh;  //Pointer clean up (see Chapter 17)
+    }
+
+    shapes.clear();
+
+    shapes_redraw();
+}
+
+void Function_window::shapes_redraw()
+{
+    for (Function* sh : shapes)
+    {
+        attach(*sh);
+    }
+
+    redraw();
+}
+//EX 10--

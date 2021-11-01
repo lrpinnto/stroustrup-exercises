@@ -165,3 +165,44 @@ private:
     double direction;
 };
 //EX 07--
+
+//EX 10
+struct Function_window : My_window {
+	Function_window(Point xy, int w, int h, const string& title ); 
+private:
+    vector<Function*>shapes; //Pointer stuff introduced in chapter 17. Only used because I really wanted to have a clear_shapes()
+    In_box range; // Should've probably used Vector_ref instead but this didn't allow me to clear the vector
+    In_box origin_point;
+    In_box origin_point_2;
+    Menu menu;
+    Button menu_button;
+    Button clear_button;
+
+    void hide_menu() {menu.hide(); menu_button.show();}
+
+    void sin_pressed() {draw_sin();hide_menu();}
+    void cos_pressed() {draw_cos();hide_menu();}
+    void tan_pressed() {draw_tan();hide_menu();}
+    void log_pressed() {draw_log();hide_menu();}
+    void clear_pressed() {clear_shapes();}
+    void menu_pressed() {menu_button.hide(); menu.show();}
+	
+	static void cb_sin(Address, Address);
+    static void cb_cos(Address, Address);
+    static void cb_tan(Address, Address);
+    static void cb_log(Address, Address);
+    static void cb_clear(Address, Address);
+    static void cb_menu(Address, Address);
+
+    void draw_sin();
+    void draw_cos();
+    void draw_tan();
+    void draw_log();
+    void clear_shapes();
+
+    void shapes_redraw(); //to call instead of Fl::redraw()
+
+    Axis x_axis;
+    Axis y_axis;
+};
+//EX 10--
