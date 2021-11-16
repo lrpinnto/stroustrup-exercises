@@ -1,13 +1,6 @@
-#include <iostream>
+//CHAPTER 17 EX 03
 
-void print_array(std::ostream& os, char* a, int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        os<<a[i];
-    }
-    os<<'\n';
-}
+#include <iostream>
 
 void to_lower(char* s)
 {
@@ -25,8 +18,8 @@ void to_lower(char* s)
 int main()
 {
     char* string {new char[14]{'H','e','l','l','o',',',' ','W','o','r','l','d','!',0}};
-    print_array(std::cout,string,14);
+    std::cout<<string<<'\n';
     to_lower(string);
-    print_array(std::cout,string,14);
+    std::cout<<string<<'\n';
     delete[] string;
 }
