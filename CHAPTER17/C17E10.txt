@@ -1,0 +1,1 @@
+Since array size is not hard coded, and dependent on the amount of chars introduced on the input stream, there is no obvious way to get the array to overflow.
