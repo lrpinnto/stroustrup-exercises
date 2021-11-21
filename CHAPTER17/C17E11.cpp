@@ -142,9 +142,10 @@ int main()
 
     Link* some_list = new Link{"1"};
     //add test
-    some_list->add(new Link{"3"});
-    some_list->previous();
-    some_list->add(new Link{"2"});
+    some_list=some_list->add(new Link{"3"});
+    some_list=some_list->previous();
+    some_list=some_list->add(new Link{"2"});
+    some_list=some_list->previous();
     print_all(some_list);
     cout<<'\n';
 }
