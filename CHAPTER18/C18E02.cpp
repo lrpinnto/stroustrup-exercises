@@ -20,13 +20,11 @@ const char* findx(const char* s, const char* x)
         if (*s==*x)
         {
             for (int u = 0;x;u++)
-            {
-                //++x;
-                //++s;
+            {   
                 if(*x!=*s)
                 {
                     //rewind and break
-                    for (int h = 1; h < u; h++)
+                    for (int h = 0; h < u; h++)
                     {
                         --s;
                         --x;
@@ -35,12 +33,15 @@ const char* findx(const char* s, const char* x)
                 }
                 else if(!*++x) //check if next char is 0
                 {
-                    for (int h = 1; h < u; h++)
+                    --x; //extra rewind for 0
+                    for (int h = 0; h < u; h++)
                     {
-                        --x; // do i also need to rewind s?
+                        --x; 
+                        --s;
                     }
-                    return x;
+                    return s;
                 }
+                ++s;
             }
         }
         ++s;
