@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+// Add better comments and double check results
+
 void fun(int *main_local_addr)
 {
     int fun_local;
