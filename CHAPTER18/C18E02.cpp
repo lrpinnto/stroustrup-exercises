@@ -1,53 +1,7 @@
 //Chapter 18 Ex 02
 
 #include <iostream>
-
-const char* findx(const char* s, const char* x)
-{
-    int is {1};
-    while(*s){++s;++is;} //get array size
-    for (int i = 1; i < is; i++)
-        --s;
-    
-    int ix {1};
-    while(*x){++x;++ix;} //get array size
-    for (int i = 1; i < ix; i++)
-        --x;
-    if(ix>=is) return nullptr; //throw error 
-
-    while(*s)
-    {
-        if (*s==*x)
-        {
-            for (int u = 0;x;u++)
-            {   
-                if(*x!=*s)
-                {
-                    //rewind and break
-                    for (int h = 0; h < u; h++)
-                    {
-                        --s;
-                        --x;
-                    }
-                    break;
-                }
-                else if(!*++x) //check if next char is 0
-                {
-                    --x; //extra rewind for 0
-                    for (int h = 0; h < u; h++)
-                    {
-                        --x; 
-                        --s;
-                    }
-                    return s;
-                }
-                ++s;
-            }
-        }
-        ++s;
-    }
-    return nullptr;
-}
+#include "./C18.h"
 
 int main()
 {
