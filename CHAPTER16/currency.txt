@@ -1,0 +1,18 @@
+#this is an example file
+#add a 3 character currency and ratio separated by : 
+EUR:1
+USD:1.128
+GBP:0.854712
+INR:85.519
+AUD:1.588
+CAD:1.4466
+SGD:1.54444
+CHF:1.041
+MYR:4.775
+JPY:128.220
+CNY:7.1833
+RUB:82.931
+NOK:10.2118
+MXN:23.7127
+KRW:1335.9379
+ZAR:18.089
