@@ -78,7 +78,7 @@ int strcmp(const char* s1, const char* s2) //EX 3
     else return 0;
 }
 
-namespace improved //EX 4   (untested)
+namespace improved //EX 4   (untested) | max value set to 128 because of arbitrary buffer limit referenced in the book (18.7)
 {
     char* strdup(const char * s, const int max = 128) 
     {
@@ -141,7 +141,7 @@ namespace improved //EX 4   (untested)
         }
         return nullptr;
     }
-    int strcmp(const char* s1, const char* s2, const int max = 128) //EX 3
+    int strcmp(const char* s1, const char* s2, const int max = 128) 
     {
         int counter {0};
         while(*s1 && *s2 && counter<max)
