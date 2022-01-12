@@ -20,9 +20,16 @@ public:
     Link* advance(int n) const;
 
     Link* next() const { return succ;}
+    Link& operator=(const Link*); //copy assignment (to move the pointer)
 private:
     Link* succ;
 };
+Link& Link::operator=(const Link* a)
+{
+    succ=a->succ;
+    value=a->value;
+    return *this;
+}
 
 class Skip_list
 {
@@ -32,6 +39,10 @@ private:
 public:
     Skip_list(initializer_list<int> lst);
     ~Skip_list();
+    Link print() {return *level;}
+    Link* find(int);
+    Link* add(int);
+    Link* erase(int);
 };
 
 Skip_list::Skip_list(initializer_list<int> lst)
@@ -45,29 +56,66 @@ Skip_list::Skip_list(initializer_list<int> lst)
     {
         p=p->add(new Link {list[i]});
     }
-    //https://en.wikipedia.org/wiki/Skip_list
+    //make all nodes level 1
+    level[1].value=level[0].value; //limit of 4 levels?
+    level[2].value=level[0].value; //if not, take out while condition of "j<3"
+    level[3].value=level[0].value;
     int j {0};
+    p=level[j].next();
+    Link* p_nextlevel {&level[j+1]};
     bool promoted {false};
-    while(&level[j] && level[j].next()) {//the number of nodes at level j > 1 
-        for(int j=0 ; j<sizeof(level)/sizeof(Link);j++){
-            if (level[j].value%2!=0 && level[j].next()!=nullptr)
+    while(p && j<3) {//the number of nodes at level j > 1 
+        for(int i=1 ; p;i++){
+            if (i%2!=0 && p->next()!=nullptr)
+            {
                 if(rand()%2==1){ //randomly choose whether to promote it to level j+1
-                    level[j+1].add(new Link{level[j].value});
+                    p_nextlevel=p_nextlevel->add(new Link{p->value});
                     promoted=true;
                 }
-            else if(level[j].value%2==0 && !promoted) {//i is even and node i-1 was not promoted
-                level[j+1].add(new Link{level[j].value});
+                else promoted=false;
+            }
+            else if(i%2==0 && !promoted) {//i is even and node i-1 was not promoted
+                p_nextlevel=p_nextlevel->add(new Link{p->value});
                 promoted=true;
             }
+            else promoted=false;
+            if(p->next())
+                p=p->next();
+            else break;
         }
         j++;
+        p=level[j].next();
+        p_nextlevel=&level[j+1];
     }
-    //--
 }
 
 Skip_list::~Skip_list()
 {
     delete[] list;
+}
+
+Link* Skip_list::find(int num)
+{
+    Link* p {&level[3]};
+    while(num<=p->value)
+    {
+        if(p->next())
+        {
+            p=p->next();
+        }
+        else
+        {
+            //go down a level
+        }
+    }
+}
+Link* Skip_list::add(int num)
+{
+
+}
+Link* Skip_list::erase(int num)
+{
+
 }
 
 Link* Link::add(Link* n)
@@ -139,46 +187,5 @@ void print_all(Link* p)
 
 int main()
 {
-
-    Skip_list l {15,2,3,4};
-    /*
-    Link* norse_gods = new Link("Thor");
-    norse_gods=norse_gods->add(new Link{"Odin"});
-    norse_gods=norse_gods->add(new Link{"Zeus"});
-    norse_gods=norse_gods->add(new Link{"Freia"});
-    
-    Link* greek_gods = new Link("Hera");
-    greek_gods=greek_gods->add(new Link{"Athena"});
-    greek_gods=greek_gods->add(new Link{"Mars"});
-    greek_gods=greek_gods->add(new Link{"Poseidon"});
-
-    Link* p = greek_gods->find("Mars");
-    if(p) p->value="Ares";
-
-    Link* p2 = norse_gods->find("Zeus");
-    if(p2)
-    {
-        if(norse_gods!=p2) norse_gods=p2;
-        p2->erase();
-        greek_gods=greek_gods->add(new Link{"Zeus"});
-    }
-
-    print_all(norse_gods);
-    cout<<'\n';
-    print_all(greek_gods);
-    cout<<'\n';
-
-    Link* const h = greek_gods->find("Zeus");
-    //advance test
-    cout<<h->value<<'\n';
-    Link* const h2=h->advance(2);
-    cout<<"2x"<<'\n';
-    cout<<h2->value<<'\n';*/
-
-
+    Skip_list l {15,2,3,4,30,69,12,1,5,6,7,8,9,10,11,13,14};
 }
-
-/*
-make all nodes level 1
-
-*/
