@@ -9,8 +9,8 @@ class Link //unlike C17E14.cpp, it will end on a nullptr
 {
 public:
     int value;
-    Link(const int& v, Link* s = nullptr)
-        : value{v}, succ{s} {}
+    Link(const int& v, Link* s = nullptr, Link* p = nullptr)
+        : value{v}, succ{s}, parent{p} {}
 
     Link* add(Link* n);
     //Link* insert(Link* n);
@@ -21,8 +21,12 @@ public:
 
     Link* next() const { return succ;}
     Link& operator=(const Link*); //copy assignment (to move the pointer)
+
+    Link* get_parent(){return parent;}
+    void set_parent(Link* p){parent=p;}
 private:
     Link* succ;
+    Link* parent; //level below
 };
 Link& Link::operator=(const Link* a)
 {
@@ -60,6 +64,10 @@ Skip_list::Skip_list(initializer_list<int> lst)
     level[1].value=level[0].value; //limit of 4 levels?
     level[2].value=level[0].value; //if not, take out while condition of "j<3"
     level[3].value=level[0].value;
+    level[1].set_parent(&level[0]);
+    level[2].set_parent(&level[1]);
+    level[3].set_parent(&level[2]);
+
     int j {0};
     p=level[j].next();
     Link* p_nextlevel {&level[j+1]};
@@ -69,13 +77,13 @@ Skip_list::Skip_list(initializer_list<int> lst)
             if (i%2!=0 && p->next()!=nullptr)
             {
                 if(rand()%2==1){ //randomly choose whether to promote it to level j+1
-                    p_nextlevel=p_nextlevel->add(new Link{p->value});
+                    p_nextlevel=p_nextlevel->add(new Link{p->value,nullptr,p});
                     promoted=true;
                 }
                 else promoted=false;
             }
             else if(i%2==0 && !promoted) {//i is even and node i-1 was not promoted
-                p_nextlevel=p_nextlevel->add(new Link{p->value});
+                p_nextlevel=p_nextlevel->add(new Link{p->value,nullptr,p});
                 promoted=true;
             }
             else promoted=false;
@@ -97,17 +105,37 @@ Skip_list::~Skip_list()
 Link* Skip_list::find(int num)
 {
     Link* p {&level[3]};
-    while(num<=p->value)
+    Link* p_lastnode {nullptr};
+    while(num>p->value)
     {
+        p_lastnode=p;
         if(p->next())
         {
             p=p->next();
         }
         else
         {
-            //go down a level
+            p=p->get_parent()->next();
         }
     }
+    while(p->next() ? p->next()->value>num : true)
+    {
+        if(p->value>p_lastnode->value)
+            p=p_lastnode->get_parent();
+        else
+            p=p->get_parent();
+    }
+    while(num!=p->value)
+    {
+        
+        if(!(p->next()) || p->next()->value>num)
+        {
+            p=p->get_parent()->next();
+        }
+        else p=p->next();
+        if(!p) return nullptr;
+    }
+    return p;
 }
 Link* Skip_list::add(int num)
 {
@@ -188,4 +216,6 @@ void print_all(Link* p)
 int main()
 {
     Skip_list l {15,2,3,4,30,69,12,1,5,6,7,8,9,10,11,13,14};
+    Link* p {l.find(14)};
+    cout<<p->value;
 }
