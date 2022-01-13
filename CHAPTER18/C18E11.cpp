@@ -130,7 +130,7 @@ Link* Skip_list::find(int num)
         
         if(!(p->next()) || p->next()->value>num)
         {
-            p=p->get_parent()->next();
+            p=p->get_parent();
         }
         else p=p->next();
         if(!p) return nullptr;
@@ -216,6 +216,6 @@ void print_all(Link* p)
 int main()
 {
     Skip_list l {15,2,3,4,30,69,12,1,5,6,7,8,9,10,11,13,14};
-    Link* p {l.find(14)};
+    Link* p {l.find(1)}; //edge case to fix
     cout<<p->value;
 }
