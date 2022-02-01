@@ -22,7 +22,6 @@ class Token_stream
 {
     private:
         vector<week>weekdays;
-        
     public:
         Token get();
         void init_week();
@@ -74,7 +73,6 @@ Token Token_stream::get()
             }
         }
         return Token('x');
-        
     }
     else if (isdigit(ch))
     {
@@ -99,7 +97,6 @@ Token Token_stream::get()
             get();
         }
         else error("weird");
-        
     }
 }
 
@@ -110,10 +107,7 @@ void Token_stream::outputr()
     {
         cout<<weekdays[i].week_days[0]<<" "<<weekdays[i].value<<"\n\t";
     }
-    
     cout<<"Amount of rejected values: "<<weekdays[weekdays.size()-1].value<<'\n';
-
-
 }
 
 void Token_stream::add_values(Token t, Token t2)
@@ -125,7 +119,6 @@ void Token_stream::add_values(Token t, Token t2)
         {
             weekdays[i].value+=t2.value;
         }
-        
     }
 }
 
@@ -147,14 +140,12 @@ void sortinput()
 	}
 }
 
-
 int main()
 try
 {
     sortinput();
     ts.outputr();
 }
-
 catch(exception& e) {
     cerr << "error: " << e.what() << '\n';
     return 1;

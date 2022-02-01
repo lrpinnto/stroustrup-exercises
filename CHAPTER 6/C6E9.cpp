@@ -24,9 +24,7 @@ bool string_stream::check_stream()
 }
 
 int string_stream::get()
-{
-
-    
+{  
     char ch;
     cin>>ch;
     if(!cin) error("Wrong input");
@@ -34,7 +32,6 @@ int string_stream::get()
     {
         end_of_stream =true;
     }
-
     int ch2int = ch;  //simple char to int conversion
     if (ch2int<48 || ch2int >57)
     { 
@@ -94,7 +91,6 @@ int list2int(vector<int>list)
         final+=pivot;
     }
     return final;
-    
 }
 
 int main()
@@ -118,7 +114,6 @@ try {
         {
             multiples_of_10_mirror.erase(multiples_of_10_mirror.begin());  //deletes the first element of the multiples_of_10 vector depending on the size of the user input.       
         }
-        
         for(int i = 0 ; i<numbers.size() ; i++)
         {
             cout<<numbers[i]<<" "<<multiples_of_10_mirror[i]<<" ";

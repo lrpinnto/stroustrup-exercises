@@ -15,15 +15,13 @@ int main()
         {
             sieves.push_back(0);
         }
-
         else
         {
             sieves.push_back(i);
         }                        
     }
 
-
-    for (int i = 0; i < sieves.size(); i++)  //RUns through numbers from 0 to n_max. Only declares i as pivot if the condition below verifies. 
+    for (int i = 0; i < sieves.size(); i++)  //Runs through numbers from 0 to n_max. Only declares i as pivot if the condition below verifies. 
     {
         if (sieves[i]!=0)
         {
@@ -35,11 +33,11 @@ int main()
             {
                 counter++;
             }
-            //cout<<"//"<<sieves[i]<<" "<<i<<"//";  //mostra os pivots. Demonstra tambem que o index do pivot é igual ao valor no vector.
+            //cout<<"//"<<sieves[i]<<" "<<i<<"//";  //shows pivots. Demonstrates that pivot's index is equal to the value of vector.
             primes.push_back(i);  //if it's not 0. it's prime
-            if (i * i < sieves.size() )    //Não sei porque isto acontece, mas já nao existem numeros para verificar quando o numero escolhido como "pivot" ao quadrado ultrapassa o n_max. Ou seja, o algoritmo está completo.
+            if (i * i < sieves.size()) 
             {
-                for (int j = i; j < sieves.size(); j = j + i) //vai do valor do pivot ate ao n_max (que é igual ao sieves.size()) de pivot(j))
+                for (int j = i; j < sieves.size(); j = j + i) //from pivots value until n_max (which is equal to sieves.size() of pivot[j])
                 {
                     sieves[j]=0;
                 }   

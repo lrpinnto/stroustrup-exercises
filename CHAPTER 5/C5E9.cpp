@@ -4,7 +4,7 @@
 
 //Not sure what this exercise is about
 
-int main ()
+int main()
 try {
     vector<int>numbers;
     int n = 0;
@@ -31,7 +31,6 @@ try {
 
     return 0;
 }
-
 catch(exception& e) {
     cerr << "Error: " << e.what() << '\n';
     return 1;

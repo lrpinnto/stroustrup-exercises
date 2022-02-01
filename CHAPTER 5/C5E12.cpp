@@ -44,7 +44,6 @@ int char_to_int(char c)
     }
 }
 
-
 int main()
 try{
     constexpr int max_vector_size = 4;
@@ -62,8 +61,6 @@ try{
         cout<<"Please enter any number:";
         cin>>n;
         if (!cin) error("Bad input.");
-
-
         seed_randint(n); //randomizes numbers
         while (random_numbers.size() < max_vector_size) 
         {
@@ -79,9 +76,6 @@ try{
                 if (!repeat) random_numbers.push_back(val);
             }
         }
-        
-        
-        
         success=false;
         while (!success)
         {
@@ -111,16 +105,12 @@ try{
                         cows++;
                     }
                 }
-
                 if (random_numbers[i]==numbers[i])
                 {
                     bulls++;
                 }
-                
             }
-
             cout<<cows<<" cows and "<<bulls<<" bulls.\n";
-
             if (bulls == 4) 
             {
                 success=true;
@@ -134,9 +124,6 @@ try{
         }
     }
 }
-
-
-
 catch(exception& e) {
     cerr << "error: " << e.what() << '\n';
     return 1;

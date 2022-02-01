@@ -17,11 +17,8 @@ void check_if_prime(int value_max)
                 else break;
             }
         }
-        
     }
-
     primes=get_primes;
-
 }
 
 int main()

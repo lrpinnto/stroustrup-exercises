@@ -19,16 +19,13 @@ try{
         if(a+b<sum) 
         {
             cerr<<"Max fibonaci number "<<sum<<"\n";
-
             error("Overflow");
         }
         sum=a+b; 
-        
         a=b;
         b=sum;
         cout<<sum<<" ";
     }
-    
 }
 catch(exception& e) {
     cerr << "error: " << e.what() << '\n';

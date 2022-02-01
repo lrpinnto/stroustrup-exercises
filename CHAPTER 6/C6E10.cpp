@@ -9,7 +9,6 @@ int factorial(int number)
     {
         return 1;
     }
-    
     int result = number;
     for (int i = number; i > 1; i--)
     {

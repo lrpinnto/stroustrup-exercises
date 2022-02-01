@@ -18,10 +18,8 @@ bool check_repeating(vector<Name_value>names, string name)
         {
             return true;
         }
-        
     }
     return false;
-    
 }
 
 int main()
@@ -41,7 +39,6 @@ int main()
         {
             cout<<"\nThat name was already entered. Please pick another name!\n";
         }
-        
         else
         {
             list.push_back(Name_value{name, age});
@@ -51,6 +48,4 @@ int main()
     {
         cout<<list[i].something<<" aged "<<list[i].value<<".\n";
     }
-    
-    
 }

@@ -27,7 +27,6 @@ void operation (double a , double b, char op)
     }
 }
 
-
 int get_number()  //converts all inputs to int. return 0 if no match
 {
 	const int not_a_symbol = numbers.size();
@@ -39,11 +38,8 @@ int get_number()  //converts all inputs to int. return 0 if no match
 		{
 			cout<<numbers[val];
 		}
-		
-		
 		return val; //if it's not an int it return. but the program goes on
 	}
-	
 	
 	cin.clear(); // Clears cin.
 

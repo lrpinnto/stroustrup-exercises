@@ -17,13 +17,11 @@ int main()
         {
             sieves.push_back(0);
         }
-
         else
         {
             sieves.push_back(i);
         }                        
     }
-
 
     for (int i = 0; i < sieves.size(); i++)  //runs through 0 to n_max. Only declares i as pivot if the condition below verifies
     {
@@ -42,8 +40,6 @@ int main()
             }   
         }   
     }
-
     cout<<"\n\n\n";
     for (int i : primes) cout<<i<<" ";
-    
 }

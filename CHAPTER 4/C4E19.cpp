@@ -10,10 +10,8 @@ bool check_repeating(vector<string>names, string name)
         {
             return true;
         }
-        
     }
     return false;
-    
 }
 
 int main()
@@ -35,7 +33,6 @@ int main()
         {
             cout<<"\nThat name was already entered. Please pick another name!\n";
         }
-        
         else
         {
             ages.push_back(age);

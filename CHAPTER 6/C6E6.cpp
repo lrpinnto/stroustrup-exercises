@@ -169,7 +169,6 @@ try {
         } else {
             stream.putback(s);
         }
-        
         is_sentence = sentence();
     }
     return 0;

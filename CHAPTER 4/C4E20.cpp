@@ -101,7 +101,6 @@ bool check_repeating(vector<string>names, string name)
         {
             return true;
         }
-        
     }
     return false;
 }
@@ -125,7 +124,6 @@ int main()
         {
             cout<<"\nThat name was already entered. Please pick another name!\n";
         }
-        
         else
         {
             ages.push_back(age);
@@ -155,12 +153,10 @@ int main()
                     cout<<names[i]<<", ";
                     age_exists=true;
                 }
-
                 if (i==names.size()-1 && age_exists==false)
                 {
                     cout<<"No one exists with that age!!\n";
                 }
-                
             }
             if (age_exists==true) cout<<" are all aged "<<str_to_int(query);
         }

@@ -26,7 +26,6 @@ try {
 
     return 0;
 }
-
 catch(exception& e) {
     cerr << "Error: " << e.what() << '\n';
     return 1;

@@ -8,13 +8,12 @@
 //amout = 2^x <> log(amount)=log(2^x)<> log(amount)= xlog(2)
 int rice (int amount)
 {
-    if (amount<=0) return 0; //logaritmo é indef
+    if (amount<=0) return 0; //logarithm is indef
     if (amount>=2147483647) 
     {
         cin.clear();
         return -1 ;//overflow
     }
-    
     
     double x = log(amount)/log(2);
     round(x);

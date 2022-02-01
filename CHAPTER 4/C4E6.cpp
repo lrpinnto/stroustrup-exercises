@@ -13,11 +13,8 @@ int get_number()  //converts all inputs to int. returns 0 if no match
 		{
 			cout<<numbers[val];
 		}
-		
-		
 		return val; //if it's not int it gets to return but the program goes on
 	}
-	
 	
 	cin.clear(); // Clears cin
 
@@ -37,5 +34,4 @@ int main()
 	{
 		cout<<get_number()<<"\n";
 	}
-	
 }

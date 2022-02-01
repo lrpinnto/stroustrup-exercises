@@ -8,9 +8,8 @@ int area(int length, int width)
     int a = length * width;
     if (a<=0) error("area() post condition");
     return a;
-    
-    
 }
+
 int main()
 {
     cout<<area(47000,47000);

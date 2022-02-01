@@ -20,10 +20,8 @@ double ktoc(double k)
 
 int main()
 {
-
     double c = 0;
     cin>>c;
-    
     
     double k = ctok(c);
     cout<<k<<'\n';

@@ -19,7 +19,6 @@ int divi (int h, int ansvalue, char w)
     {
         number/=2;
         number=round(number);  
-        
     }
     if (w=='y')
     {
@@ -29,13 +28,11 @@ int divi (int h, int ansvalue, char w)
     {
         ansvalue=ansvalue-number;
     }
-    
     else  //First value : will always be 100/2=50 (it's the "true" definition of the var)
     {
         ansvalue=number;
     }
     return ansvalue;
-    
 }
 
 int main()

@@ -29,7 +29,6 @@ string mode (vector<string>words)
         {
             mode_index = i;
         }
-
         else if (mode_count[i]<=mode_count[i+1] && mode_count[i+1]>= mode_count[mode_index])
         {
             mode_index=i+1;

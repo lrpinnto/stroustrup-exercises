@@ -19,7 +19,6 @@ bool check_if_prime(int number)
                 else break;
             }
         }
-        
     }
 
     if (get_primes.size()==primes.size())  // compares the generated vector with the references to verify if the input is prime
@@ -35,7 +34,6 @@ bool check_if_prime(int number)
             {
                 is_prime=true;
             }
-            
         }
     }
 
@@ -54,7 +52,5 @@ int main()
             cout<<" prime ";
         }
         else cout<<i;
-        
-    }
-           
+    }     
 }

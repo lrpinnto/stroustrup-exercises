@@ -24,6 +24,4 @@ int main()
         cout<<"odd\t";
         cout<<"Median temperature: "<<temps[temps.size()/2]<<"\n";
     }
-    
-    
 }

@@ -4,8 +4,6 @@
 
 /*BULLS AND COWS GAME*/
 
-
-
 int main()
 try{
     constexpr int max_vector_size = 4;
@@ -24,7 +22,6 @@ try{
         cout<<"Please enter any number, this will generate a seed for your game:";
         cin>>n;
         if (!cin) error("Bad input.");
-
 
         seed_randint(n); //randomizes numbers
         while (random_chars.size() < max_vector_size) 
@@ -92,9 +89,6 @@ try{
         }
     }
 }
-
-
-
 catch(exception& e) {
     cerr << "error: " << e.what() << '\n';
     return 1;

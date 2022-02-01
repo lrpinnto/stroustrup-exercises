@@ -17,7 +17,7 @@ void teste_codigo()  //exercise doesn't make much sense
 
 	double sum = 0;	// accumulate total distance in sum
 	double min = 0;	// smallest distance
-	double max = 0; // latgest distance
+	double max = 0; // largest distance
 
 	cout<< "please enter a whitespace-separated sequence of doubles (representing distances) : ";
 	double val = 0;
@@ -45,8 +45,7 @@ void teste_codigo()  //exercise doesn't make much sense
 }
 
 int main()
-{
-    
+{ 
     vector<double>distance;
     for (double dist ; cin>>dist;)
     {

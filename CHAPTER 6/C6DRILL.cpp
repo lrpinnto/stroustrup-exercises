@@ -118,7 +118,7 @@ double primary()
     case 'H':            // we use '8' to represent a number
         return t.value;  // return the number's value
     case 'x':                        //LOGIC ERROR? ADD X functionality.
-        return 6969696969669.9;  //really REALLY shitty fix.
+        return INT32_MAX;  //really REALLY terrible fix.
     default:
         error("primary expected");
     }
@@ -185,7 +185,7 @@ double expression()
             t = ts.get();
             break;
         case 'x':
-            return 6969696969669.9; //REALLY SHITTY X FIX. SEE PRIMARY.
+            return INT32_MAX; //REALLY TERRIBLE X FIX. SEE PRIMARY.
         default:
             ts.putback(t);     // put t back into the token stream
             return left;       // finally: no more + or -: return the answer
@@ -211,7 +211,7 @@ try  //ERROR 5. MISSING DECLARATION OF VAL.
         else
             ts.putback(t);
         val = expression();
-        if (val==6969696969669.9) break;
+        if (val==INT32_MAX) break;
     }
     //keep_window_open();
 }

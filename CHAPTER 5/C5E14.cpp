@@ -16,7 +16,6 @@ int weekdays(string s)
     constexpr int stop_cin_input = 99;
     constexpr int weird_input = 101;
 
-
     for (string h : sun_var)
     {
         if(h==s) return 1;
@@ -59,7 +58,6 @@ double vector_sum(vector<int>input)
     {
         sum+=i;
     }
-    
     return sum;
 }
 
@@ -76,8 +74,6 @@ try
 
     bool stop=false;
     int reject_count = 0;
-
-
     string day ;
     int val;
     while (!stop)
@@ -117,14 +113,9 @@ try
             reject_count++;
             break;
         }
-
     }
-
     cout<<"Sum days of the week:\n\t"<<sun_var[0]<<" "<<vector_sum(sun_vals)<<"\n\t"<<mon_var[0]<<" "<<vector_sum(mon_vals)<<"\n\t"<<tues_var[0]<<" "<<vector_sum(tues_vals)<<"\n\t"<<wed_var[0]<<" "<<vector_sum(wed_vals)<<"\n\t"<<thur_var[0]<<" "<<vector_sum(thur_vals)<<"\n\t"<<fri_var[0]<<" "<<vector_sum(fri_vals)<<"\n\t"<<sat_var[0]<<" "<<vector_sum(sat_vals)<<"\n\t"<<"Amount of rejected values: "<<reject_count<<'\n';
-    
-    
 }
-
 catch(exception& e) {
     cerr << "error: " << e.what() << '\n';
     return 1;

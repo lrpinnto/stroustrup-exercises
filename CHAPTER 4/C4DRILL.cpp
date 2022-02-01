@@ -41,7 +41,6 @@ int main()
     vector<double>all_numbers;
     while (cin>>a>>unit)
     {
-
         switch (unit_conversion(unit)) //defaults to meters
         {
         case 'c':
@@ -76,9 +75,7 @@ int main()
         {
             smallest=a;
         }
-
         
-
         cout<<smallest<<"m the smallest so far\t"<<largest<<"m the largest so far\t\n";
 
         sum+=a;
@@ -86,7 +83,6 @@ int main()
         all_numbers.push_back(a);
 
         first_pass=false;
-        
     }
 
     cout<<"Sum of "<<sum<<" with a total of "<<counter<<" values!!\n";
