@@ -12,18 +12,19 @@ constexpr bool END_GAME {false};
 constexpr bool CONTINUE_GAME {true};
 constexpr bool DEBUG {true};
 
+constexpr int MAP_SIZE_MULTIPLIER {1}; //TO BE IMPLEMENTED
+
 struct room
 {
     bool wumpus;
     bool bats;
     bool hole;
     bool player;
-    bool travelling_arrow;
     room(int n)
-        :number{n},wumpus{false},bats{false},hole{false},player{false},travelling_arrow{false}
+        :number{n},wumpus{false},bats{false},hole{false},player{false}
     {}
     room(const room& r)
-        :number{r.get_number()},adjacent_rooms{r.adjacent_rooms},wumpus{r.wumpus},bats{r.bats},hole{r.hole},player{r.player},travelling_arrow{r.travelling_arrow}
+        :number{r.get_number()},adjacent_rooms{r.adjacent_rooms},wumpus{r.wumpus},bats{r.bats},hole{r.hole},player{r.player}
     {}
     void add_adjacent(room*);
     std::vector<room*> get_adjacent(){return adjacent_rooms;}
@@ -46,6 +47,7 @@ struct player
     void set_location(room* r){location=r;}
     room* get_location() {return location;}
     int& set_arrows(){return crooked_arrows;}
+    int get_arrows() const {return crooked_arrows;}
 private:
     int crooked_arrows;
     room* location; 
@@ -171,10 +173,6 @@ bool game::movePlayer(int position)
         std::cout << "The Wumpus got you! YOU LOSE." << std::endl;
         return END_GAME;
     }
-    /*if(rooms[p.get_location()->get_number()-1].travelling_arrow){
-        std::cout << "You got hit by your own arrow! YOU LOSE." << std::endl;
-        return END_GAME;
-    }*/
     if(rooms[p.get_location()->get_number()-1].hole){
         std::cout << "You fell into a bottomless pit! YOU LOSE." << std::endl;
         return END_GAME;
@@ -184,7 +182,7 @@ bool game::movePlayer(int position)
         batEncounter();
         return CONTINUE_GAME;
     }
-    return CONTINUE_GAME;
+    return movearrows();
 }
 
 bool game::movewumpus()
@@ -194,6 +192,11 @@ bool game::movewumpus()
 
 bool game::movearrows()
 {
+    if(p.get_arrows()<1 && arrow_rooms.empty()) 
+    {
+        std::cout << "You ran out of ammo! YOU LOSE!" << std::endl;
+        return END_GAME;
+    }
     if(arrow_rooms.empty()) return CONTINUE_GAME;
     std::cout << "Your arrow moves to another room!" << std::endl;
     
@@ -209,7 +212,6 @@ bool game::movearrows()
     }
     else
     {
-        //rooms[arrow_rooms[0]-1].travelling_arrow;
         arrow_rooms.erase(arrow_rooms.begin());
         return CONTINUE_GAME;
     }  
@@ -217,23 +219,36 @@ bool game::movearrows()
 
 bool game::shoot(int intial_room)
 {
+    if(!arrow_rooms.empty()) 
+    {
+        std::cout << "You may only have 1 active arrow at the time." << std::endl;
+        return false;
+    }
     room current_arrow_room {*p.get_location()}; //set arrow room as the players position before the arrow gets shot
     int target {intial_room};
     char c {0};
     //BUILD arrow_rooms list
     if(target != current_arrow_room.get_adjacent()[0]->get_number() && target != current_arrow_room.get_adjacent()[1]->get_number() && target != current_arrow_room.get_adjacent()[2]->get_number()){
             std::cout << "Invalid choice. Please target an ADJACENT room." << std::endl;
+            //If the player enters a cave number that is not connected to where the arrow is, the game picks a valid option at random. 
+            std::cout << "Shooting at random..." << std::endl;
+            arrow_rooms.push_back(current_arrow_room.get_adjacent()[rand()%current_arrow_room.get_adjacent().size()]->get_number());
     }
-    arrow_rooms.push_back(target);
-    while(arrow_rooms.size()<5){
-        std::cout << "Type the room where the arrow should move through or c to end. (Max: 5 rooms)" << std::endl;
+    else if(p.get_arrows()>0) arrow_rooms.push_back(target);
+    std::cout << "##Type the room where the arrow should move through sX or c to end. (Max: 5 rooms)##" << std::endl;
+    while(arrow_rooms.size()<5 && p.get_arrows()>0){
         while(true){
             std::cout << "Your arrow is currently targetting room " << std::to_string(rooms[arrow_rooms.back()-1].get_number()) << std::endl;
             std::cout << "Adjacent rooms are " << std::to_string(rooms[arrow_rooms.back()-1].get_adjacent()[0]->get_number()) <<", "<<std::to_string(rooms[arrow_rooms.back()-1].get_adjacent()[1]->get_number())
                 <<", "<<std::to_string(rooms[arrow_rooms.back()-1].get_adjacent()[2]->get_number())<<std::endl;
             std::cout << 5-arrow_rooms.size() << " rooms left." << std::endl;
             std::cout << "Enter command: ";
-            std::cin >> c >> target;
+            std::cin >> c;
+            if(c != 'c')
+            {
+                std::cin.putback(c);
+                std::cin >> c >> target;
+            }
             if(std::cin.fail() || (c != 'c' && c != 's')){
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<int>::max(),'\n');
@@ -247,16 +262,18 @@ bool game::shoot(int intial_room)
         }
         if(target != rooms[arrow_rooms.back()-1].get_adjacent()[0]->get_number() && target != rooms[arrow_rooms.back()-1].get_adjacent()[1]->get_number() && target != rooms[arrow_rooms.back()-1].get_adjacent()[2]->get_number()){
             std::cout << "Invalid choice. Please target an ADJACENT room." << std::endl;
-            continue;
+            //If the player enters a cave number that is not connected to where the arrow is, the game picks a valid option at random. 
+            std::cout << "Shooting at random..." << std::endl;
+            arrow_rooms.push_back(rooms[arrow_rooms.back()-1].get_adjacent()[rand()%rooms[arrow_rooms.back()-1].get_adjacent().size()]->get_number());
         }
-        arrow_rooms.push_back(target);
-
+        else arrow_rooms.push_back(target);
     }
     /*else if(p.get_location()->get_adjacent()[0]->wumpus || p.get_location()->get_adjacent()[1]->wumpus || p.get_location()->get_adjacent()[2]->wumpus)
         return movewumpus();*/
 
     p.set_arrows()--; //decrease players ammo after a sucessfull shot
     std::cout << "You shot an arrow towards room " << rooms[arrow_rooms.back()-1].get_number() << std::endl;
+    return true;
 }
 
 void game::addPlayer()
@@ -325,14 +342,14 @@ void game::reportState()
     std::cout << "Adjacent rooms are " << std::to_string(p.get_location()->get_adjacent()[0]->get_number()) <<", "<<std::to_string(p.get_location()->get_adjacent()[1]->get_number())
               <<", "<<std::to_string(p.get_location()->get_adjacent()[2]->get_number())<<std::endl;
 
-    /*if(cave[p.getAdj(0)].bat || cave[p.getAdj(1)].bat || cave[p.getAdj(2)].bat)
+    if(p.get_location()->get_adjacent()[0]->bats || p.get_location()->get_adjacent()[1]->bats || p.get_location()->get_adjacent()[2]->bats)
         std::cout << "I hear a bat." << std::endl;
 
-    if(cave[p.getAdj(0)].pit || cave[p.getAdj(1)].pit || cave[p.getAdj(2)].pit)
+    if(p.get_location()->get_adjacent()[0]->hole || p.get_location()->get_adjacent()[1]->hole || p.get_location()->get_adjacent()[2]->hole)
         std::cout << "I feel a draft." << std::endl;
 
-    if(cave[p.getAdj(0)].wump || cave[p.getAdj(1)].wump || cave[p.getAdj(2)].wump)
-        std::cout << "I smell the wumpus." << std::endl;*/
+    if(p.get_location()->get_adjacent()[0]->wumpus || p.get_location()->get_adjacent()[1]->wumpus || p.get_location()->get_adjacent()[2]->wumpus)
+        std::cout << "I smell the wumpus." << std::endl;
 }
 
 void game::debug()
@@ -367,15 +384,17 @@ void game::debug()
     for (int i : arrow_rooms)
     {
         arrows_loc.push_back('->');
-        arrows_loc+=i;
+        arrows_loc+=std::to_string(i);
     }
         
     std::cout << std::endl;
+    std::cout << "#############DEBUGGING#############" << std::endl;
     std::cout << "\tWumpus -> " << wumpus << std::endl;
     std::cout << "\tBat -> " << bat << std::endl;
     std::cout << "\tPit -> " << pit << std::endl;
     std::cout << "\tPlayer -> " << player_loc << std::endl;
     std::cout << "\tArrows -> " << arrows_loc << std::endl;
+    std::cout << "###################################" << std::endl;
     std::cout << std::endl;
     
 }
@@ -383,7 +402,7 @@ void game::debug()
 void gameloop(game& game_entity)
 {
     bool game_state {true};
-    while (game_state) try 
+    while (game_state)
     {
         if(DEBUG) game_entity.debug();
         game_entity.reportState();
@@ -403,29 +422,22 @@ void gameloop(game& game_entity)
         if(c == 'm')
         { 
             game_state=game_entity.movePlayer(r);
-            if(!game_state) continue; //ignore arrow movement. The game is over
         }
-        else
+        else if(game_entity.shoot(r)) //Only allow 1 arrow travelling at the same time
         {
-            /*game_state=*/game_entity.shoot(r);
-            //if(!game_state) continue; //ignore arrow movement. The game is over
+            game_state=game_entity.movearrows(); 
         }
-        game_state=game_entity.movearrows(); //TODO:this messes with game_state by overriding the other actions above
-	}
-	catch (std::runtime_error& e) {
-		std::cerr << e.what() << std::endl;
-		//clean_up_mess();
-	}
+    }
 }
 
 int main()
 try{
     time_t seed_time {time(0)};
     int seed_num {unsigned(seed_time)};
+    std::cout << "Hunt the Wumpus! Shoot an arrow at the Wumpus to win the game." << '\n' << "Your unique seed is " << seed_num << '.' <<std::endl;
     srand(unsigned(time(0)));
     game abc;
     abc.setupgame();
-    //abc.rooms[0].get_adjacent()[0]->get_number();
     gameloop(abc);
 }
 catch(std::exception& e) {
