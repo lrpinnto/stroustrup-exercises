@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <limits>
+#include <istream>
 
 constexpr int MAX_ROOM_SIZE {20};
 constexpr int BAT_AMOUNT {2};
@@ -10,7 +11,7 @@ constexpr int PIT_AMOUNT {2};
 
 constexpr bool END_GAME {false};
 constexpr bool CONTINUE_GAME {true};
-constexpr bool DEBUG {true};
+//constexpr bool DEBUG {true};
 
 constexpr int MAP_SIZE_MULTIPLIER {1}; //TO BE IMPLEMENTED
 
@@ -85,9 +86,6 @@ game::game()
 
 void game::setupgame() //TODO: ALLOW THE CREATION OF BIGGER MAPS
 {
-/*
-Additionally, two of the caves contain bottomless pits, while two others contain "super bats" which will pick up the player and move them to a random cave. The game is turn-based; each cave is given a number by the game, and each turn begins with the player being told which cave they are in and which caves are connected to it by tunnels. The player then elects to either move to one of those connected caves or shoot one of their five "crooked arrows", named for their ability to change direction while in flight. Each cave is connected to three others, and the system as a whole is equivalent to a dodecahedron.[1]
-*/
     int n {1};
     int m {n+5};//6
     int l {m+10};//16
@@ -97,6 +95,7 @@ Additionally, two of the caves contain bottomless pits, while two others contain
         rooms.push_back(temp_room);
     }
     //generate the dodecahedral cave
+    //The cave is generated from the inside out
     for (int i = n; i < m-1; i++) //core ring
     {
         rooms[i-1].add_adjacent(&rooms[m+i*2-1]); //1->8(...)
@@ -166,12 +165,21 @@ bool game::movePlayer(int position)
     //change position flags
     rooms[p.get_location()->get_number()-1].player = false;
     rooms[position-1].player = true;
-    room_status[p.get_location()->get_number()-1] = false;
+    room_status[p.get_location()->get_number()-1] = false; //BUG?: this might affect bats if player lands on a bats room after a batencounter()
     p.set_location(&rooms[position-1]);
 
-    if(rooms[p.get_location()->get_number()-1].wumpus){
-        std::cout << "The Wumpus got you! YOU LOSE." << std::endl;
-        return END_GAME;
+    if(rooms[p.get_location()->get_number()-1].wumpus){ 
+        int chance {rand()%3};//random chance of startling the wumpus
+        if(chance==1)
+        {
+            std::cout << "You startled the Wumpus! He fled." << std::endl;
+            return movewumpus();
+        }
+        else
+        {
+            std::cout << "The Wumpus got you! YOU LOSE." << std::endl;
+            return END_GAME;
+        }
     }
     if(rooms[p.get_location()->get_number()-1].hole){
         std::cout << "You fell into a bottomless pit! YOU LOSE." << std::endl;
@@ -185,8 +193,38 @@ bool game::movePlayer(int position)
     return movearrows();
 }
 
-bool game::movewumpus()
+bool game::movewumpus() 
+//wumpus may move after a failed shot or if the player enters his room by chance
+//If the Wumpus moves to the player's location, they lose.
+//unlike the player, the Wumpus is not affected by super bats or pits
 {
+    int rand_room  {rand()%MAX_ROOM_SIZE};
+    int initial_room {0};
+    
+    for (room r : rooms) //get the room that contains the wumpus
+    {
+        if (r.wumpus)
+            initial_room= r.get_number();
+    }
+    
+    while(rand_room==initial_room)
+        int rand_room = rand()%MAX_ROOM_SIZE;
+
+    rooms[initial_room-1].wumpus = false;
+
+    if(!rooms[initial_room-1].bats || !rooms[initial_room-1].hole)
+        room_status[initial_room-1]=false;
+
+
+    rooms[rand_room].wumpus = true;
+    room_status[rand_room] = true;
+
+    if(rooms[rand_room].player){
+        std::cout << "The Wumpus got you! YOU LOSE." << std::endl;
+        return END_GAME;
+    }
+
+    std::cout << "The Wumpus moves to another room." << std::endl; 
     return CONTINUE_GAME;
 }
 
@@ -197,7 +235,9 @@ bool game::movearrows()
         std::cout << "You ran out of ammo! YOU LOSE!" << std::endl;
         return END_GAME;
     }
+    
     if(arrow_rooms.empty()) return CONTINUE_GAME;
+
     std::cout << "Your arrow moves to another room!" << std::endl;
     
     if(rooms[arrow_rooms[0]-1].wumpus)
@@ -213,7 +253,13 @@ bool game::movearrows()
     else
     {
         arrow_rooms.erase(arrow_rooms.begin());
-        return CONTINUE_GAME;
+        int chance {rand()%2};
+        if(arrow_rooms.empty() && chance==1)
+        {
+            std::cout << "The Wumpus heard you arrow hit the flood! He fled." << std::endl; 
+            return movewumpus();
+        }
+        else return CONTINUE_GAME;
     }  
 }
 
@@ -228,7 +274,7 @@ bool game::shoot(int intial_room)
     int target {intial_room};
     char c {0};
     //BUILD arrow_rooms list
-    if(target != current_arrow_room.get_adjacent()[0]->get_number() && target != current_arrow_room.get_adjacent()[1]->get_number() && target != current_arrow_room.get_adjacent()[2]->get_number()){
+    if(target != current_arrow_room.get_adjacent()[0]->get_number() && target != current_arrow_room.get_adjacent()[1]->get_number() && target != current_arrow_room.get_adjacent()[2]->get_number() && p.get_arrows()>0){
             std::cout << "Invalid choice. Please target an ADJACENT room." << std::endl;
             //If the player enters a cave number that is not connected to where the arrow is, the game picks a valid option at random. 
             std::cout << "Shooting at random..." << std::endl;
@@ -268,11 +314,10 @@ bool game::shoot(int intial_room)
         }
         else arrow_rooms.push_back(target);
     }
-    /*else if(p.get_location()->get_adjacent()[0]->wumpus || p.get_location()->get_adjacent()[1]->wumpus || p.get_location()->get_adjacent()[2]->wumpus)
-        return movewumpus();*/
 
     p.set_arrows()--; //decrease players ammo after a sucessfull shot
     std::cout << "You shot an arrow towards room " << rooms[arrow_rooms.back()-1].get_number() << std::endl;
+    if(p.get_arrows()==1) std::cout << "You are low on ammo!!" << std::endl;
     return true;
 }
 
@@ -296,7 +341,6 @@ void game::addPlayer()
 }
 
 void game::addWump()
-//spawns the wumpus in a random room
 {
     int empty_room_index;
     empty_room_index=rand()%room_status.size();
@@ -304,12 +348,10 @@ void game::addWump()
         empty_room_index=rand()%room_status.size();
 
     rooms[empty_room_index].wumpus = true;
-    //std::cout<<"Wumpus in room "<<vacant[r]<<std::endl;
     room_status[empty_room_index] = true; //remove vacancy
 }
 
 void game::addBats()
-//spawns bats
 {
     int empty_room_index;
     for(int i = 0; i < BAT_AMOUNT; ++i){
@@ -323,7 +365,6 @@ void game::addBats()
 }
 
 void game::addPits()
-//place pits
 {
     int empty_room_index;
     for(int i = 0; i < PIT_AMOUNT; ++i){
@@ -383,7 +424,7 @@ void game::debug()
     }
     for (int i : arrow_rooms)
     {
-        arrows_loc.push_back('->');
+        arrows_loc+="->";
         arrows_loc+=std::to_string(i);
     }
         
@@ -394,6 +435,7 @@ void game::debug()
     std::cout << "\tPit -> " << pit << std::endl;
     std::cout << "\tPlayer -> " << player_loc << std::endl;
     std::cout << "\tArrows -> " << arrows_loc << std::endl;
+    std::cout << "\tAmmo -> " << p.get_arrows() << std::endl;
     std::cout << "###################################" << std::endl;
     std::cout << std::endl;
     
@@ -404,7 +446,9 @@ void gameloop(game& game_entity)
     bool game_state {true};
     while (game_state)
     {
-        if(DEBUG) game_entity.debug();
+        #ifdef DEBUG //compile with -DDEBUG to generate debug output
+            game_entity.debug();
+        #endif
         game_entity.reportState();
         char c = 0;
         int r = -1;
@@ -434,8 +478,18 @@ int main()
 try{
     time_t seed_time {time(0)};
     int seed_num {unsigned(seed_time)};
-    std::cout << "Hunt the Wumpus! Shoot an arrow at the Wumpus to win the game." << '\n' << "Your unique seed is " << seed_num << '.' <<std::endl;
-    srand(unsigned(time(0)));
+    std::cout << "Hunt the Wumpus! Shoot an arrow at the Wumpus to win the game." << '\n' << "Your unique seed is " << seed_num << '.' << std::endl;
+    std::cout << "You can input your own numeric seed or leave blank to use your generated random one and start the game: ";
+    int new_seed;
+    char c;
+    std::cin.get(c);
+    if(std::isdigit(c))
+    {
+        std::cin.putback(c);
+        std::cin >> new_seed;
+        srand(new_seed);
+    }
+    else srand(seed_num);
     game abc;
     abc.setupgame();
     gameloop(abc);
