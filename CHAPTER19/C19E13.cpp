@@ -1,5 +1,14 @@
 //Chapter 19 ex 13
-//Need to understand RAII notions to complete exercise
+//RESOURCE ACQUISITION IS INITIALIZATION
+
+/*
+Local objects
+Member objects
+Global objects
+Objects allocated by new
+...
+*/
+
 #include <iostream>
 using namespace std;
 
@@ -11,7 +20,24 @@ private:
 public:
     Tracer(string,string);
     ~Tracer();
+    //COPY INIT AND DEF----
+    Tracer(const Tracer& arg)
+        :sc{arg.sc},sd{arg.sd} {cout<<"copy constructor: "<<sc<<'\n';}
+    Tracer& operator=(const Tracer& a)
+    {
+        sc=a.sc;
+        sd=a.sd;
+        cout<<"copy assignment: "<<sc<<'\n';
+        return *this;
+    }
+    //COPY INIT AND DEF----
 };
+
+struct s
+{
+    Tracer t {"Member","Member"};
+};
+
 
 Tracer::Tracer(string constructor, string destructor)
     :sc{constructor}, sd{destructor}
@@ -24,32 +50,23 @@ Tracer::~Tracer()
     cout<<"destructor: "<<sd<<'\n';
 }
 
-void f1()
-{
-    Tracer ft1 {"move assignment", "move assignment"};
-    Tracer ft2 = ft1;
-}
-
-Tracer f2()
-{
-    Tracer ft3 {"move constructor", "move constructor"};
-    return ft3;
-}
-
-
 Tracer global_tr {"global","global"};
 
 int main()
 {
-    cout << "--------------main()\n";
+    cout << "BEGIN--------------main()\n";
 
     Tracer t1 {"main tracer", "main tracer"};
 
-    f1();
+    s t2;
 
-    Tracer t2 = f2();
+    Tracer* p {new Tracer{"new","new"}};
 
-    Tracer t3 = t1;
+    delete p;
 
-    cout << "--------------main()\n";
+    Tracer t3 {t1};
+
+    t1 = t3;
+
+    cout << "END--------------main()\n";
 }
