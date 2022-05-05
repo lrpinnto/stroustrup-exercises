@@ -4,6 +4,9 @@
 #include <memory>
 #include <algorithm>
 
+//This is an UNTESTED copy of what's in the book on CHAPTER19
+//minivector from C19E16.cpp has actually been tested and reworked by me
+
 struct out_of_range : std::out_of_range {	// enhanced vector range error reporting
 	int index;
 	out_of_range(int i) :std::out_of_range("Range error: "+std::to_string(i)), index(i) { }
