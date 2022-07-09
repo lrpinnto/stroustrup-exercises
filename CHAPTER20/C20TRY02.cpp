@@ -1,4 +1,4 @@
-//CHAPTER 20 TRY 01
+//CHAPTER 20 TRY 02
 
 //There are 2 "serious errors" according to the book
 //still unsure what those might be. moving along.
