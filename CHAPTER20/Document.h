@@ -5,26 +5,8 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <algorithm>
+
 using Line = std::vector<char>;
-
-struct Document
-{
-    std::list<Line> line;
-    Document() {line.push_back(Line{});}
-
-    Text_iterator begin()
-    {
-        return Text_iterator(line.begin(),(*line.begin()).begin());
-    }
-
-    Text_iterator end()
-    {
-        auto last = line.end();
-        --last;
-        return Text_iterator(last,(*last).end());
-    }
-};
 
 class Text_iterator
 {
@@ -58,6 +40,23 @@ Text_iterator& Text_iterator::operator++()
     return *this;
 }
 
+struct Document
+{
+    std::list<Line> line;
+    Document() {line.push_back(Line{});}
+
+    Text_iterator begin()
+    {
+        return Text_iterator(line.begin(),(*line.begin()).begin());
+    }
+
+    Text_iterator end()
+    {
+        auto last = line.end();
+        --last;
+        return Text_iterator(last,(*last).end());
+    }
+};
 
 std::istream& operator>>(std::istream& is, Document& d)
 {
@@ -95,10 +94,20 @@ bool match(Iter first, Iter last, const std::string& s)
 {
     for (char c : s)
     {
-        if(first==last) return true;
+        if(first==last) return false; //they wont match if we run out of characters to iterate
         if(*first!= c) return false;
         ++first;
     }
+    //if(first==last) //Use this for a perfect match with size included. Not exactly what we seek with this exercise
+    return true; 
+    //else return false;
+}
+
+template<typename ln, typename T> //page 760
+ln find(ln first, ln last, const T& val)
+{
+    while(first!=last && *first!=val) ++first;
+    return first;
 }
 
 Text_iterator find_txt(Text_iterator first, Text_iterator last, const std::string& s)
@@ -107,7 +116,7 @@ Text_iterator find_txt(Text_iterator first, Text_iterator last, const std::strin
     char first_char = s[0];
     while(true)
     {
-        auto p = std::find(first,last,first_char);
+        auto p = find(first,last,first_char);
         if(p==last || match(p,last,s)) return p;
         first=++p;
     }
