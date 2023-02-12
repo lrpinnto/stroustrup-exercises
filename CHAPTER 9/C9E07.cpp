@@ -393,7 +393,7 @@ private:
     vector<Patron>patrons;
     vector<Transaction>transactions;
 public:
-    Library(/* args */);
+    Library(){}
     //int get_newid() {id++; return id;}
     void add_book(const Book book){books.push_back(book);}
     void add_patron(Patron& patron){id++; patron.set_id(id);patrons.push_back(patron);}  //generates unique id
@@ -428,30 +428,24 @@ public:
     }
 };
 
-Library::Library(/* args */)
-{
-}
-
-
-
 int main()
 {
-    Library teste;
-    Patron maria {"Maria"};
-    maria.set_fee(1.99);
-    Patron marta {"Marta"};
-    marta.set_fee(0.99);
-    Patron joaquina {"Joaquina"};
-    teste.add_patron(maria);
-    teste.add_patron(marta);
-    teste.add_patron(joaquina);
+    Library library;
+    Patron patron1 {"Patron 1"};
+    patron1.set_fee(1.99);
+    Patron patron2 {"Patron 2"};
+    patron2.set_fee(0.99);
+    Patron patron3 {"Patron 3"};
+    library.add_patron(patron1);
+    library.add_patron(patron2);
+    library.add_patron(patron3);
 
     Book somebook {{"111-232-444-m"},"Book about something cool","John H.",{Year(2016),Month::jul,3},Genre::nonfiction};
     Book somebook2 {{"113-232-444-m"},"Book about something cool 2","John H.",{Year(2016),Month::aug,3},Genre::children};
 
-    teste.add_book(somebook);
-    teste.add_book(somebook2);
-    teste.add_book({
+    library.add_book(somebook);
+    library.add_book(somebook2);
+    library.add_book({
         {"321-32131-221231-i"},
         "hello book",
         "some guy",
@@ -459,9 +453,29 @@ int main()
         Genre::biography}
     );
 
+    cout<<"Debt list:\n";
+    for(string s : library.get_debtlist())
+        cout<<s<<endl;
+
+    cout<<"Attempting to check out book..."<<endl;
+    library.check_out(somebook,patron3,Date(2023,Month::feb,12));
+    try {
+        library.check_out(Book({"321-32131-221231-i"},
+        "hello book",
+        "some guy",
+        {{2009},Month::nov,3},
+        Genre::biography),patron2,Date(2023,Month::feb,12));
+    }
+    catch(runtime_error)
+    {
+        cout<<"Can't checkout books to Patrons who owe fees!\n";
+    }
+    cout<<"Transaction list:\n";
+    for(string s : library.get_transactions())
+        cout<<s<<endl;
+
     Date teste1 {{2018},Month::feb,28};
 
-    
-
+    cout<<"epoch2date test:"<<endl;
     cout<<epoch2date(date2epoch(teste1));
 }

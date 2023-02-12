@@ -115,20 +115,20 @@ void Name_pairs::sort()
 
 int main()
 {
-    Name_pairs maria {"maria",9};
-    cout<<maria<<'\n';
-    vector<double>idades = {1,2,3};
-    vector<string>nomes = {"rute","joana","cao"};
-    Name_pairs turma {nomes,idades};
-    cout<<turma<<'\n';
-    turma.read_names(5);
-    cout<<turma<<'\n';
-    turma.read_ages();
-    cout<<turma<<'\n';
-    turma.sort();
-    cout<<turma<<'\n';
+    Name_pairs test {"Test Name",0};
+    cout<<test<<'\n';
+    vector<double>ages = {1,2,3};
+    vector<string>names = {"Person 1","Person 2","Person 3"};
+    Name_pairs group {names,ages};
+    cout<<group<<'\n';
+    group.read_names(5);
+    cout<<group<<'\n';
+    group.read_ages();
+    cout<<group<<'\n';
+    group.sort();
+    cout<<group<<'\n';
     //---------------operator test
-    Name_pairs maria_copy {maria};
-    cout<<(maria==maria_copy);
-    cout<<(maria!=turma);
+    Name_pairs test_copy {test};
+    cout<<(test==test_copy);
+    cout<<(test!=group);
 }

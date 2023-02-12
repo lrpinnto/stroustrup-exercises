@@ -122,10 +122,11 @@ Book::Book(ISBN idd, string titlee, string authorr, Date cright_datee)
 int main()
 {
     Book harry_potter_ps {{"9781-4088-5565-2"},"Harry Potter and the Philosopher's Stone","J.K.Rowling",{Year{2014},Month::sep,1}};
-    cout<<harry_potter_ps.is_checked();
+    cout<<"Book checked out?:"<<harry_potter_ps.is_checked()<<endl;
+    cout<<"Checking out book..."<<endl;
     harry_potter_ps.check_out();
-    cout<<harry_potter_ps.is_checked();
+    cout<<"Book checked out?:"<<harry_potter_ps.is_checked()<<endl;
 
-    cout<<"The book's title is "<<harry_potter_ps.get_title()<<" written by "<<harry_potter_ps.get_author()<<" with the ISBN "<<harry_potter_ps.get_ISBN()<<" and copy right date "<<harry_potter_ps.get_date();
+    cout<<"The book's title is "<<harry_potter_ps.get_title()<<" written by "<<harry_potter_ps.get_author()<<" with the ISBN "<<harry_potter_ps.get_ISBN()<<" and copy right date "<<harry_potter_ps.get_date()<<endl;
 }
 

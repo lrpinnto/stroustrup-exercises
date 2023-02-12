@@ -110,16 +110,16 @@ void Name_pairs::print()  //Terrible hack
 
 int main()
 {
-    Name_pairs maria {"maria",9};
-    maria.print();
-    vector<double>idades = {1,2,3};
-    vector<string>nomes = {"rute","joana","cao"};
-    Name_pairs turma {nomes,idades};
-    turma.print();
-    turma.read_names(5);
-    turma.print();
-    turma.read_ages();
-    turma.print();
-    turma.sort();
-    turma.print();
+    Name_pairs test {"Test Name",0};
+    test.print();
+    vector<double>ages = {1,2,3};
+    vector<string>names = {"Person 1","Person 2","Person 3"};
+    Name_pairs group {names,ages};
+    group.print();
+    group.read_names(5);
+    group.print();
+    group.read_ages();
+    group.print();
+    group.sort();
+    group.print();
 }

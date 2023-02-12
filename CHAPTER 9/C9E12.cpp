@@ -450,22 +450,22 @@ public:
 int main()
 {
     using namespace libr;
-    Library teste;
-    Patron maria {"Maria"};
-    maria.set_fee(1.99);
-    Patron marta {"Marta"};
-    marta.set_fee(0.99);
-    Patron joaquina {"Joaquina"};
-    teste.add_patron(maria);
-    teste.add_patron(marta);
-    teste.add_patron(joaquina);
+    Library library;
+    Patron patron1 {"Patron 1"};
+    patron1.set_fee(1.99);
+    Patron patron2 {"Patron 2"};
+    patron2.set_fee(0.99);
+    Patron patron3 {"Patron 3"};
+    library.add_patron(patron1);
+    library.add_patron(patron2);
+    library.add_patron(patron3);
 
     Book somebook {{"111-232-444-m"},"Book about something cool","John H.",{chrono::Year(2016),chrono::Month::jul,3},Genre::nonfiction};
     Book somebook2 {{"113-232-444-m"},"Book about something cool 2","John H.",{chrono::Year(2016),chrono::Month::aug,3},Genre::children};
 
-    teste.add_book(somebook);
-    teste.add_book(somebook2);
-    teste.add_book({
+    library.add_book(somebook);
+    library.add_book(somebook2);
+    library.add_book({
         {"321-32131-221231-i"},
         "hello book",
         "some guy",
@@ -473,9 +473,6 @@ int main()
         Genre::biography}
     );
 
-    chrono::Date teste1 {{2018},chrono::Month::feb,28};
-
-    
-
-    cout<<chrono::epoch2date(chrono::date2epoch(teste1));
+    chrono::Date datetest {{2018},chrono::Month::feb,28};
+    cout<<chrono::epoch2date(chrono::date2epoch(datetest));
 }

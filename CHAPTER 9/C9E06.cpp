@@ -157,6 +157,6 @@ int main()
     Book harry_potter_ps {{"9781-4088-5565-2"},"Harry Potter and the Philosopher's Stone","J.K.Rowling",{Year{2014},Month::sep,1}};
     ISBN teste {123,456,789,'l'};
     ISBN test2 {harry_potter_ps.get_ISBN()};
-    cout<<(test2==teste)<<(test2!=teste);
+    cout<<"Operator test:"<<(test2==teste)<<(test2!=teste)<<endl;
     cout<<harry_potter_ps;
 }
