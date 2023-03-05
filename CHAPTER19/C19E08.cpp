@@ -1,6 +1,4 @@
 //CHAPTER 19 EX 08 & 09
-
-#include <vector>
 #include "vector.h"
 
 /*
@@ -64,7 +62,7 @@ struct Vector : public std::vector<T>
     }
 };*/
 
-template<typename T, typename A = allocator<T>>
+template<typename T, typename A = allocator_malloc<T>>
 class vector_malloc 
 {
 private:
