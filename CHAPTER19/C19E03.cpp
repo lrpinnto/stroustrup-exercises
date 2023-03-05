@@ -34,14 +34,15 @@ public:
 
 void Symbol_table::declare_var(string s, double d) 
 {
+	if(is_declared(s)) throw runtime_error("declare_var: variable is already declared ");
 	var_table.push_back(Pair<string,double>(s, d));
 }
 
-double Symbol_table::get_value(string s)   //gets value from calculator variable
+double Symbol_table::get_value(string s)   
 {
 	for (int i = 0; i < var_table.size(); ++i)
 		if (var_table[i].first() == s) return var_table[i].second();
-	throw runtime_error("get: undefined name ");   //Value not yet defined (in the calculator)
+	throw runtime_error("get: undefined name ");   //Value not yet defined
 }
 
 void Symbol_table::set_value(string s, double d)    //Assigns value to variable in the calculator
@@ -71,11 +72,21 @@ void Symbol_table::define_var()  //list of variables to be defined at the start 
 int main()
 try {
     Pair<int,double> abc;
-    cout<<abc.first()<<abc.second();
+    cout<<abc.first()<<abc.second()<<'\n';
     Symbol_table sym;
     sym.define_var();
     sym.declare_var("test",0);
-    cout<<sym.is_declared("pi")<<sym.get_value("e")<<sym.get_value("test");
+    cout<<sym.is_declared("pi")<<' '<<sym.get_value("e")<<' '<<sym.get_value("test");
+	try
+	{
+		sym.declare_var("test",20);
+	}
+	catch(const runtime_error& e)
+	{
+		cout << "\nerror test:\n";
+		cerr << e.what() << '\n';
+	}
+	return 0;
 }
 catch(std::exception& e) {
     std::cerr << "Exception: " << e.what() << '\n';
