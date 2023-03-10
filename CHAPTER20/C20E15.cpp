@@ -10,6 +10,7 @@
 
 #include "../CHAPTER19/vector.h"
 #include <vector>
+#include "../CHAPTER19/tracer.h"
 
 template<typename T>
 class pvector
@@ -54,5 +55,11 @@ int main()
 {
     pvector<int> a;
     a.push_back(34);
-    std::cout<<a[0]<<" "<<*(a[0]);
+    a.push_back(20);
+    std::cout<<a[0]<<" "<<*(a[0])<<" "<<a[1]<<" "<<*(a[1])<<'\n';
+
+    pvector<Tracer> x;
+    x.push_back(Tracer("Constructor 1","Destructor 1"));
+    x.push_back(Tracer("Constructor 2","Destructor 2"));
+    std::cout<<"Going out of scope\n";
 }

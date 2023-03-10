@@ -10,45 +10,13 @@ Objects allocated by new
 */
 
 #include <iostream>
+#include "./tracer.h"
 using namespace std;
-
-class Tracer
-{
-private:
-    string sc;
-    string sd;
-public:
-    Tracer(string,string);
-    ~Tracer();
-    //COPY INIT AND DEF----
-    Tracer(const Tracer& arg)
-        :sc{arg.sc},sd{arg.sd} {cout<<"copy constructor: "<<sc<<'\n';}
-    Tracer& operator=(const Tracer& a)
-    {
-        sc=a.sc;
-        sd=a.sd;
-        cout<<"copy assignment: "<<sc<<'\n';
-        return *this;
-    }
-    //COPY INIT AND DEF----
-};
 
 struct s
 {
     Tracer t {"Member","Member"};
 };
-
-
-Tracer::Tracer(string constructor, string destructor)
-    :sc{constructor}, sd{destructor}
-{
-    cout<<"constructor: "<<sc<<'\n';
-}
-
-Tracer::~Tracer()
-{
-    cout<<"destructor: "<<sd<<'\n';
-}
 
 Tracer global_tr {"global","global"};
 
