@@ -1,0 +1,10 @@
+Some_item8 8 34433.435345339
+Some_item7 7 3345345.435539
+Some_item1 1 3.9
+Some_item9 9 356757.765759
+Some_item10 10 678683.999
+Some_item3 3 3.4359
+Some_item2 2 3434.9
+Some_item4 4 3.94
+Some_item5 5 3.934543
+Some_item6 6 4353.9
