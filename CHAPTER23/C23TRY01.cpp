@@ -1,5 +1,7 @@
 // CHAPTER 23 TRY 01
 
+// Run the example and modify Mail_file's constructor to handle likely formatting errors related to the use of ----.
+
 #include <string>
 #include <vector>
 #include <map>
