@@ -38,7 +38,7 @@ def generate_email_message():
 
     message = ''.join(random.choices(string.ascii_lowercase + ' ', k=random.randint(50,100)))
 
-    subject = ''.join(random.choices(string.ascii_lowercase, k=random.randint(5,20)))
+    subject = "special subject #"+str(random.randint(1,10))
 
     year = random.randint(2020,2023)
     month = random.randint(1,12)
@@ -50,11 +50,11 @@ def generate_email_message():
 
     return email_message
 
-num_emails = 50
+num_emails = 2000
 print("xxx\nxxx\n----")
 for i in range(num_emails):
-    h = random.randint(1,4)
-    if h==4: # 1/4 times we get the "not so random" email
+    h = random.randint(1,10)
+    if h==10: # 1/10 times we get the "not so random" email
         print(generate_email_message())
     else:
         print(generate_random_email_message())
