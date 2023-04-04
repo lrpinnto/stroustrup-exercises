@@ -1,6 +1,6 @@
 // CHAPTER 24 EX 05
 
-// Cause tge gaussian elimination to fail and then try with elim_with_partial_pivot()
+// Cause the gaussian elimination to fail and then try with elim_with_partial_pivot()
 
 #include "./classical_gaussian_elimination.h"
 #include <iostream>
@@ -45,6 +45,7 @@ Vector partial_pivot_elimination(Matrix A, Vector b)
 
 int main()
 {
+    // Testing partial pivot, expecting x = {1 2 3 }
     double a[3][3] = 
     {
        {1,2,3},
@@ -62,4 +63,33 @@ int main()
 
     Vector x = partial_pivot_elimination(A, B);
     std::cout << "x="   << x << std::endl;
+    std::cout<< "---------------=pivot test end=---------------\n"<<std::endl;
+
+    double c[2][2] = 
+        {
+            {0,1},
+            {1,0}
+        };
+    double d[2] = {5,6};
+    try
+    {
+        Matrix C(c);
+        Vector D(d);
+        classical_gaussian_elimination(C,D);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    // Expecting {6,5}
+    Matrix C(c);
+    Vector D(d);
+
+    std::cout << "Solving C*y=D" << std::endl;
+    std::cout << "C=\n" << C << std::endl;
+    std::cout << "D="   << D << std::endl;
+
+    Vector y = partial_pivot_elimination(C,D);
+
+    std::cout << "y="   << y << std::endl;
 }
