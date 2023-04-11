@@ -11,11 +11,12 @@
 #include <algorithm>
 #include <chrono>
 
+// Use TEA (25.5.6) to communicate "securely" between 2 computers
+
 // end of transmission in case input exceeds 1024 chars so it's possible to know where the input ends.
 constexpr char endoftransmission {static_cast<char>(4)};
 
-// Simple client/server program. Sender encrypts and sends a single buffer which is then received, decrypted and logged by the receiver.
-// Needs to be reworked to handle input larger than 1024 chars but for now it's working as intended. If input is larger than 1024 there is loss of information
+// Simple client/server program. Sender encrypts and sends a message which is then received, decrypted and logged by the receiver.
 // both the client and the server need to input the same key in order for the messages to be decrypted
 
 #define long int
@@ -91,24 +92,28 @@ int main()
         
         // receive a message from the client
         char buffer[1024];
-        int numBytes = recv(clientSock, buffer, sizeof(buffer),0);
-        if (numBytes < 0)
+        std::string message;
+        int numBytes = 0;
+        int numBytesSum = 0;
+        do
         {
-            std::cerr << "Error: could not receive message from client" << std::endl;
-            continue;
-        }
+            numBytes = recv(clientSock, buffer, sizeof(buffer),0);
+            if (numBytes < 0)
+            {
+                std::cerr << "Error: could not receive message from client" << std::endl;
+                continue;
+            }
+            std::cout << "Received " << numBytes << " bytes." << std::endl;
+            numBytesSum+=numBytes;
+            message += std::string(buffer, numBytes);
+        } while (message.back() != endoftransmission);
+
+        if(message.back()==endoftransmission) 
+            message.pop_back();
 
         // print the message received from the client
-
-        // check if buffer is the the last of the message
-        auto arrayIter {std::find(std::begin(buffer),std::end(buffer),endoftransmission)};
-        if(arrayIter!=std::end(buffer))
-        { 
-            *arrayIter=' ';
-        }
         
-        buffer[numBytes] = '\0';
-        std::ostringstream oss = receive(buffer,key);
+        std::ostringstream oss = receive(message,key);
 
         // log the contents to the file
 
@@ -119,7 +124,7 @@ int main()
 
         std::cout << "Message received from client and logged to file." << std::endl;
 
-        std::string response = "OK!";
+        std::string response = "OK! received "+ std::to_string(numBytesSum) +" bytes.";
 
         // send a response from the server
         if (send(clientSock, response.c_str(),response.length(),0)<0)

@@ -8,11 +8,12 @@
 #include <iomanip>
 #include <sstream>
 
+// Use TEA (25.5.6) to communicate "securely" between 2 computers
+
 // end of transmission in case input exceeds 1024 chars so it's possible to know where the input ends.
 constexpr char endoftransmission {static_cast<char>(4)};  // To be added at the end of every output
 
-// Simple client/server program. Sender encrypts and sends a single buffer which is then received, decrypted and logged by the receiver.
-// Needs to be reworked to handle input larger than 1024 chars but for now it's working as intended. If input is larger than 1024 there is loss of information
+// Simple client/server program. Sender encrypts and sends a message which is then received, decrypted and logged by the receiver.
 // both the client and the server need to input the same key in order for the messages to be decrypted
 
 #define long int
@@ -24,7 +25,7 @@ std::ostringstream send()
     std::string key;
     std::string input;
 
-    std::cout<<"Please input a secure key (no spaces), if left blank it will generate a random 20 char key for you: ";
+    std::cout<<"Please input a secure key (no spaces), if left blank it will generate a random 10 char key for you: ";
     char c;
     if(!(std::cin.get(c))) throw std::runtime_error("Wrong input");
     if(std::isalpha(c))
@@ -34,12 +35,12 @@ std::ostringstream send()
     }
     else
     {
-        for (size_t i = 0; i < 20; i++)
-            key.push_back(32+rand()%(128-32)); // random 20 char string
+        for (size_t i = 0; i < 10; i++)
+            key.push_back(32+rand()%(128-32)); // random 10 char string
     }
     std::cout<<"The key is "<<key<<std::endl;
 
-    std::cout << "Please enter your input message: (CTRL+D to end) ";
+    std::cout << "Please enter your input message: (CTRL+D to end)\n";
     char getChar;
     while(std::cin.get(getChar))
         input+=getChar;
@@ -88,7 +89,7 @@ int main()
     if(sock < 0)
         throw std::runtime_error("Error: Unable to create socket");
 
-    std::string serverAddress = "127.0.0.1"; // local host but can/should be changed for real distance communication
+    std::string serverAddress = "127.0.0.1"; // localhost but can/should be changed for real distance communication
     int serverPort = 80000; // 80000 seems like a good default choice. 
 
     // set up address structure
@@ -103,7 +104,7 @@ int main()
     if (connect(sock, (struct sockaddr*)&server,sizeof(server))<0)
         throw std::runtime_error("Error: could not connect to the server");
     
-    std::string message = oss.str(); // NEED TO ADD LOOP FOR MESSAGES ABOVE 1024 CHARS
+    std::string message = oss.str(); 
 
     // send the message
     if (send(sock,message.c_str(), message.length(),0)<0)
@@ -113,7 +114,7 @@ int main()
     char buffer[1024];
     int numBytes = recv(sock,buffer,sizeof(buffer),0);
     if (numBytes < 0)
-        throw std::runtime_error("Error: coult not receive response");
+        throw std::runtime_error("Error: could not receive response");
     
     // print response
     buffer[numBytes] = '\0';
